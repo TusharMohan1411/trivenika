@@ -7,16 +7,14 @@ import styles from './components/post.module.css';
 import rehypeRaw from 'rehype-raw';
 
 export default async function page() {
-    const { services, categories } = await getHomePageData();
     const refundPolicy = await getRefundPolicy();
 
     return (
-        <WebsiteLayout services={services} categories={categories}>
-
+        <WebsiteLayout>
             {refundPolicy &&
                 <div>
                     {/* Full-width header section */}
-                    <div className="w-full bg-[#002244] py-12">
+                    <div className="w-full bg-[#0D3525] py-12">
                         <div className="max-w-7xl mx-auto px-5 text-center">
                             <h1 className="text-4xl md:text-5xl font-bold text-white">Refund Policy</h1>
                             <div className="mt-4 text-blue-100">

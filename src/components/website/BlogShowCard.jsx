@@ -16,8 +16,8 @@ export default function BlogCard({ blog }) {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent opacity-80"></div>
                     <div className="absolute bottom-4 left-4">
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white">
-                            {blog.category?.name || 'Legal Insight'}
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary text-white">
+                            {blog.category?.name || 'Farmer\'s choice'}
                         </span>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ export default function BlogCard({ blog }) {
                             </div>
                         </div>
 
-                        <h2 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-blue-600 transition-colors duration-300">
+                        <h2 className="text-xl font-bold mb-3 text-gray-900 group-hover:text-primary transition-colors duration-300">
                             {blog.title}
                         </h2>
 
@@ -59,7 +59,7 @@ export default function BlogCard({ blog }) {
                                 </div>
                             </div> */}
 
-                            <span className="inline-flex items-center text-blue-600 font-medium group-hover:translate-x-1 transition-transform duration-300">
+                            <span className="inline-flex items-center text-primary font-medium group-hover:translate-x-1 transition-transform duration-300">
                                 Read more
                                 <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>

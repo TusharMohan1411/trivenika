@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import styles from './blog.module.css';
 import Image from 'next/image';
+import remarkGfm from 'remark-gfm';
 
 function BlogData({ blog }) {
     return (
@@ -20,7 +21,12 @@ function BlogData({ blog }) {
                 )}
             </div>
             <div className={`px-3 rounded-md ${styles.postStyle}`}>
-                <ReactMarkdown rehypePlugins={[rehypeRaw]}>{blog.content}</ReactMarkdown>
+                <ReactMarkdown
+                    rehypePlugins={[rehypeRaw]}
+                    remarkPlugins={[remarkGfm]}
+                >
+                    {blog.content}
+                </ReactMarkdown>
             </div>
         </section>
     );

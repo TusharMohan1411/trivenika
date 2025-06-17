@@ -8,50 +8,14 @@ import { getHomePageData } from '@/lib/main/getHomePageData';
 import React from 'react'
 import BlogData from '../components/BlogData';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from '@/components/ui/breadcrumb';
-import { getRelatedServices } from '@/lib/main/relatedServices';
-import ServiceCard from '../components/ServiceCard';
 import LatestBlogs from '@/components/website/LatestBlogs';
-
-
-// export async function generateMetadata({ params }) {
-//     const slug = await params
-//     // const blog = await getBlogBySlug(slug.slug);
-
-//     if (!blog) return {
-//         title: "blog Not Found",
-//         description: "The requested service does not exist"
-//     };
-
-//     return {
-//         title: blog.title,
-//         description: blog.shortDescription,
-//         openGraph: {
-//             title: blog.title,
-//             description: blog.shortDescription,
-//             images: [blog.imageURL],
-//             url: `/blogs/${blog.slug}`,
-//             type: 'website'
-//         },
-//         twitter: {
-//             card: 'summary_large_image',
-//             title: blog.title,
-//             description: blog.shortDescription,
-//             images: [blog.imageURL]
-//         }
-//     };
-// }
+import { Separator } from '@/components/ui/separator';
 
 export default async function page({ params }) {
     const { services, categories } = await getHomePageData();
 
     const slug = await params
     const blog = await getBlogBySlug(slug.slug)
-    console.log(blog)
-    // const relatedServices = getRelatedServices(
-    //     blog.tags || [],
-    //     services.data || [],
-    //     3
-    // );
 
     return (
         <WebsiteLayout services={services} categories={categories}>
@@ -99,10 +63,12 @@ export default async function page({ params }) {
                             ))} */}
                             </div>
                         </div>
-                        <TalkToLawyerCard />
+                        {/* <TalkToLawyerCard /> */}
                         <EnquiryForm />
                     </div>
                 </section>
+
+                <Separator className={'mt-10'} />
 
                 <div>
                     <LatestBlogs />

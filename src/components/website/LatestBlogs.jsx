@@ -7,14 +7,14 @@ async function LatestBlogs() {
     const blogs = await getLatestBlogs()
 
     return (
-        <div className="py-12 px-4 sm:px-6 lg:px-8">
+        <div className="py-12">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Latest <span className="text-blue-600">Legal Insights</span>
+                        Latest <span className="text-emerald-600">Desi Blogs</span>
                     </h2>
                     <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                        Stay updated with our expert analysis and legal perspectives on current issues
+                        Stay Healthy Eat Healthy!
                     </p>
                 </div>
 
@@ -32,7 +32,7 @@ async function LatestBlogs() {
                 <div className="mt-12 text-center">
                     <a
                         href="/blogs"
-                        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 hover:shadow-lg"
+                        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300 hover:shadow-lg"
                     >
                         View All Articles
                         <svg className="ml-2 -mr-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
