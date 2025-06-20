@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import UserProfileSkeleton from './UserProfileSkeleton';
 import OrderCard from './OrderCard';
-import CallOrderCard from './CallOrderCard';
 
 function UserSection({ loading, error, userData }) {
     const [activeTab, setActiveTab] = useState('orders');
@@ -13,9 +12,8 @@ function UserSection({ loading, error, userData }) {
 
     const joinDate = format(new Date(userData.createdAt), 'MMMM d, yyyy');
 
-    const serviceOrdersData = userData?.orders.filter((order) => order.type === 'service').reverse();
+    const serviceOrdersData = userData?.orders.reverse();
 
-    const callOrdersData = userData?.orders.filter((order) => order.type === 'call').reverse();
 
     // console.log(userData)
     return (
@@ -63,57 +61,30 @@ function UserSection({ loading, error, userData }) {
                         >
                             Orders
                         </button>
-                        <button
-                            className={`py-4 px-6 font-medium text-sm relative ${activeTab === 'callPlans'
-                                ? 'text-[#002244] font-semibold after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-[#002244]'
-                                : 'text-gray-500 hover:text-gray-700'}`}
-                            onClick={() => setActiveTab('callPlans')}
-                        >
-                            Call Plans
-                        </button>
                     </nav>
                 </div>
 
                 {/* Tab Content */}
                 <div className="p-4 sm:p-6">
-                    {activeTab === 'orders' ? (
-                        <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Recent Orders</h3>
+                    <div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Recent Orders</h3>
 
-                            {serviceOrdersData.length > 0 ? (
-                                <div className="space-y-4">
-                                    {serviceOrdersData.map(order => (
-                                        <div key={order._id}>
-                                            <OrderCard order={order} />
-                                        </div>
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="text-center py-10">
-                                    <div className="bg-gray-100 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4" />
-                                    <p className="text-gray-500">No orders found</p>
-                                    <p className="text-gray-400 text-sm mt-2">Your orders will appear here</p>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <div className="">
-                            {callOrdersData.length > 0
-                                ? <div className="space-y-4">
-                                    {callOrdersData.map(order => (
-                                        <div key={order._id}>
-                                            <CallOrderCard order={order} />
-                                        </div>
-                                    ))}
-                                </div>
-                                : <div className="text-center py-10">
-                                    <div className="bg-gray-100 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4" />
-                                    <p className="text-gray-500">No orders found</p>
-                                    <p className="text-gray-400 text-sm mt-2">Your orders will appear here</p>
-                                </div>
-                            }
-                        </div>
-                    )}
+                        {serviceOrdersData.length > 0 ? (
+                            <div className="space-y-4">
+                                {serviceOrdersData.map(order => (
+                                    <div key={order._id}>
+                                        {/* <OrderCard order={order} /> */}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-10">
+                                <div className="bg-gray-100 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4" />
+                                <p className="text-gray-500">No orders found</p>
+                                <p className="text-gray-400 text-sm mt-2">Your orders will appear here</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

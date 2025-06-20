@@ -1,14 +1,29 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Table, TableHeader, TableHead, TableBody, TableRow, TableCell, } from '@/components/ui/table'
+import {
+    Table,
+    TableHeader,
+    TableHead,
+    TableBody,
+    TableRow,
+    TableCell,
+} from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
-import { Pencil, Trash } from 'lucide-react'
-import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog '
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue, } from "@/components/ui/select"
-import Loader from '@/components/Loader'
-import OrderDetailsDialog from './OrdersDialog'
+import { Badge } from '@/components/ui/badge'
+import { Eye, MoreHorizontal } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import TableSkeleton from '@/components/custom/TableSkeleton'
+import { format } from 'date-fns'
+import OrderDetailsDialog from './OrdersDialog'
+import UpdateStatusDialog from './UpdateStatusDialog'
+import StatusHistorySheet from './StatusHistorySheet'
 
 function OrdersTable({
     orders,
@@ -17,110 +32,117 @@ function OrdersTable({
     page,
     pageCount,
     onPageChange,
-    onDelete,
-    isDeleting,
-    deleteError,
-    canDelete,
-    canEdit,
-    onlyAdmin,
-    onChangeStatus
+    updateOrder
 }) {
-    console.log(orders)
+    const [selectedColumns, setSelectedColumns] = useState([
+        'name', 'contact', 'products', 'paymentMethod', 'paymentStatus', 'amount', 'status', 'type', 'createdAt', 'actions'
+    ])
+    const [viewOrderDialog, setViewOrderDialog] = useState(false)
+    const [viewingOrder, setViewingOrder] = useState(null)
 
-    const [deletingOrderId, setDeletingOrderId] = useState(null)
+    const [updateStatusDialog, setUpdateStatusDialog] = useState(false)
 
-    const handleDeleteClick = (userId) => {
-        setDeletingOrderId(userId)
-    }
-    const handleDeleteConfirm = async () => {
-        await onDelete(deletingOrderId)
-        setDeletingOrderId(null)
-    }
+    const [statusHistorySheet, setStatusHistorySheet] = useState(false)
+
 
     if (isLoading) {
         return <TableSkeleton
             rows={5}
-            columns={4}
-            showHeader={false}
+            columns={10}
+            showHeader={true}
             showPagination={true}
         />
     }
 
     if (error) return <p className='text-red-600'>Error: {error}</p>
 
-    console.log(orders)
-
     return (
         <section className="space-y-4">
-            {/* Data Table */}
+            {/* Table */}
             <div className="overflow-hidden rounded-md border border-gray-200 shadow-md">
                 <Table className={'bg-white'}>
-                    <TableHeader className={'bg-gray-200'}>
-                        <TableRow className={''}>
-                            <TableHead className={'font-semibold  text-center'}>#</TableHead>
-                            <TableHead className={'font-semibold '}>User</TableHead>
-                            <TableHead className={'font-semibold '}>Service</TableHead>
-                            <TableHead className={'font-semibold '}>Sub Service</TableHead>
-                            <TableHead className={'font-semibold '}>Booked On</TableHead>
-                            <TableHead className={'font-semibold '}>Amount</TableHead>
-                            <TableHead className={'font-semibold '}>Status</TableHead>
-                            <TableHead className={'font-semibold text-center'}>Actions</TableHead>
+                    <TableHeader className={'bg-gray-100'}>
+                        <TableRow>
+                            <TableHead><Checkbox /></TableHead>
+                            <TableHead>Name</TableHead>
+                            <TableHead>Contact</TableHead>
+                            <TableHead>Products</TableHead>
+                            <TableHead>Payment Method</TableHead>
+                            <TableHead>Payment Status</TableHead>
+                            <TableHead>Amount</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Type</TableHead>
+                            <TableHead>Created At</TableHead>
+                            <TableHead className='text-center'>Actions</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {orders.map((item, idx) => (
-                            <TableRow key={item._id}>
-                                <TableCell className={' text-center'}>{(page - 1) * orders.length + idx + 1}</TableCell>
-                                <TableCell>{item.user?.phone}</TableCell>
-                                <TableCell>{item.service?.name}</TableCell>
-                                <TableCell>{item.subService?.name}</TableCell>
-                                <TableCell>
-                                    {new Date(item.createdAt).toLocaleString()}
-                                </TableCell>
-                                <TableCell>{item.amount}</TableCell>
-                                <TableCell>
-                                    <span
-                                        className={
-                                            item.status === 'active'
-                                                ? 'bg-blue-200 text-blue-600 rounded-full px-3 capitalize text-xs py-1'
-                                                : 'bg-green-200 text-green-600 rounded-full px-3 capitalize text-xs py-1'
-                                        }
-                                    >
-                                        {item.status}
-                                    </span>
-                                </TableCell>
-                                <TableCell className="flex gap-2 items-center justify-center">
-                                    <OrderDetailsDialog order={item} />
-                                    {canEdit &&
-                                        <Select
-                                            value={item.status}
-                                            onValueChange={(newValue) => onChangeStatus(item._id, newValue)}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    <SelectLabel>Status</SelectLabel>
-                                                    <SelectItem value="active">Active</SelectItem>
-                                                    <SelectItem value="completed">Completed</SelectItem>
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                    }
-                                    {onlyAdmin &&
-                                        <Button
-                                            size="icon"
-                                            variant="destructive"
-                                            onClick={() => handleDeleteClick(item._id)}
-                                            disabled={isDeleting}
-                                        >
-                                            <Trash />
-                                        </Button>
-                                    }
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {orders.map((order) => {
+                            const lastStatus = order.status?.[order.status.length - 1]?.currentStatus || 'N/A';
+                            return (
+                                <TableRow key={order._id}>
+                                    <TableCell><Checkbox /></TableCell>
+                                    <TableCell>{order.shippingDetails?.fullName}</TableCell>
+                                    <TableCell>{order.shippingDetails?.contact}</TableCell>
+                                    <TableCell>
+                                        {order.cart.map((item) => `${item.serviceName} (${item.variantName})`).join(', ')}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline" className='capitalize'>{order.paymentMethod}</Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge variant="outline" className='capitalize'>{order.paymentStatus}</Badge>
+                                    </TableCell>
+                                    <TableCell>₹{order.totalAmount.toLocaleString()}</TableCell>
+                                    <TableCell>
+                                        <Badge variant="secondary" className='capitalize'>{lastStatus}</Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge className='capitalize'>{order.type}</Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div>
+                                            <div>{format(new Date(order.createdAt), 'dd MMM yyyy')}</div>
+                                            <div className="text-xs text-muted-foreground">
+                                                {format(new Date(order.createdAt), 'hh:mm a')}
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className='text-center'>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button size="icon" variant="ghost">
+                                                    <MoreHorizontal className="h-5 w-5" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        setViewingOrder(order);
+                                                        setTimeout(() => setViewOrderDialog(true), 100);
+                                                    }}
+                                                ><Eye size={18} className="text-gray-600" /> View</DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        setViewingOrder(order);
+                                                        setTimeout(() => setUpdateStatusDialog(true), 100);
+                                                    }}
+                                                >Update Status</DropdownMenuItem>
+                                                <DropdownMenuItem
+                                                    onClick={() => {
+                                                        setViewingOrder(order)
+                                                        setTimeout(() => setStatusHistorySheet(true), 100)
+                                                    }}
+                                                >
+                                                    View Status History</DropdownMenuItem>
+                                                <DropdownMenuItem>Download GST Bill</DropdownMenuItem>
+                                                <DropdownMenuItem className='text-red-500'>Delete Order</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
+                            )
+                        })}
                     </TableBody>
                 </Table>
             </div>
@@ -148,17 +170,26 @@ function OrdersTable({
                 </div>
             </div>
 
-            {/* Delete Confirmation */}
-            <DeleteConfirmationDialog
-                isOpen={!!deletingOrderId}
-                onOpenChange={(open) => !open && setDeletingOrderId(null)}
-                onConfirm={handleDeleteConfirm}
-                isLoading={isDeleting}
-                error={deleteError}
-                title="Delete Order"
-                description="Are you sure you want to delete this Order?"
+            <OrderDetailsDialog
+                open={viewOrderDialog}
+                onOpenChange={setViewOrderDialog}
+                order={viewingOrder}
             />
-        </section >
+
+            <UpdateStatusDialog
+                open={updateStatusDialog}
+                onOpenChange={setUpdateStatusDialog}
+                order={viewingOrder}
+                updateOrder={updateOrder}
+            />
+
+            <StatusHistorySheet
+                open={statusHistorySheet}
+                onOpenChange={setStatusHistorySheet}
+                order={viewingOrder}
+            />
+
+        </section>
     )
 }
 

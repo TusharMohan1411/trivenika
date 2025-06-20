@@ -11,7 +11,7 @@ function ServicesBox({ services }) {
                     <div key={service._id} className="flex flex-row sm:flex-row  bg-white shadow-md rounded-xl overflow-hidden p-4">
                         <div className="w-1/3 relative h-32 sm:h-36">
                             <Image
-                                src={service.imageURL}
+                                src={service.images[0]}
                                 alt={service.name}
                                 fill
                                 className="object-cover rounded-lg" />

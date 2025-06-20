@@ -23,7 +23,7 @@ function page() {
     return (
         <InnerDashboardLayout>
             <div className="w-full items-center justify-between">
-                <h1 className="text-primary font-bold sm:text-2xl lg:text-3xl mb-3">Add New Service</h1>
+                <h1 className="text-primary font-bold sm:text-2xl lg:text-3xl mb-3">Add New Product</h1>
                 <Breadcrumb className="mb-5">
                     <BreadcrumbList>
                         <BreadcrumbItem>

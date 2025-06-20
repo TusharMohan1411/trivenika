@@ -9,7 +9,6 @@ import OrdersTable from './components/OrdersTable';
 function page() {
     // filters
     const [status, setStatus] = useState('all');
-    const [type, setType] = useState('service')
 
     // pagination
     const [page, setPage] = useState(1)
@@ -20,12 +19,14 @@ function page() {
         deleteOrder,
         updateOrder,
         permissions: { canView, canEdit, canDelete, onlyAdmin }
-    } = useOrders({ status, page, pageSize, type })
+    } = useOrders({ status, page, pageSize })
 
     // Memoize expensive computations
     const ordersData = useMemo(() => {
         return ordersQuery?.data?.data || [];
     }, [ordersQuery?.data?.data]);
+
+    console.log(ordersData)
 
     const totalCount = useMemo(() => {
         return ordersQuery?.data?.totalCount || 0;
@@ -79,26 +80,22 @@ function page() {
                     </SelectContent>
                 </Select>
             </div>
+            <OrdersTable
+                orders={ordersData}
+                canDelete={canDelete}
+                isDeleting={deleteOrder.isPending}
+                deleteError={deleteOrder.error}
+                canEdit={canEdit}
+                error={ordersQuery.error}
+                isLoading={ordersQuery.isPending}
+                onDelete={deleteOrder.mutateAsync}
+                onPageChange={setPage}
+                onlyAdmin={onlyAdmin}
+                page={page}
+                pageCount={pageCount}
+                updateOrder={updateOrder}
+            />
 
-            {type === 'service' &&
-                <OrdersTable
-                    orders={ordersData}
-                    canDelete={canDelete}
-                    isDeleting={deleteOrder.isPending}
-                    deleteError={deleteOrder.error}
-                    canEdit={canEdit}
-                    error={ordersQuery.error}
-                    isLoading={ordersQuery.isPending}
-                    onDelete={deleteOrder.mutateAsync}
-                    onPageChange={setPage}
-                    onlyAdmin={onlyAdmin}
-                    page={page}
-                    pageCount={pageCount}
-                    onChangeStatus={(id, newStatus) =>
-                        updateOrder.mutate({ id, status: newStatus })
-                    }
-                />
-            }
         </InnerDashboardLayout>
     )
 }

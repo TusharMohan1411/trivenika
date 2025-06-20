@@ -33,6 +33,7 @@ export default function ServicesListView({
     const router = useRouter();
     const [deletingId, setDeletingId] = useState(null);
 
+    console.log(services)
     // const { setSelectedService } = useServiceStore();
 
     const handleEdit = (service) => {
@@ -76,7 +77,7 @@ export default function ServicesListView({
     if (!services.length) {
         return (
             <div className="text-center text-gray-500 p-4">
-                No services found!
+                No Products found!
             </div>
         );
     }
@@ -117,7 +118,7 @@ export default function ServicesListView({
                                 <TableCell className="align-middle">
                                     <div className="flex justify-center py-2">
                                         <img
-                                            src={service.imageURL}
+                                            src={service.images[0]}
                                             alt={service.name}
                                             width={60}
                                             height={60}

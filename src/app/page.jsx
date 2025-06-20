@@ -29,7 +29,8 @@ export default async function Home() {
       <WhyChooseUs />
       <LegalSolutions />
       <Testimonials />
-      <Contact /> */}
+      */}
+      <Contact />
       <Footer />
     </div>
   );

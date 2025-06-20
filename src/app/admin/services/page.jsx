@@ -55,7 +55,7 @@ export default function Page() {
     return (
         <InnerDashboardLayout>
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Services</h1>
+                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Product</h1>
             </div>
 
             <div className="flex items-center justify-between gap-4 mb-4">

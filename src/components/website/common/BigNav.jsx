@@ -7,6 +7,8 @@ import { usePathname } from 'next/navigation'
 import { FiChevronDown, FiChevronUp, FiArrowRight } from 'react-icons/fi'
 import LoginButton from '@/components/auth/LoginButton'
 import { NAVBAR_LINKS } from '@/lib/constants/sidebarLinks'
+import CartIcon from '../CartIcon'
+import CartDrawer from '../CartDrawer'
 
 export default function BigNav() {
     const pathname = usePathname()
@@ -48,6 +50,8 @@ export default function BigNav() {
             </div>
             <div className="ml-4 flex items-center space-x-3">
                 <LoginButton className="px-4 py-2 rounded-lg hover:bg-gray-100" />
+                {/* <CartIcon /> */}
+                <CartDrawer />
             </div>
         </div>
     )

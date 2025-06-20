@@ -35,12 +35,12 @@ export const ADMIN_SIDEBAR_LINKS = [
     href: "/admin/serviceOrders",
     icon: <FaClipboardList />,
   },
-  {
-    key: Resources.CALL_ORDERS,
-    label: "Call Orders",
-    href: "/admin/callOrders",
-    icon: <FaCalendarCheck />,
-  },
+  // {
+  //   key: Resources.CALL_ORDERS,
+  //   label: "Call Orders",
+  //   href: "/admin/callOrders",
+  //   icon: <FaCalendarCheck />,
+  // },
   {
     key: Resources.ENQUIRIES,
     label: "Enquiries",
@@ -53,12 +53,12 @@ export const ADMIN_SIDEBAR_LINKS = [
     href: "/admin/services",
     icon: <FaBriefcase />,
   },
-  {
-    key: Resources.CALL_PLANS,
-    label: "Call Plans",
-    href: "/admin/callPlans",
-    icon: <FaPhoneAlt />,
-  },
+  // {
+  //   key: Resources.CALL_PLANS,
+  //   label: "Call Plans",
+  //   href: "/admin/callPlans",
+  //   icon: <FaPhoneAlt />,
+  // },
   {
     key: Resources.BLOGS,
     label: "Blogs",

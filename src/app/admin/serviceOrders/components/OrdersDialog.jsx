@@ -1,4 +1,5 @@
 "use client";
+
 import {
     FileText,
     CalendarCheck,
@@ -26,49 +27,16 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
 
-export default function OrderDetailsDialog({ order }) {
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-    };
+export default function OrderDetailsDialog({ open, onOpenChange, order }) {
+    if (!order) return null;
 
-    const downloadFile = async (ab, filename) => {
-        const response = await fetch(ab);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename || 'document';
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
-    };
-
-    // Function to format detail keys
-    const formatKey = (key) => {
-        return key
-            .replace(/-/g, ' ')
-            .replace(/\b\w/g, char => char.toUpperCase());
-    };
+    const formatDate = (date) => format(new Date(date), "dd MMM yyyy, hh:mm a");
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button size="icon" variant="outline" className="hover:bg-gray-100">
-                    <Eye size={18} className="text-gray-600" />
-                </Button>
-            </DialogTrigger>
-
+        <Dialog open={open} onOpenChange={onOpenChange} >
             <DialogContent className="lg:min-w-4xl w-full md:w-3xl p-0 bg-white rounded-xl overflow-hidden">
-                {/* Header with gradient background */}
                 <div className="bg-gradient-to-r from-[#002244] to-[#004488] text-white p-5">
                     <DialogHeader className="text-left">
                         <DialogTitle className="text-xl font-bold flex items-center gap-3">
@@ -78,52 +46,34 @@ export default function OrderDetailsDialog({ order }) {
                                     Order Details
                                 </div>
                                 <p className="text-xs font-normal mt-1 text-blue-200">
-                                    #{order._id.slice(-8)}
+                                    #{order._id?.slice(-8)}
                                 </p>
                             </div>
                         </DialogTitle>
                     </DialogHeader>
                 </div>
 
-                {/* Main Content */}
                 <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
-                    {/* Left Column */}
                     <div className="space-y-5">
-                        {/* Service Information */}
                         <div className="border border-gray-200 rounded-lg p-4">
                             <h3 className="text-md font-bold text-[#002244] flex items-center gap-2 mb-3">
                                 <Star className="text-[#002244]" size={18} />
-                                Service Information
+                                Cart Items
                             </h3>
 
-                            <div className="space-y-2">
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-gray-600 flex items-center gap-1">
-                                        <Star size={14} className="text-gray-500" />
-                                        Service:
-                                    </span>
-                                    <span className="font-medium">{order.service?.name}</span>
-                                </div>
+                            <ul className="list-disc list-inside text-sm space-y-1">
+                                {order.cart?.map((item, idx) => (
+                                    <li key={idx}>
+                                        {item.serviceName} ({item.variantName}) × {item.quantity} — ₹{item.price}
+                                    </li>
+                                ))}
+                            </ul>
 
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-gray-600 flex items-center gap-1">
-                                        <FileText size={14} className="text-gray-500" />
-                                        Sub-service:
-                                    </span>
-                                    <span className="font-medium">{order.subService?.name}</span>
-                                </div>
-
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-gray-600 flex items-center gap-1">
-                                        <IndianRupee size={14} className="text-gray-500" />
-                                        Amount:
-                                    </span>
-                                    <span className="font-medium">₹{order.amount}</span>
-                                </div>
+                            <div className="mt-3 font-semibold text-right text-[#002244]">
+                                Total: ₹{order.totalAmount?.toLocaleString()}
                             </div>
                         </div>
 
-                        {/* Timeline */}
                         <div className="border border-gray-200 rounded-lg p-4">
                             <h3 className="text-md font-bold text-[#002244] flex items-center gap-2 mb-3">
                                 <CalendarClock className="text-[#002244]" size={18} />
@@ -132,126 +82,58 @@ export default function OrderDetailsDialog({ order }) {
 
                             <div className="space-y-3">
                                 <div className="flex items-start gap-2">
-                                    <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
-                                        <CalendarCheck className="text-blue-700" size={14} />
-                                    </div>
+                                    <CalendarCheck className="text-blue-700" size={14} />
                                     <div className="text-sm">
                                         <p className="font-medium">Created</p>
-                                        <p className="text-gray-600">
-                                            {formatDate(order.createdAt)}
-                                        </p>
+                                        <p className="text-gray-600">{formatDate(order.createdAt)}</p>
                                     </div>
                                 </div>
-
                                 <div className="flex items-start gap-2">
-                                    <div className="bg-blue-100 p-1.5 rounded-full mt-0.5">
-                                        <CalendarClock className="text-blue-700" size={14} />
-                                    </div>
+                                    <CalendarClock className="text-blue-700" size={14} />
                                     <div className="text-sm">
                                         <p className="font-medium">Last Updated</p>
-                                        <p className="text-gray-600">
-                                            {formatDate(order.updatedAt)}
-                                        </p>
+                                        <p className="text-gray-600">{formatDate(order.updatedAt)}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* Right Column */}
                     <div className="space-y-5">
-                        {/* User Information */}
                         <div className="border border-gray-200 rounded-lg p-4">
                             <h3 className="text-md font-bold text-[#002244] flex items-center gap-2 mb-3">
                                 <User className="text-[#002244]" size={18} />
-                                User Information
+                                Shipping Details
                             </h3>
-
-                            <div className="space-y-2">
-
-
-                                <div className="flex justify-between items-center text-sm">
-                                    <span className="text-gray-600 flex items-center gap-1">
-                                        <Phone size={14} className="text-gray-500" />
-                                        Phone:
-                                    </span>
-                                    <span className="font-medium">{order.user?.phone}</span>
-                                </div>
-
-                                {/* Dynamic Details */}
-                                {Object.entries(order.details || {})
-                                    .map(([key, value]) => (
-                                        <div key={key} className="flex justify-between items-center text-sm">
-                                            <span className="text-gray-600 flex items-center gap-1">
-                                                <Info size={14} className="text-gray-500" />
-                                                {formatKey(key)}:
-                                            </span>
-                                            <span className="font-medium">{value}</span>
-                                        </div>
-                                    ))}
+                            <div className="space-y-2 text-sm">
+                                <div className="flex justify-between"><span>Full Name:</span><span className="font-medium">{order.shippingDetails?.fullName}</span></div>
+                                <div className="flex justify-between"><span>Contact:</span><span className="font-medium">{order.shippingDetails?.contact}</span></div>
+                                <div className="flex justify-between"><span>Email:</span><span className="font-medium">{order.shippingDetails?.email}</span></div>
+                                <div className="flex justify-between"><span>Address:</span><span className="font-medium">{order.shippingDetails?.address}</span></div>
+                                <div className="flex justify-between"><span>State:</span><span className="font-medium">{order.shippingDetails?.state}</span></div>
+                                <div className="flex justify-between"><span>Pin Code:</span><span className="font-medium">{order.shippingDetails?.pin}</span></div>
                             </div>
                         </div>
 
-                        {/* Status & Documents */}
                         <div className="border border-gray-200 rounded-lg p-4">
                             <h3 className="text-md font-bold text-[#002244] flex items-center gap-2 mb-3">
                                 <FileText className="text-[#002244]" size={18} />
-                                Status & Documents
+                                Payment & Status
                             </h3>
-
-                            <div className="space-y-3">
-                                <div className="flex flex-wrap gap-2">
-                                    <Badge
-                                        className={`flex items-center text-xs ${order.status === 'active'
-                                            ? 'bg-green-100 text-green-800 hover:bg-green-100'
-                                            : 'bg-gray-100 text-gray-800 hover:bg-gray-100'
-                                            }`}
-                                    >
-                                        {order.status === 'active' ? (
-                                            <CheckCircle2 size={14} className="mr-1" />
-                                        ) : (
-                                            <XCircle size={14} className="mr-1" />
-                                        )}
-                                        Status: {order.status}
-                                    </Badge>
-
-                                    <Badge
-                                        className={`flex items-center text-xs ${order.paymentStatus === 'paid'
-                                            ? 'bg-green-100 text-green-800 hover:bg-green-100'
-                                            : 'bg-orange-100 text-orange-800 hover:bg-orange-100'
-                                            }`}
-                                    >
-                                        {order.paymentStatus === 'paid' ? (
-                                            <CheckCircle2 size={14} className="mr-1" />
-                                        ) : (
-                                            <XCircle size={14} className="mr-1" />
-                                        )}
-                                        Payment: {order.paymentStatus}
-                                    </Badge>
-                                </div>
-
-                                <div className="mt-3">
-                                    <h4 className="text-xs font-medium text-gray-900 mb-2 flex items-center">
-                                        <FileText size={14} className="mr-2 text-gray-500" />
-                                        Uploaded Documents:
-                                    </h4>
-                                    <div className="flex flex-wrap gap-2">
-                                        {order.documents?.map(doc => (
-                                            <div
-                                                key={doc._id}
-                                                className="flex items-center bg-gray-50 rounded-md px-2 py-1.5 hover:bg-blue-50 cursor-pointer transition-colors text-xs"
-                                                onClick={() => downloadFile(doc.url, doc.fieldName)}
-                                            >
-                                                <File size={14} className="text-gray-500 mr-1.5" />
-                                                <span className="text-gray-700 truncate max-w-[100px]">
-                                                    {doc.fieldName}
-                                                </span>
-                                                <Download size={12} className="ml-1.5 text-blue-600" />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+                            <div className="flex flex-wrap gap-2 text-xs">
+                                <Badge variant="outline">Method: {order.paymentMethod}</Badge>
+                                <Badge variant="outline" className={order.paymentStatus === 'paid' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}>
+                                    Payment: {order.paymentStatus}
+                                </Badge>
+                                <Badge variant="outline">Type: {order.type}</Badge>
+                                <Badge variant="outline" className="bg-blue-100 text-blue-800">
+                                    Status: {order.status?.[order.status.length - 1]?.currentStatus}
+                                </Badge>
                             </div>
+
+                            {order.transactionId && (
+                                <p className="mt-3 text-sm text-gray-700">Txn ID: {order.transactionId}</p>
+                            )}
                         </div>
                     </div>
                 </div>

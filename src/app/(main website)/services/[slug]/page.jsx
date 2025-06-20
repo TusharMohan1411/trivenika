@@ -9,49 +9,55 @@ import ScrollableServiceSections from '@/components/website/ScrollableServiceSec
 import TabbedDocuments from '@/components/website/TabbedDocuments';
 import { getHomePageData } from '@/lib/main/getHomePageData';
 import { getServerSession } from 'next-auth';
+import ProductHeroSection from './components/productHeroSection';
+import MultipleUses from './components/MultipleUses';
+import WhyToBuySection from './components/WhyToBuySection';
+import LabTestingSection from './components/LabTestingSection';
+import TestimonialSlider from './components/TestimonialSlider';
 
 
-export async function generateStaticParams() {
-    const services = await getAllServicesSlugs();
+// export async function generateStaticParams() {
+//     const services = await getAllServicesSlugs();
 
-    return services.map(service => ({
-        slug: service.slug,
-    }));
-}
+//     return services.map(service => ({
+//         slug: service.slug,
+//     }));
+// }
 
 
-export async function generateMetadata({ params }) {
-    const service = await getServiceBySlug(params.slug);
+// export async function generateMetadata({ params }) {
+//     const service = await getServiceBySlug(params.slug);
 
-    if (!service) return {
-        title: "Service Not Found",
-        description: "The requested service does not exist"
-    };
+//     if (!service) return {
+//         title: "Service Not Found",
+//         description: "The requested service does not exist"
+//     };
 
-    return {
-        title: service.pageHeading,
-        description: service.shortDescription,
-        openGraph: {
-            title: service.pageHeading,
-            description: service.shortDescription,
-            images: [service.imageURL],
-            url: `/services/${service.slug}`,
-            type: 'website'
-        },
-        twitter: {
-            card: 'summary_large_image',
-            title: service.pageHeading,
-            description: service.shortDescription,
-            images: [service.imageURL]
-        }
-    };
-}
+//     return {
+//         title: service.pageHeading,
+//         description: service.shortDescription,
+//         openGraph: {
+//             title: service.pageHeading,
+//             description: service.shortDescription,
+//             images: [service.imageURL],
+//             url: `/services/${service.slug}`,
+//             type: 'website'
+//         },
+//         twitter: {
+//             card: 'summary_large_image',
+//             title: service.pageHeading,
+//             description: service.shortDescription,
+//             images: [service.imageURL]
+//         }
+//     };
+// }
 
 async function Page({ params }) {
 
     const { services, categories } = await getHomePageData();
     const service = await getServiceBySlug(params.slug);
-    // console.log(service)
+    console.log(service)
+
     if (!service) {
         notFound();
     }
@@ -59,11 +65,10 @@ async function Page({ params }) {
     console.log(service)
 
     return (
-        <WebsiteLayout services={services} categories={categories}>
-            <main className="mx-auto px-4 py-8">
-                <article className="max-w-7xl mx-auto">
-                    {/* Structured Data for SEO */}
-                    <script
+        <WebsiteLayout>
+            <main className="mx-auto max-[640px]:px-4 py-8">
+                <article className="mx-auto">
+                    {/* <script
                         type="application/ld+json"
                         dangerouslySetInnerHTML={{
                             __html: JSON.stringify({
@@ -75,11 +80,11 @@ async function Page({ params }) {
                                 "serviceType": service.serviceTypeDetails.join(', '),
                                 "url": `${process.env.NEXT_PUBLIC_SITE_URL}/services/${service.slug}`
                             })
-                        }}
+                        }} 
                     />
+                         */}
 
                     <section className="flex gap-4 lg:gap-10 flex-col lg:flex-row relative">
-                        {/* left section */}
                         <div className="flex-1 h-full flex flex-col">
                             <Breadcrumb className="mb-3">
                                 <BreadcrumbList>
@@ -93,12 +98,22 @@ async function Page({ params }) {
                                 </BreadcrumbList>
                             </Breadcrumb>
 
-                            <div className='mb-4'>
-                                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
-                                    {service.pageHeading}
-                                </h1>
+                            <div className='mb-4 space-y-16'>
+                                {/* <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
+                                    {service.name}
+                                </h1> */}
 
-                                <ul className="space-y-3 mt-4">
+                                <ProductHeroSection product={service} />
+
+                                <WhyToBuySection whyToBuy={service.whyToBuy} />
+
+                                <LabTestingSection />
+
+                                <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
+
+                                <TestimonialSlider />
+
+                                {/* <ul className="space-y-3 mt-4">
                                     {service?.serviceTypeDetails?.map((item, idx) => (
                                         <li key={idx} className="flex items-start gap-2 text-gray-700">
                                             <span className="mt-1 text-green-600">
@@ -120,32 +135,33 @@ async function Page({ params }) {
                                             <span className="text-sm sm:text-base">{item}</span>
                                         </li>
                                     ))}
-                                </ul>
+                                </ul> */}
                             </div>
 
                             {/* Filler Block */}
-                            {service.subServices.length > 0 &&
+                            {/* {service.subServices.length > 0 &&
                                 <div className="mt-4 flex-1 flex gap-4">
                                     <TabbedDocuments subServices={service?.subServices} />
                                 </div>
-                            }
+                            } */}
                         </div>
 
                         {/* right section */}
-                        <div className="lg:w-82 flex flex-col gap-4 sticky top-5">
+                        {/* <div className="lg:w-82 flex flex-col gap-4 sticky top-5">
                             <EnquiryForm />
                             {service.subServices.length > 0 &&
                                 <TalkToLawyerCard />
-                            }
-                        </div>
+
+                    </div>
+                    } */ }
                     </section>
 
-                    {service.serviceBigDescription.length > 0 &&
+                    {/* {service.serviceBigDescription.length > 0 &&
                         <ScrollableServiceSections serviceBigDescription={service.serviceBigDescription} />
-                    }
+                    } */}
                 </article>
             </main>
-        </WebsiteLayout>
+        </WebsiteLayout >
     );
 }
 

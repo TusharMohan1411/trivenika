@@ -86,13 +86,13 @@ export default function TotalsCards() {
             color: 'from-amber-500 to-amber-600',
             bg: 'bg-amber-50'
         },
-        {
-            label: 'Call Plans',
-            value: data.callPlansCount,
-            icon: <Phone className="h-7 w-7" />,
-            color: 'from-rose-500 to-rose-600',
-            bg: 'bg-rose-50'
-        },
+        // {
+        //     label: 'Call Plans',
+        //     value: data.callPlansCount,
+        //     icon: <Phone className="h-7 w-7" />,
+        //     color: 'from-rose-500 to-rose-600',
+        //     bg: 'bg-rose-50'
+        // },
         {
             label: 'Blogs',
             value: data.blogsCount,

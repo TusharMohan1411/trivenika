@@ -31,11 +31,11 @@ export default function Step3PageContent() {
     // Pull out the array of sections
     const { fields, append, remove } = useFieldArray({
         control,
-        name: 'serviceBigDescription', // this is the array in RHF
+        name: 'productBigDescription', // this is the array in RHF
     });
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-2">
             {/* Header + Add button */}
             <div className="flex justify-between items-center bg-white border rounded-xl p-7">
                 <h3 className="text-lg font-medium">Page Content</h3>
@@ -50,13 +50,13 @@ export default function Step3PageContent() {
 
             {fields.map((field, index) => {
                 // Grab any validation errors for this particular index
-                const sectionErrors = errors.serviceBigDescription?.[index] || {};
+                const sectionErrors = errors.productBigDescription?.[index] || {};
                 const hasError =
                     sectionErrors.name || sectionErrors.title || sectionErrors.content;
 
-                // We need to watch the current value of serviceBigDescription[index].content
+                // We need to watch the current value of productBigDescription[index].content
                 // so we can feed it into the RTE as initialValue.
-                const currentMarkdown = watch(`serviceBigDescription.${index}.content`);
+                const currentMarkdown = watch(`productBigDescription.${index}.content`);
 
                 return (
                     <Collapsible key={field.id} defaultOpen={!hasError}>
@@ -99,7 +99,7 @@ export default function Step3PageContent() {
                             {/* ----- NAME ----- */}
                             <FormField
                                 control={control}
-                                name={`serviceBigDescription.${index}.name`}
+                                name={`productBigDescription.${index}.name`}
                                 render={({ field: { onChange, onBlur, value, name } }) => (
                                     <FormItem>
                                         <FormLabel>Name</FormLabel>
@@ -122,7 +122,7 @@ export default function Step3PageContent() {
                             {/* ----- TITLE ----- */}
                             <FormField
                                 control={control}
-                                name={`serviceBigDescription.${index}.title`}
+                                name={`productBigDescription.${index}.title`}
                                 render={({ field: { onChange, onBlur, value, name } }) => (
                                     <FormItem>
                                         <FormLabel>Title</FormLabel>
@@ -145,7 +145,7 @@ export default function Step3PageContent() {
                             {/* ----- CONTENT (RTE) ----- */}
                             <FormField
                                 control={control}
-                                name={`serviceBigDescription.${index}.content`}
+                                name={`productBigDescription.${index}.content`}
                                 render={({ field: { name: fieldName, value: fieldValue } }) => (
                                     <FormItem>
                                         <FormLabel>Content</FormLabel>
@@ -165,10 +165,10 @@ export default function Step3PageContent() {
                 );
             })}
 
-            {errors.serviceBigDescription &&
-                !Array.isArray(errors.serviceBigDescription) && (
+            {errors.productBigDescription &&
+                !Array.isArray(errors.productBigDescription) && (
                     <p className="text-red-500 text-sm">
-                        {errors.serviceBigDescription.message}
+                        {errors.productBigDescription.message}
                     </p>
                 )}
         </div>
