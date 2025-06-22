@@ -18,6 +18,7 @@ import ServiceDetailsDialog from './ServiceDetailsDialog';
 import DeleteConfirmationDialog from '../DeleteConfirmationDialog ';
 import { useServiceStore } from '@/store/serviceStore';
 import TableSkeleton from '@/components/custom/TableSkeleton';
+import Link from 'next/link';
 
 export default function ServicesListView({
     isLoading,
@@ -33,17 +34,8 @@ export default function ServicesListView({
     const router = useRouter();
     const [deletingId, setDeletingId] = useState(null);
 
-    console.log(services)
-    // const { setSelectedService } = useServiceStore();
-
     const handleEdit = (service) => {
-        // setSelectedService(service);
-        router.push(`/admin/services/${service._id}/edit`);
-    };
-
-    const handleView = (service) => {
-        // setSelectedService(service);
-        router.push(`/admin/services/${service._id}/view`);
+        router.push(`/admin/products/${service._id}/edit`);
     };
 
     const handleDeleteClick = (id) => {
@@ -160,14 +152,15 @@ export default function ServicesListView({
                                     <div className="flex items-center justify-center gap-2">
                                         {/* <ServiceDetailsDialog service={service} /> */}
 
-                                        <Button
-                                            size="icon"
-                                            variant="outline"
-                                            className="hover:bg-gray-100"
-                                            onClick={() => handleView(service)}
-                                        >
-                                            <Eye size={18} className="text-gray-600" />
-                                        </Button>
+                                        <Link href={`/products/${service.slug}`} target='_blank'>
+                                            <Button
+                                                size="icon"
+                                                variant="outline"
+                                                className="hover:bg-gray-100"
+                                            >
+                                                <Eye size={18} className="text-gray-600" />
+                                            </Button>
+                                        </Link>
 
                                         {canEdit &&
                                             <Button
@@ -202,8 +195,8 @@ export default function ServicesListView({
                 onConfirm={handleDeleteConfirm}
                 isLoading={isDeleting}
                 error={deleteError}
-                title="Delete Service"
-                description="Are you sure you want to delete this service?"
+                title="Delete Product"
+                description="Are you sure you want to delete this Product?"
             />
         </section>
     );

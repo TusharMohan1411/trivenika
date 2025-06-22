@@ -20,7 +20,7 @@ export default function ServicesClient({ services, categories }) {
                 <div className="w-full bg-gradient-to-r from-[#001a33] to-[#002244] py-12 md:py-14 text-white mb-8">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <h1 className='font-bold text-3xl md:text-4xl lg:text-5xl mb-4 tracking-tight'>
-                            Our Services
+                            Our Products
                         </h1>
                         <p className='max-w-2xl mx-auto text-md md:text-lg text-blue-100 opacity-90'>
                             Expert solutions tailored to your specific needs

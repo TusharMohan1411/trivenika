@@ -24,7 +24,7 @@ export default function Contact() {
                         <span className="text-sm font-medium text-emerald-600">Get in Touch</span>
                     </div>
                     <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                        Connect With Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00564F] to-teal-600">Farmes & Experts</span>
+                        Connect With Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00564F] to-teal-600">Farmers & Experts</span>
                     </h2>
                     <p className="max-w-2xl mx-auto text-lg text-gray-600">
                         Have questions or need assistance? Our team is ready to provide personalized guidance.

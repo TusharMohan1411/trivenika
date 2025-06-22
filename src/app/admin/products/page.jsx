@@ -55,12 +55,12 @@ export default function Page() {
     return (
         <InnerDashboardLayout>
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Product</h1>
+                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Manage Products</h1>
             </div>
 
             <div className="flex items-center justify-between gap-4 mb-4">
                 <div className='flex items-center gap-4'>
-                    <Button variant="outline">Services: {filtered.length}</Button>
+                    <Button variant="outline">Products: {filtered.length}</Button>
 
                     <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                         <SelectTrigger className="w-44">
@@ -99,7 +99,7 @@ export default function Page() {
                 </div>
 
                 {canAdd && (
-                    <Button onClick={() => router.push('/admin/services/add')}>
+                    <Button onClick={() => router.push('/admin/products/add')}>
                         <CirclePlus className="mr-2 h-4 w-4" /> Add New
                     </Button>
                 )}

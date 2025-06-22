@@ -77,13 +77,6 @@ export default function TestimonialSlider() {
                             <div className="text-yellow-500 text-xl">★★★★★</div>
                             <p className="text-gray-700 text-sm">{t.text}</p>
                             <div className="flex items-center gap-3 mt-auto">
-                                {/* <Image
-                                    src={t.photo}
-                                    alt={t.name}
-                                    width={40}
-                                    height={40}
-                                    className="rounded-full object-cover"
-                                /> */}
                                 <div>
                                     <p className="font-semibold text-sm">{t.name}</p>
                                     <p className="text-xs text-gray-500">{t.location}</p>

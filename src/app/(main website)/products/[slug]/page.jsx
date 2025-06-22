@@ -86,17 +86,21 @@ async function Page({ params }) {
 
                     <section className="flex gap-4 lg:gap-10 flex-col lg:flex-row relative">
                         <div className="flex-1 h-full flex flex-col">
-                            <Breadcrumb className="mb-3">
+                            {/* <Breadcrumb className="mb-3">
                                 <BreadcrumbList>
                                     <BreadcrumbItem>
                                         <BreadcrumbLink href="/">Home</BreadcrumbLink>
                                     </BreadcrumbItem>
                                     <BreadcrumbSeparator />
                                     <BreadcrumbItem>
+                                        <BreadcrumbLink href="/">Products</BreadcrumbLink>
+                                    </BreadcrumbItem>
+                                    <BreadcrumbSeparator />
+                                    <BreadcrumbItem>
                                         <BreadcrumbPage>{service.name}</BreadcrumbPage>
                                     </BreadcrumbItem>
                                 </BreadcrumbList>
-                            </Breadcrumb>
+                            </Breadcrumb> */}
 
                             <div className='mb-4 space-y-16'>
                                 {/* <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
@@ -105,9 +109,9 @@ async function Page({ params }) {
 
                                 <ProductHeroSection product={service} />
 
-                                <WhyToBuySection whyToBuy={service.whyToBuy} />
+                                <WhyToBuySection whyToBuy={service.whyToBuy} productName={service?.name} />
 
-                                <LabTestingSection />
+                                <LabTestingSection labTestingImage={service.labTestingReport} />
 
                                 <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
 

@@ -49,8 +49,8 @@ export const ADMIN_SIDEBAR_LINKS = [
   },
   {
     key: Resources.SERVICES,
-    label: "Services",
-    href: "/admin/services",
+    label: "Products",
+    href: "/admin/products",
     icon: <FaBriefcase />,
   },
   // {
@@ -140,8 +140,8 @@ export const NAVBAR_LINKS = [
     href: "/",
   },
   {
-    label: "Shop",
-    href: "/shop",
+    label: "Products",
+    href: "/products",
   },
   {
     label: "Blogs",

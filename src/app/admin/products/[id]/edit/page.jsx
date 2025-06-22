@@ -34,7 +34,7 @@ const EditServicePage = () => {
     return (
         <InnerDashboardLayout>
             <div className="w-full items-center justify-between">
-                <h1 className="text-primary font-bold sm:text-2xl lg:text-3xl mb-3">Edit Service</h1>
+                <h1 className="text-primary font-bold sm:text-2xl lg:text-3xl mb-3">Edit Product</h1>
                 <Breadcrumb className="mb-5">
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -42,7 +42,7 @@ const EditServicePage = () => {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/admin/services">Services</BreadcrumbLink>
+                            <BreadcrumbLink href="/admin/products">Products</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

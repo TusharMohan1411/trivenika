@@ -31,7 +31,7 @@ function page() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/admin/services">Services</BreadcrumbLink>
+                            <BreadcrumbLink href="/admin/products">Products</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

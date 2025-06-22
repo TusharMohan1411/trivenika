@@ -5,6 +5,8 @@ import { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { Minus, Plus, ShoppingCart, Zap } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
+import { Separator } from '@/components/ui/separator';
+import { BiSolidLeaf } from "react-icons/bi";
 
 export default function ProductHeroSection({ product }) {
     const { images = [], name, shortDescription, shortPoints = [], variants = [] } = product;
@@ -36,11 +38,11 @@ export default function ProductHeroSection({ product }) {
     const decQty = () => setQuantity((q) => Math.max(1, q - 1));
 
     return (
-        <div className="flex flex-col lg:flex-row gap-8 p-4 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8 p-4 pt-6 max-w-7xl mx-auto">
             {/* Image Gallery */}
             <div className="flex flex-col-reverse md:flex-row gap-4 w-full lg:w-1/2">
                 {/* Thumbnails */}
-                <div className="flex md:flex-col gap-2 overflow-x-auto py-2 md:py-0">
+                <div className="flex md:flex-col gap-2 py-2 md:py-0">
                     {allImages.map((src, i) => (
                         <div
                             key={i}
@@ -65,7 +67,7 @@ export default function ProductHeroSection({ product }) {
                 </div>
 
                 {/* Main Image */}
-                <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-50">
+                <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-50 border-2">
                     <Image
                         src={allImages[mainImageIndex]}
                         alt={name}
@@ -84,12 +86,12 @@ export default function ProductHeroSection({ product }) {
             </div>
 
             {/* Product Info */}
-            <div className="w-full lg:w-1/2 space-y-6">
-                <div className="border-b pb-4">
+            <div className="w-full lg:w-1/2 space-y-5">
+                <div className="">
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900">{name}</h1>
 
                     {/* Short points as pills */}
-                    <div className="flex flex-wrap gap-2 mt-3">
+                    <div className="flex flex-wrap gap-2 mt-5">
                         {shortPoints.map((pt, i) => (
                             <span
                                 key={i}
@@ -101,16 +103,18 @@ export default function ProductHeroSection({ product }) {
                     </div>
                 </div>
 
-                <p className="text-gray-700 text-lg">{shortDescription}</p>
+                <p className="text-gray-500 text-sm sm:text-base mt-6">{shortDescription}</p>
+
+                <Separator className={''} />
 
                 {/* Price section */}
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="rounded-lg">
                     <div className="flex items-baseline gap-3">
-                        <span className="text-3xl font-bold text-gray-900">
+                        <span className="text-5xl font-bold text-primary">
                             ₹{discountedPrice.toLocaleString()}
                         </span>
                         {discountPercent > 0 && (
-                            <span className="line-through text-gray-500 text-xl">
+                            <span className="line-through text-gray-400 text-4xl font-semibold">
                                 ₹{actualPrice.toLocaleString()}
                             </span>
                         )}
@@ -118,66 +122,63 @@ export default function ProductHeroSection({ product }) {
 
                     {/* Savings */}
                     {discountPercent > 0 && (
-                        <p className="text-green-700 mt-1">
-                            Save ₹{(actualPrice - discountedPrice).toLocaleString()}
+                        <p className="text-green-700 flex gap-2 items-center justify-center mt-3 bg-green-100 rounded-full px-4 py-1.5 w-fit text-sm font-semibold">
+                            <span>  <BiSolidLeaf /></span>  {discountPercent}% Off Save ₹{(actualPrice - discountedPrice).toLocaleString()}
                         </p>
                     )}
                 </div>
 
                 {/* Variant selectors */}
-                <div className="space-y-3">
+                <div className="space-y-3 mt-6">
                     <h3 className="font-semibold text-gray-900">Select Option:</h3>
                     <div className="flex flex-wrap gap-2">
-                        {variants.map((v, idx) => (
-                            <button
-                                key={v._id}
-                                onClick={() => {
-                                    setSelectedVariant(idx);
-                                    setMainImageIndex(0);
-                                }}
-                                className={`
-                                    px-4 py-2 rounded-lg border transition-all
-                                    ${idx === selectedVariant
-                                        ? 'border-green-600 bg-green-50 text-green-800 font-medium shadow-inner'
-                                        : 'border-gray-300 hover:border-green-400 text-gray-700'}
-                                `}
-                            >
-                                {v.name}
-                            </button>
-                        ))}
+                        {variants.map((v, idx) => {
+                            const discount =
+                                Math.round(
+                                    ((v.actualPrice - v.discountedPrice) / v.actualPrice) * 100
+                                ) || 0;
+
+                            const isSelected = idx === selectedVariant;
+
+                            return (
+                                <div
+                                    key={v._id}
+                                    onClick={() => {
+                                        setSelectedVariant(idx);
+                                        setMainImageIndex(0);
+                                    }}
+                                    className={`
+            px-6 py-3 rounded-xl cursor-pointer transition-all text-center
+            ${isSelected
+                                            ? 'border border-green-600 text-green-800 bg-white shadow-sm'
+                                            : 'border border-transparent bg-gray-100 hover:border-green-500 text-gray-800'}
+          `}
+                                >
+                                    <div className="text-base font-medium">{v.name}</div>
+                                    <div
+                                        className={`text-sm font-bold ${isSelected ? 'text-green-700' : 'text-green-600'
+                                            }`}
+                                    >
+                                        ({discount}% Off)
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
 
+
                 {/* Quantity + actions */}
                 <div className="space-y-4 pt-2">
-                    <div className="flex items-center space-y-4">
-                        <h3 className="font-semibold text-gray-900 mr-4">Quantity:</h3>
-                        <div className="flex items-center border border-gray-300 rounded-lg">
-                            <button
-                                onClick={decQty}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
-                            >
-                                <Minus size={16} />
-                            </button>
-                            <span className="px-6 py-2 border-x border-gray-300 font-medium">{quantity}</span>
-                            <button
-                                onClick={incQty}
-                                className="px-4 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
-                            >
-                                <Plus size={16} />
-                            </button>
-                        </div>
-                    </div>
-
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
                             onClick={() => addToCart(product, variant, quantity)}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-amber-700 hover:bg-amber-800 text-white rounded-lg font-medium transition-colors shadow-md"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] hover:bg-amber-800 text-white rounded-lg font-medium transition-colors shadow-md"
                         >
                             <ShoppingCart size={20} />
                             Add to Cart
                         </button>
-                        <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md">
+                        <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md">
                             <Zap size={20} />
                             Buy Now
                         </button>

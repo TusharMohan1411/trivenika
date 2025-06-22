@@ -1,4 +1,4 @@
-// app/admin/media/components/UploaderDialog.jsx
+'use client';
 
 import React, { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
@@ -16,14 +16,11 @@ import { FolderUp, Loader2 } from 'lucide-react';
 
 export default function UploaderDialog({ open, onOpenChange }) {
 
-    const [file, setFile] = useState(null);
-    const [previewUrl, setPreviewUrl] = useState(null);
-    const [metadata, setMetadata] = useState({ name: '', size: 0, width: 0, height: 0 });
+    const [files, setFiles] = useState([]);
+    const [previews, setPreviews] = useState([]);
     const inputRef = useRef();
 
-    // pull in your mutation
     const { uploadImage, imagesQuery } = useImages();
-
     const {
         mutateAsync: uploadImageAsync,
         isPending: isUploading,
@@ -31,75 +28,75 @@ export default function UploaderDialog({ open, onOpenChange }) {
     } = uploadImage;
 
     const handleFileChange = (e) => {
-        const selected = e.target.files[0];
-        if (!selected) return;
-        if (selected.size > 300 * 1024) {
-            alert('File size exceeds 300KB');
-            return;
+        const selectedFiles = Array.from(e.target.files);
+        const validFiles = selectedFiles.filter(file => file.size <= 300 * 1024);
+
+        if (validFiles.length !== selectedFiles.length) {
+            alert('Some files exceed 300KB and were skipped.');
         }
-        const url = URL.createObjectURL(selected);
-        const img = new Image();
-        img.onload = () => {
-            setMetadata({
-                name: selected.name,
-                size: Math.round(selected.size / 1024),
-                width: img.width,
-                height: img.height,
-            });
-        };
-        img.src = url;
-        setFile(selected);
-        setPreviewUrl(url);
+
+        setFiles(validFiles);
+        const previewUrls = validFiles.map(file => URL.createObjectURL(file));
+        setPreviews(previewUrls);
     };
 
     const triggerFileSelect = () => {
         if (inputRef.current) inputRef.current.click();
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!file) {
-            return alert('Please select an Image first.');
-        }
+        if (!files.length) return alert("Please select images first.");
 
         try {
-            // convert file to base64
-            const base64 = await convertToBase64(file);
+            const base64Images = await Promise.all(
+                files.map(file => convertToBase64(file))
+            );
 
-            await uploadImageAsync({ image: base64 });
-            setFile(null);
-            setPreviewUrl(null);
+            await Promise.all(
+                base64Images.map(base64 =>
+                    uploadImageAsync({ image: base64 })
+                )
+            );
+
+            // Reset states
+            setFiles([]);
+            setPreviews([]);
             imagesQuery.refetch();
-            setMetadata({ name: '', size: 0, width: 0, height: 0 });
             onOpenChange(false);
 
         } catch (err) {
             console.error(err);
-            alert('Failed to read file.');
+            alert("Failed to upload images.");
         }
     };
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="sm:min-w-[90vw]">
                 <DialogHeader>
-                    <DialogTitle>Upload Image</DialogTitle>
+                    <DialogTitle>Upload Images</DialogTitle>
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className="p-4">
                     <div className="flex flex-col sm:flex-row sm:space-x-6">
                         {/* Left: upload area */}
                         <div
-                            className="flex-1 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer h-48 mb-4 sm:mb-0"
+                            className="flex-1 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer h-96 mb-4 sm:mb-0 overflow-x-auto"
                             onClick={triggerFileSelect}
                         >
-                            {previewUrl ? (
-                                <img
-                                    src={previewUrl}
-                                    alt="Preview"
-                                    className="max-h-full max-w-full object-contain rounded-lg"
-                                />
+                            {previews.length > 0 ? (
+                                <div className="flex gap-2 overflow-x-auto max-h-full p-2">
+                                    {previews.map((url, index) => (
+                                        <img
+                                            key={index}
+                                            src={url}
+                                            alt={`Preview ${index}`}
+                                            className="h-64 w-auto object-contain rounded"
+                                        />
+                                    ))}
+                                </div>
                             ) : (
-                                <span className="text-gray-500">Click to select image</span>
+                                <span className="text-gray-500">Click to select image(s)</span>
                             )}
                             <input
                                 type="file"
@@ -107,27 +104,24 @@ export default function UploaderDialog({ open, onOpenChange }) {
                                 className="hidden"
                                 ref={inputRef}
                                 onChange={handleFileChange}
+                                multiple
                             />
                         </div>
 
                         {/* Right: metadata */}
                         <div className="flex-1">
                             <Label className="font-semibold mb-2 block">File Details</Label>
-                            {file ? (
-                                <div className="bg-gray-50 p-4 rounded-lg shadow-sm space-y-2">
-                                    <div className="grid grid-cols-2 gap-x-4">
-                                        <p className="text-sm text-gray-600">Name:</p>
-                                        <p className="text-sm font-medium text-gray-800">{metadata.name}</p>
-                                        <p className="text-sm text-gray-600">Size:</p>
-                                        <p className="text-sm font-medium text-gray-800">{metadata.size} KB</p>
-                                        <p className="text-sm text-gray-600">Width:</p>
-                                        <p className="text-sm font-medium text-gray-800">{metadata.width}px</p>
-                                        <p className="text-sm text-gray-600">Height:</p>
-                                        <p className="text-sm font-medium text-gray-800">{metadata.height}px</p>
-                                    </div>
+                            {files.length > 0 ? (
+                                <div className="bg-gray-50 p-4 rounded-lg shadow-sm space-y-2 max-h-96 overflow-y-auto">
+                                    {files.map((file, i) => (
+                                        <div key={i} className="border-b pb-2 mb-2 last:border-none last:pb-0 last:mb-0">
+                                            <p className="text-sm font-medium text-gray-800">📁 {file.name}</p>
+                                            <p className="text-xs text-gray-600">Size: {Math.round(file.size / 1024)} KB</p>
+                                        </div>
+                                    ))}
                                 </div>
                             ) : (
-                                <p className="italic text-gray-500">No file selected</p>
+                                <p className="italic text-gray-500">No files selected</p>
                             )}
                         </div>
                     </div>
@@ -137,10 +131,7 @@ export default function UploaderDialog({ open, onOpenChange }) {
                     )}
 
                     <DialogFooter className="mt-6">
-                        <Button
-                            type="submit"
-                            disabled={isUploading}
-                        >
+                        <Button type="submit" disabled={isUploading}>
                             {isUploading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
