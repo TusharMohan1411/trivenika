@@ -3,7 +3,6 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
 
 export default function AboutUs() {
     // Animation variants
@@ -29,69 +28,13 @@ export default function AboutUs() {
         }
     };
 
-    const products = [
-        "Wood-Pressed Black Mustard Oil",
-        "Wood-Pressed Yellow Mustard Oil",
-        "Wood-Pressed Virgin Coconut Oil",
-        "Wood-Pressed Coconut Oil",
-        "Wood-Pressed Groundnut Oil",
-        "Wood-Pressed Sesame Oil",
-        "Wood-Pressed Sunflower Oil",
-        "Wood-Pressed Almond Oil",
-        "Wood-Pressed Extra Virgin Olive Oil",
-        "Wood-Pressed Kalonji Oil",
-        "Wood-Pressed Alsi Oil",
-        "A2 Vedic Bilona Ghee",
-        "Buffalo Bilona Ghee"
-    ];
-    // Add at the top of your component
-    const [activeTab, setActiveTab] = useState('oils');
-
-    // Helper functions
-    const getOilDescription = (product) => {
-        const descriptions = {
-            "Wood-Pressed Black Mustard Oil": "Cold-pressed from premium black mustard seeds, with a robust flavor perfect for pickling and traditional dishes.",
-            "Wood-Pressed Yellow Mustard Oil": "Milder than black mustard oil, ideal for everyday cooking with a golden hue and subtle aroma.",
-            "Wood-Pressed Virgin Coconut Oil": "Unrefined, cold-pressed coconut oil preserving all natural nutrients and tropical aroma.",
-            "Wood-Pressed Coconut Oil": "Traditional wood-pressed coconut oil with authentic flavor for cooking and hair care.",
-            "Wood-Pressed Groundnut Oil": "Nutty-flavored oil perfect for frying, with high smoke point and rich taste.",
-            "Wood-Pressed Sesame Oil": "Rich, aromatic oil ideal for tempering and Asian cuisine, packed with antioxidants.",
-            "Wood-Pressed Sunflower Oil": "Light and versatile oil with high vitamin E content, perfect for daily cooking.",
-            "Wood-Pressed Almond Oil": "Premium oil for skin and hair care, rich in vitamin E and fatty acids.",
-            "Wood-Pressed Extra Virgin Olive Oil": "Highest quality olive oil with low acidity, perfect for dressings and dips.",
-            "Wood-Pressed Kalonji Oil": "Cold-pressed from nigella seeds, known for its therapeutic properties.",
-            "Wood-Pressed Alsi Oil": "Rich in Omega-3 fatty acids, flaxseed oil for health-conscious cooking."
-        };
-        return descriptions[product] || "Pure wood-pressed oil preserving natural nutrients and flavor.";
-    };
-
-    const getGheeDescription = (product) => {
-        return product.includes("A2")
-            ? "Traditional A2 cow ghee made using Vedic bilona method, rich in nutrients and golden hue."
-            : "Pure buffalo milk ghee churned using traditional methods, with rich texture and flavor.";
-    };
-
-    const getOilPrice = (product) => {
-        const prices = {
-            "Wood-Pressed Almond Oil": "699",
-            "Wood-Pressed Extra Virgin Olive Oil": "899",
-            "Wood-Pressed Kalonji Oil": "599",
-            "Wood-Pressed Alsi Oil": "549"
-        };
-        return prices[product] || "399";
-    };
-
-    const getGheePrice = (product) => {
-        return product.includes("A2") ? "899" : "799";
-    };
-
     return (
         <div className="bg-[#FFFDF7] min-h-screen">
             {/* Hero Section */}
             <div className="relative h-[60vh] w-full">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2E8B57]/90 to-[#1a5c38]/90">
                     <Image
-                        src="/oil-press.jpg"
+                        src="/oil-press.png"
                         alt="Traditional oil press"
                         fill
                         className="object-cover mix-blend-overlay"
@@ -124,14 +67,14 @@ export default function AboutUs() {
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                         <motion.div variants={itemVariants}>
-                            <div className="relative h-80 w-full rounded-2xl overflow-hidden">
+                            <div className="relative h-96 w-full rounded-2xl overflow-hidden">
                                 <Image
-                                    src="/founders.jpg"
+                                    src="/founders.png"
                                     alt="Trivenika founders"
                                     fill
                                     className="object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#2E8B57]/50 to-transparent"></div>
+                                {/* <div className="absolute inset-0 bg-gradient-to-t from-[#2E8B57]/50 to-transparent"></div> */}
                             </div>
                         </motion.div>
 
@@ -234,170 +177,6 @@ export default function AboutUs() {
                     </div>
                 </motion.section>
 
-                {/* Product Showcase */}
-                <motion.section
-                    className="mb-16"
-                    initial="hidden"
-                    animate="visible"
-                    variants={containerVariants}
-                >
-                    <motion.div
-                        className="text-center mb-12"
-                        variants={itemVariants}
-                    >
-                        <h2 className="text-3xl font-bold text-[#2E8B57] mb-4">
-                            Our Pure Offerings
-                        </h2>
-                        <p className="text-gray-700 max-w-2xl mx-auto">
-                            Traditional oils and ghee crafted with care and integrity
-                        </p>
-                    </motion.div>
-
-                    {/* Tab Navigation */}
-                    <motion.div
-                        className="flex justify-center mb-8"
-                        variants={itemVariants}
-                    >
-                        <div className="bg-[#f8fbf3] p-1 rounded-full flex">
-                            <button className={`px-6 py-2 rounded-full transition-all ${activeTab === 'oils' ? 'bg-[#2E8B57] text-white' : 'text-gray-600'}`}
-                                onClick={() => setActiveTab('oils')}>
-                                Wood-Pressed Oils
-                            </button>
-                            <button className={`px-6 py-2 rounded-full transition-all ${activeTab === 'ghee' ? 'bg-[#2E8B57] text-white' : 'text-gray-600'}`}
-                                onClick={() => setActiveTab('ghee')}>
-                                Traditional Ghee
-                            </button>
-                        </div>
-                    </motion.div>
-
-                    {/* Oils Showcase */}
-                    {activeTab === 'oils' && (
-                        <motion.div
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            {products
-                                .filter(p => p.includes("Wood-Pressed") && !p.includes("Ghee"))
-                                .map((product, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        className="bg-white rounded-2xl overflow-hidden border border-[#2E8B57]/20 shadow-sm hover:shadow-lg transition-all h-full flex flex-col"
-                                        variants={itemVariants}
-                                        whileHover={{ y: -10 }}
-                                    >
-                                        <div className="relative h-60">
-                                            <Image
-                                                src={`/${product.toLowerCase().replace(/\s+/g, '-')}.jpg`}
-                                                alt={product}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                            <div className="absolute top-4 right-4 bg-[#2E8B57] text-white text-sm px-3 py-1 rounded-full">
-                                                Wood-Pressed
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-4">
-                                                <h3 className="text-white font-bold text-lg">{product.split('Wood-Pressed ')[1]}</h3>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-6 flex-grow flex flex-col">
-                                            <div className="flex-grow">
-                                                <div className="flex items-center mb-3">
-                                                    <div className="flex text-yellow-400">
-                                                        {[...Array(5)].map((_, i) => (
-                                                            <svg key={i} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                            </svg>
-                                                        ))}
-                                                    </div>
-                                                    <span className="text-sm text-gray-500 ml-2">4.9/5</span>
-                                                </div>
-
-                                                <p className="text-gray-600 mb-4">
-                                                    {getOilDescription(product)}
-                                                </p>
-                                            </div>
-
-                                            <div className="mt-auto">
-                                                <div className="flex items-center justify-between">
-                                                    <span className="font-bold text-[#2E8B57]">₹{getOilPrice(product)}</span>
-                                                    <button className="text-[#2E8B57] hover:text-[#1a5c38] font-medium flex items-center">
-                                                        View Details
-                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                        </motion.div>
-                    )}
-
-                    {/* Ghee Showcase */}
-                    {activeTab === 'ghee' && (
-                        <motion.div
-                            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            {products
-                                .filter(p => p.includes("Ghee"))
-                                .map((product, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        className="bg-white rounded-2xl overflow-hidden border border-[#2E8B57]/20 shadow-sm hover:shadow-lg transition-all h-full flex flex-col"
-                                        variants={itemVariants}
-                                        whileHover={{ y: -10 }}
-                                    >
-                                        <div className="relative h-80">
-                                            <Image
-                                                src={`/${product.toLowerCase().replace(/\s+/g, '-')}.jpg`}
-                                                alt={product}
-                                                fill
-                                                className="object-cover"
-                                            />
-                                            <div className="absolute top-4 right-4 bg-[#2E8B57] text-white text-sm px-3 py-1 rounded-full">
-                                                Bilona Method
-                                            </div>
-                                            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-4">
-                                                <h3 className="text-white font-bold text-xl">{product}</h3>
-                                            </div>
-                                        </div>
-
-                                        <div className="p-6 flex-grow">
-                                            <div className="flex items-center mb-4">
-                                                <div className="flex text-yellow-400">
-                                                    {[...Array(5)].map((_, i) => (
-                                                        <svg key={i} xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                                        </svg>
-                                                    ))}
-                                                </div>
-                                                <span className="text-sm text-gray-500 ml-2">4.9/5</span>
-                                            </div>
-
-                                            <p className="text-gray-600 mb-6">
-                                                {getGheeDescription(product)}
-                                            </p>
-
-                                            <div className="flex items-center justify-between mt-auto">
-                                                <span className="font-bold text-[#2E8B57] text-lg">₹{getGheePrice(product)}</span>
-                                                <button className="bg-[#2E8B57] hover:bg-[#1a5c38] text-white px-4 py-2 rounded-full text-sm transition-colors">
-                                                    View Details
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                        </motion.div>
-                    )}
-                </motion.section>
-
                 {/* Process Gallery */}
                 <motion.section
                     className="mb-16"
@@ -422,22 +201,22 @@ export default function AboutUs() {
                             {
                                 title: "Seed Selection",
                                 desc: "Only organic, non-GMO seeds are selected",
-                                image: "/seeds.jpg"
+                                image: "/seeds.png"
                             },
                             {
                                 title: "Wood Pressing",
                                 desc: "Cold-pressed in traditional wooden ghani",
-                                image: "/wood-press.jpg"
+                                image: "/wood-press.png"
                             },
                             {
                                 title: "Natural Settling",
                                 desc: "Oils naturally settle without chemicals",
-                                image: "/oil-settling.jpg"
+                                image: "/oil-settling.png"
                             },
                             {
                                 title: "Hand Packaging",
                                 desc: "Carefully bottled and sealed by hand",
-                                image: "/packaging.jpg"
+                                image: "/packaging.png"
                             }
                         ].map((step, idx) => (
                             <motion.div
