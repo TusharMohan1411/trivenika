@@ -244,58 +244,176 @@ export default function AboutUs() {
                     </div>
                 </motion.section>
 
-                {/* Values */}
+                {/* Beautiful Commitment Section */}
                 <motion.section
-                    className="text-center max-w-3xl mx-auto"
+                    className="py-16 relative"
                     initial="hidden"
                     animate="visible"
                     variants={containerVariants}
                 >
-                    <motion.div variants={itemVariants}>
-                        <div className="bg-[#2E8B57]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </div>
-                    </motion.div>
+                    {/* Decorative background */}
+                    <div className="absolute inset-0 bg-[#f8fbf3] z-0"></div>
+                    <div className="absolute top-0 left-0 w-64 h-64 bg-[#2E8B57]/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#2E8B57]/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
 
-                    <motion.h2
-                        className="text-3xl font-bold text-[#2E8B57] mb-6"
-                        variants={itemVariants}
-                    >
-                        Our Commitment
-                    </motion.h2>
+                    <div className="relative z-10 max-w-7xl mx-auto px-2 sm:px-4">
+                        <motion.div
+                            className="text-center mb-16"
+                            variants={itemVariants}
+                        >
+                            <motion.div
+                                className="inline-block mb-6"
+                                whileHover={{ rotate: 10 }}
+                                transition={{ type: "spring", stiffness: 300 }}
+                            >
+                                <div className="bg-[#2E8B57] w-20 h-20 rounded-full flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                            </motion.div>
 
-                    <motion.div
-                        className="bg-white rounded-2xl p-8 border border-[#2E8B57]/20 shadow-sm"
-                        variants={itemVariants}
-                    >
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <motion.h2
+                                className="text-3xl md:text-4xl font-bold text-[#2E8B57] mb-4"
+                                variants={itemVariants}
+                            >
+                                Our Sacred Commitments
+                            </motion.h2>
+
+                            <motion.p
+                                className="text-gray-600 max-w-2xl mx-auto"
+                                variants={itemVariants}
+                            >
+                                The promises we uphold in every product we create
+                            </motion.p>
+                        </motion.div>
+
+                        <motion.div
+                            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+                            variants={containerVariants}
+                        >
                             {[
                                 {
-                                    title: "To Farmers",
+                                    title: "To Our Farmers",
                                     desc: "Fair prices and sustainable partnerships",
-                                    icon: "👨‍🌾"
+                                    icon: (
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4c-1.105 0-2 .672-2 1.5S10.895 7 12 7s2-.672 2-1.5S13.105 4 12 4z" />
+                                        </svg>
+                                    ),
+                                    color: "#e8f5e9"
                                 },
                                 {
-                                    title: "To You",
+                                    title: "To Our Customers",
                                     desc: "100% pure, chemical-free products",
-                                    icon: "❤️"
+                                    icon: (
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                    ),
+                                    color: "#f1f8e9"
                                 },
                                 {
-                                    title: "To Earth",
+                                    title: "To Our Planet",
                                     desc: "Eco-friendly practices and packaging",
-                                    icon: "🌎"
+                                    icon: (
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.5 10.5l.5-.5a4.95 4.95 0 00-7 7l.5-.5" />
+                                        </svg>
+                                    ),
+                                    color: "#e8f5e9"
                                 }
                             ].map((value, idx) => (
-                                <div key={idx} className="text-center p-4">
-                                    <div className="text-4xl mb-3">{value.icon}</div>
-                                    <h3 className="font-bold text-[#2E8B57] text-lg mb-2">{value.title}</h3>
-                                    <p className="text-gray-700">{value.desc}</p>
-                                </div>
+                                <motion.div
+                                    key={idx}
+                                    className="relative group"
+                                    variants={itemVariants}
+                                    whileHover={{ y: -10 }}
+                                >
+                                    {/* Card */}
+                                    <div className="bg-white rounded-2xl overflow-hidden border border-[#2E8B57]/20 shadow-md h-full flex flex-col">
+                                        {/* Icon header */}
+                                        <div
+                                            className="p-8 flex items-center justify-center"
+                                            style={{ backgroundColor: value.color }}
+                                        >
+                                            <div className="bg-white p-4 rounded-full">
+                                                {value.icon}
+                                            </div>
+                                        </div>
+
+                                        {/* Content */}
+                                        <div className="p-8 flex-grow flex flex-col">
+                                            <h3 className="font-bold text-2xl text-[#2E8B57] mb-4">{value.title}</h3>
+                                            <p className="text-gray-700 mb-6 flex-grow">{value.desc}</p>
+
+                                            <div className="mt-auto">
+                                                <div className="relative h-1 bg-gray-200 rounded-full overflow-hidden">
+                                                    <div
+                                                        className="absolute inset-y-0 bg-[#2E8B57]"
+                                                        style={{ width: `${90 - idx * 10}%` }}
+                                                    ></div>
+                                                </div>
+                                                <p className="text-right text-xs text-gray-500 mt-1">
+                                                    Commitment Level: {90 - idx * 10}%
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Decorative corner */}
+                                    <div className="absolute top-4 right-4 w-0 h-0 border-t-[25px] border-r-[25px] border-t-[#2E8B57] border-r-white"></div>
+                                </motion.div>
                             ))}
-                        </div>
-                    </motion.div>
+                        </motion.div>
+
+                        {/* Nature Pledge */}
+                        <motion.div
+                            className="mt-16 bg-gradient-to-r from-[#2E8B57] to-[#1a5c38] rounded-2xl p-8 text-white relative overflow-hidden"
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            <div className="absolute top-0 left-0 w-48 h-48 bg-[#ffffff]/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+                            <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#ffffff]/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
+
+                            <div className="relative z-10">
+                                <div className="flex flex-col md:flex-row items-center gap-8">
+                                    <div className="flex-shrink-0">
+                                        <div className="bg-white/20 p-4 rounded-full">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <div className="text-center md:text-left">
+                                        <h3 className="text-2xl font-bold mb-4">
+                                            Our Pledge to Nature
+                                        </h3>
+                                        <p className="mb-6">
+                                            We promise to always prioritize sustainable practices, from seed to bottle.
+                                            Our commitment extends beyond products to the planet we share.
+                                        </p>
+                                        <div className="flex flex-wrap justify-center gap-3">
+                                            <span className="bg-white/20 px-4 py-2 rounded-full text-sm">
+                                                Eco-friendly Packaging
+                                            </span>
+                                            <span className="bg-white/20 px-4 py-2 rounded-full text-sm">
+                                                Zero Waste Production
+                                            </span>
+                                            <span className="bg-white/20 px-4 py-2 rounded-full text-sm">
+                                                Carbon Neutral Shipping
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </motion.section>
             </div>
 
