@@ -15,7 +15,7 @@ function ProductCard({ product, variant }) {
             <div className="relative aspect-square w-full">
                 {/* Discount Ribbon */}
                 {discountPercent > 0 && (
-                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+                    <div className="absolute top-1 sm:top-3 right-1 sm:right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
                         {discountPercent}% OFF
                     </div>
                 )}
@@ -36,7 +36,7 @@ function ProductCard({ product, variant }) {
                         </p>
 
                         {discountPercent > 0 && (
-                            <p className="text-green-700 flex gap-2 items-center justify-center mt-0 bg-green-100 rounded-full px-4 py-1 w-fit text-xs font-semibold">
+                            <p className="text-green-700 flex gap-1 sm:gap-2 items-center justify-center mt-0 bg-green-100 rounded-full px-2 sm:px-4 py-1 w-fit text-xs font-semibold">
                                 <span>  <BiSolidLeaf /></span> Save ₹{(variant.actualPrice - variant.discountedPrice).toLocaleString()}
                             </p>
                         )}
@@ -51,16 +51,20 @@ function ProductCard({ product, variant }) {
 
                 <div className="mt-2 flex items-center justify-between w-full">
                     <div className='flex flex-col'>
-                        <div className="flex items-center gap-2">
-                            <span className="text-primary font-bold text-base sm:text-2xl">
-                                ₹{variant.discountedPrice}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                            {variant.discountedPrice < variant.actualPrice ? (
+                                <>
+                                    <span className="text-primary font-bold text-base sm:text-2xl">
+                                        ₹{variant.discountedPrice}
+                                    </span>
+                                    <span className="line-through text-gray-400 text-xs sm:text-sm">
+                                        ₹{variant.actualPrice}
+                                    </span>
+                                </>
+                            ) : <span className="text-primary font-bold text-base sm:text-2xl">
+                                ₹{variant.actualPrice}
                             </span>
-
-                            {variant.discountedPrice < variant.actualPrice && (
-                                <span className="line-through text-gray-400 text-xs sm:text-sm">
-                                    ₹{variant.actualPrice}
-                                </span>
-                            )}
+                            }
                         </div>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 mt-2">
