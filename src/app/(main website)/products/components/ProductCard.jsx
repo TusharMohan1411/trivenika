@@ -11,12 +11,17 @@ function ProductCard({ product, variant }) {
     );
 
     return (
-        <div className="group bg-white border border-gray-300 rounded-xl overflow-hidden hover:shadow-md transition-all duration-300 h-full flex flex-col">
+        <div className="group bg-white border border-gray-300 rounded-md overflow-hidden hover:shadow-md transition-all duration-300 h-full flex flex-col">
             <div className="relative aspect-square w-full">
-                {/* Discount Ribbon */}
+                {/* Redesigned Discount Ribbon */}
                 {discountPercent > 0 && (
-                    <div className="absolute top-1 sm:top-3 right-1 sm:right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full z-10">
-                        {discountPercent}% OFF
+                    <div className="absolute top-3 right-3 z-10">
+                        <div className="relative">
+                            <div className="absolute -top-1 -right-1 w-16 h-6 sm:h-8 bg-green-600 transform rotate-6 rounded-sm"></div>
+                            <div className="relative w-16 h-6 sm:h-8 bg-green-500 flex items-center justify-center text-white font-bold text-xs shadow-md">
+                                {discountPercent}% OFF
+                            </div>
+                        </div>
                     </div>
                 )}
                 <Image
@@ -30,42 +35,44 @@ function ProductCard({ product, variant }) {
 
             <div className="p-4 flex flex-col flex-grow">
                 <div className="mb-2 flex-grow">
-                    <div className='flex justify-between items-center gap-2 mb-3'>
+                    <div className='flex justify-between items-center gap-2 mb-2'>
                         <p className="text-gray-500 text-xs sm:text-sm line-clamp-2">
                             {variant.name}
                         </p>
 
-                        {discountPercent > 0 && (
-                            <p className="text-green-700 flex gap-1 sm:gap-2 items-center justify-center mt-0 bg-green-100 rounded-full px-2 sm:px-4 py-1 w-fit text-xs font-semibold">
-                                <span>  <BiSolidLeaf /></span> Save ₹{(variant.actualPrice - variant.discountedPrice).toLocaleString()}
-                            </p>
-                        )}
+
                     </div>
-                    <h3 className=" text-gray-900 font-semibold text-sm sm:text-lg line-clamp-2">
+                    <h3 className=" text-gray-900 font-bold text-sm sm:text-lg line-clamp-2 ">
                         {product.name}
                     </h3>
-                    {/* <p className="text-gray-500 text-xs sm:text-sm mt-1 line-clamp-2">
+
+                    {/* <p className="text-gray-500 hidden lg:block text-xs sm:text-sm mt-1 line-clamp-2">
                         {product.shortDescription}
                     </p> */}
                 </div>
 
                 <div className="mt-2 flex items-center justify-between w-full">
                     <div className='flex flex-col'>
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <div className="flex max-[450px]:flex-col flex-row min-[450px]:items-center min-[450px]:gap-2">
                             {variant.discountedPrice < variant.actualPrice ? (
                                 <>
-                                    <span className="text-primary font-bold text-base sm:text-2xl">
+                                    <span className=" font-bold text-base sm:text-2xl">
                                         ₹{variant.discountedPrice}
                                     </span>
                                     <span className="line-through text-gray-400 text-xs sm:text-sm">
                                         ₹{variant.actualPrice}
                                     </span>
                                 </>
-                            ) : <span className="text-primary font-bold text-base sm:text-2xl">
+                            ) : <span className="font-bold text-base sm:text-2xl">
                                 ₹{variant.actualPrice}
                             </span>
                             }
                         </div>
+                        {discountPercent > 0 && (
+                            <p className="text-green-700 max-[380px]:hidden flex gap-1 sm:gap-2 items-center justify-center mt-0  w-fit text-xs font-semibold">
+                                <span>  <BiSolidLeaf /></span> Save ₹{(variant.actualPrice - variant.discountedPrice).toLocaleString()}
+                            </p>
+                        )}
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 mt-2">
                         <button className="border border-primary text-primary px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-[#f0f4f9] transition flex-1 text-center flex gap-1 items-center justify-center">
@@ -79,3 +86,7 @@ function ProductCard({ product, variant }) {
 }
 
 export default ProductCard;
+
+
+
+

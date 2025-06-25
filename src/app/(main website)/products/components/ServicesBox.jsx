@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import ProductCard from './ProductCard';
+import Link from 'next/link';
 
 function ServicesBox({ services }) {
     return (
@@ -8,11 +9,15 @@ function ServicesBox({ services }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5">
                 {services?.map(product =>
                     product.variants.map(variant => (
-                        <ProductCard
+                        <Link
                             key={variant._id}
-                            product={product}
-                            variant={variant}
-                        />
+                            href={`/products/${product.slug}`}
+                        >
+                            <ProductCard
+                                product={product}
+                                variant={variant}
+                            />
+                        </Link>
                     ))
                 )}
             </div>
