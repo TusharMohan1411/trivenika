@@ -2,11 +2,14 @@
 
 import React from 'react'
 import { SessionProvider } from 'next-auth/react'
+import WebsiteLayout from '@/components/website/WebsiteLayout'
 
 function layout({ children }) {
     return (
         <SessionProvider>
-            {children}
+            <WebsiteLayout>
+                {children}
+            </WebsiteLayout>
         </SessionProvider>
     )
 }
