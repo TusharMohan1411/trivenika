@@ -9,15 +9,11 @@ function ServicesBox({ services }) {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-5">
                 {services?.map(product =>
                     product.variants.map(variant => (
-                        <Link
+                        <ProductCard
                             key={variant._id}
-                            href={`/products/${product.slug}`}
-                        >
-                            <ProductCard
-                                product={product}
-                                variant={variant}
-                            />
-                        </Link>
+                            product={product}
+                            variant={variant}
+                        />
                     ))
                 )}
             </div>

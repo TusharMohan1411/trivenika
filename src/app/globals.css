@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -196,4 +199,26 @@ button {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* slider  */
+/* .swiper-button-prev,
+.swiper-button-next {
+} */
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 1.5rem; /* optional: make arrow bigger */
+  font-weight: bold;
+  color: #0e5c2a; /* Tailwind's green-600 */
+}
+
+.swiper-pagination-bullet {
+  background-color: #d1fae5 !important; /* Light green background */
+  opacity: 1 !important;
+}
+
+/* Active dot */
+.swiper-pagination-bullet-active {
+  background-color: #16a34a !important; /* Tailwind green-600 */
 }

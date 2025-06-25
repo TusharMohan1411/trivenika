@@ -53,12 +53,23 @@ export const useCartStore = create(
 
       updateQuantity: (productId, variantId, quantity) => {
         const cart = get().cart;
-        const updatedCart = cart.map((item) =>
-          item.productId === productId && item.variantId === variantId
-            ? { ...item, quantity: Math.max(quantity, 1) }
-            : item
-        );
-        set({ cart: updatedCart });
+
+        if (quantity <= 0) {
+          // Remove item if quantity is 0 or less
+          set({
+            cart: cart.filter(
+              (item) =>
+                item.productId !== productId || item.variantId !== variantId
+            ),
+          });
+        } else {
+          const updatedCart = cart.map((item) =>
+            item.productId === productId && item.variantId === variantId
+              ? { ...item, quantity }
+              : item
+          );
+          set({ cart: updatedCart });
+        }
       },
 
       clearCart: () => set({ cart: [] }),

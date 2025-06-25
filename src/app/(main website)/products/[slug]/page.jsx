@@ -66,7 +66,7 @@ async function Page({ params }) {
 
     return (
         <WebsiteLayout>
-            <main className="mx-auto max-[640px]:px-4 py-8">
+            <main className="mx-auto max-[640px]:px-2 py-2 sm:py-8">
                 <article className="mx-auto">
                     {/* <script
                         type="application/ld+json"

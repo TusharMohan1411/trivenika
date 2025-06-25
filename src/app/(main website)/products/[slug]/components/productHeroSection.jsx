@@ -1,22 +1,26 @@
 // components/productHeroSection.jsx
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 import Image from 'next/image';
 import { Minus, Plus, ShoppingCart, Zap } from 'lucide-react';
 import { useCartStore } from '@/store/cartStore';
 import { Separator } from '@/components/ui/separator';
 import { BiSolidLeaf } from "react-icons/bi";
+import { useRouter } from 'next/navigation';
 
 export default function ProductHeroSection({ product }) {
+    const router = useRouter()
     const { images = [], name, shortDescription, shortPoints = [], variants = [] } = product;
     const [selectedVariant, setSelectedVariant] = useState(0);
     const [mainImageIndex, setMainImageIndex] = useState(0);
     const [quantity, setQuantity] = useState(1);
-
-    console.log(product)
-    console.log('quantity', quantity)
-    console.log('variant', selectedVariant)
+    const [swiperInstance, setSwiperInstance] = useState(null);
 
     const addToCart = useCartStore((state) => state.addToCart);
 
@@ -27,6 +31,17 @@ export default function ProductHeroSection({ product }) {
         return variantImg ? [variantImg, ...rest] : [...images];
     }, [images, variants, selectedVariant]);
 
+    const handleThumbnailClick = useCallback((index) => {
+        setMainImageIndex(index);
+        if (swiperInstance) {
+            swiperInstance.slideTo(index); // Use slideTo instead of slideToLoop
+        }
+    }, [swiperInstance]);
+
+    const handleSlideChange = useCallback((swiper) => {
+        setMainImageIndex(swiper.realIndex);
+    }, []);
+
     const variant = variants[selectedVariant] || {};
     const { actualPrice = 0, discountedPrice = 0 } = variant;
 
@@ -34,19 +49,16 @@ export default function ProductHeroSection({ product }) {
         ? Math.round(((actualPrice - discountedPrice) / actualPrice) * 100)
         : 0;
 
-    const incQty = () => setQuantity((q) => Math.max(1, q + 1));
-    const decQty = () => setQuantity((q) => Math.max(1, q - 1));
-
     return (
-        <div className="flex flex-col lg:flex-row gap-8 p-4 pt-6 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-8 p-2 max-w-7xl mx-auto">
             {/* Image Gallery */}
             <div className="flex flex-col-reverse md:flex-row gap-4 w-full lg:w-1/2">
                 {/* Thumbnails */}
-                <div className="flex md:flex-col gap-2 py-2 md:py-0">
+                <div className="flex md:flex-col gap-2 py-2 md:py-0 max-[500px]:overflow-x-auto">
                     {allImages.map((src, i) => (
                         <div
                             key={i}
-                            onClick={() => setMainImageIndex(i)}
+                            onClick={() => handleThumbnailClick(i)}
                             className={`
                                 w-16 h-16 cursor-pointer overflow-hidden rounded-lg border-2
                                 transition-all duration-200 flex-shrink-0
@@ -68,21 +80,42 @@ export default function ProductHeroSection({ product }) {
 
                 {/* Main Image */}
                 <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-50 border-2">
-                    <Image
-                        src={allImages[mainImageIndex]}
-                        alt={name}
-                        fill
-                        className="object-cover"
-                        priority
-                    />
+                    <Swiper
+                        onSwiper={setSwiperInstance}
+                        modules={[Navigation, Autoplay, Pagination]}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        }}
+                        speed={1300}
+                        loop={true}
+                        pagination={{ clickable: true }}
+                        navigation={true}
+                        onSlideChange={handleSlideChange}
+                        initialSlide={mainImageIndex}
+                        className="w-full h-full"
+                    >
+                        {allImages.map((img, idx) => (
+                            <SwiperSlide key={idx}>
+                                <Image
+                                    src={img}
+                                    alt={`product image ${idx}`}
+                                    fill
+                                    className="object-cover"
+                                    priority={idx === 0}
+                                />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
 
                     {/* Discount badge */}
                     {discountPercent > 0 && (
-                        <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full font-bold text-sm">
+                        <div className="absolute top-1 sm:top-4 right-1 sm:right-4 bg-red-500 text-white px-3 py-1 rounded-full font-bold text-sm z-10">
                             {discountPercent}% OFF
                         </div>
                     )}
                 </div>
+
             </div>
 
             {/* Product Info */}
@@ -178,7 +211,13 @@ export default function ProductHeroSection({ product }) {
                             <ShoppingCart size={20} />
                             Add to Cart
                         </button>
-                        <button className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md">
+
+                        <button
+                            onClick={() => {
+                                addToCart(product, variant, quantity);
+                                router.push('/checkout')
+                            }}
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md">
                             <Zap size={20} />
                             Buy Now
                         </button>
