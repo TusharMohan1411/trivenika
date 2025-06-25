@@ -220,7 +220,7 @@ export default function Step2PageDetails() {
                             width={500}
                         />
 
-                        <Button onClick={() => setLabDialog(true)} className={'mt-3'}>Change Image</Button>
+                        <Button type={'button'} onClick={() => setLabDialog(true)} className={'mt-3'}>Change Image</Button>
                     </div>
                 }
                 <ImageSelector

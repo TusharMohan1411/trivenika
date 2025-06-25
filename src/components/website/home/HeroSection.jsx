@@ -4,8 +4,17 @@
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/parallax';
+import { useRef } from "react";
+
 
 const HeroSection = () => {
+    const swiperRef = useRef(null);
     const [currentSlide, setCurrentSlide] = useState(0);
 
     // Mock data for carousel slides (will be replaced with DB data later)
@@ -81,94 +90,63 @@ const HeroSection = () => {
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                     {/* Left - Carousel Section */}
-                    <div className="w-full lg:w-[55%] relative">
-                        <div className="overflow-hidden rounded-2xl shadow-xl h-[400px] sm:h-[500px]">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={currentSlide}
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    transition={{ duration: 0.8 }}
-                                    className="absolute inset-0"
-                                >
-                                    <div className="relative w-full h-full">
+                    <div className="w-full lg:w-[65%] relative">
+                        <Swiper
+                            ref={swiperRef}
+                            modules={[Parallax, Autoplay, Pagination, Navigation]}
+                            parallax={true}
+                            autoplay={{ delay: 5000, disableOnInteraction: false }}
+                            speed={800}
+                            pagination={{ clickable: true }}
+                            navigation={false}
+                            loop={true}
+                            className="rounded-2xl shadow-xl relative h-[500px]"
+                        >
+                            <div
+                                slot="container-start"
+                                className="absolute inset-0"
+                                data-swiper-parallax="-20%"
+                            >
+                                {/* Background gradient if needed */}
+                            </div>
+
+                            {slides.map((slide, index) => (
+                                <SwiperSlide key={index} className="relative w-full h-full">
+                                    <div className="w-full h-full relative">
                                         <Image
-                                            src={slides[currentSlide].image}
-                                            alt={slides[currentSlide].title}
-                                            layout="fill"
-                                            objectFit="cover"
-                                            className="rounded-2xl"
+                                            src={slide.image}
+                                            alt={slide.title}
+                                            fill
+                                            className="object-cover rounded-2xl"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent rounded-2xl" />
-                                        <div className="absolute bottom-8 left-8 max-w-md">
-                                            <motion.h2
-                                                className="text-white font-bold text-3xl md:text-4xl mb-2"
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.2 }}
+
+                                        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent rounded-2xl" />
+
+                                        <div className="absolute bottom-10 left-10 text-white max-w-lg z-10">
+                                            <h2
+                                                className="text-4xl font-bold mb-2"
+                                                data-swiper-parallax="-300"
                                             >
-                                                {slides[currentSlide].title}
-                                            </motion.h2>
-                                            <motion.p
-                                                className="text-white text-lg mb-4"
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                transition={{ delay: 0.4 }}
+                                                {slide.title}
+                                            </h2>
+                                            <p
+                                                className="text-lg mb-4"
+                                                data-swiper-parallax="-200"
                                             >
-                                                {slides[currentSlide].subtitle}
-                                            </motion.p>
-                                            <motion.a
-                                                href={slides[currentSlide].link}
+                                                {slide.subtitle}
+                                            </p>
+                                            <a
+                                                href={slide.link}
                                                 className="inline-block bg-[#2E8B57] hover:bg-[#256e46] text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                transition={{ delay: 0.6 }}
+                                                data-swiper-parallax="-100"
                                             >
-                                                {slides[currentSlide].buttonText}
-                                            </motion.a>
-                                        </div>
+                                                {slide.buttonText}
+                                            </a>
+                                        </div> */}
                                     </div>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Carousel Navigation */}
-                        <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
-                            <button
-                                onClick={prevSlide}
-                                className="bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all"
-                                aria-label="Previous slide"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            <button
-                                onClick={nextSlide}
-                                className="bg-white/80 hover:bg-white rounded-full p-2 shadow-lg transition-all"
-                                aria-label="Next slide"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                        </div>
-
-                        {/* Dots Indicator */}
-                        <div className="flex justify-center mt-4 space-x-2">
-                            {slides.map((_, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => goToSlide(index)}
-                                    className={`w-3 h-3 rounded-full transition-all ${index === currentSlide
-                                        ? "bg-[#2E8B57] w-8"
-                                        : "bg-gray-300 hover:bg-[#2E8B57]/50"
-                                        }`}
-                                    aria-label={`Go to slide ${index + 1}`}
-                                />
+                                </SwiperSlide>
                             ))}
-                        </div>
+                        </Swiper>
                     </div>
 
                     {/* Right - Content Section */}
