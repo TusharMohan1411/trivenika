@@ -1,4 +1,5 @@
 // app/page.jsx
+import EnquiryWidget from "@/components/EnquiryWidget";
 import Footer from "@/components/website/common/Footer";
 import NavBar from "@/components/website/common/Navbar";
 import { ConnectWithLawyer } from "@/components/website/home/ConnectWithLawyer";
@@ -41,6 +42,7 @@ export default async function Home() {
       <Testimonials />
       */}
       <Contact />
+      <EnquiryWidget />
     </WebsiteLayout>
   );
 }

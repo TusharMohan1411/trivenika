@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import toast, { Toaster } from 'react-hot-toast';
 import { Loader2 } from 'lucide-react';
@@ -13,17 +13,26 @@ export default function EnquiryForm() {
         reset,
         formState: { errors, isSubmitting },
     } = useForm();
+
     const [error, setError] = useState(null);
     const [successMsg, setSuccessMsg] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
 
     const onSubmit = async (data) => {
         setError(null);
-        setSuccessMsg(null);
         try {
             await axios.post('/api/enquiry', data);
             reset();
-            setSuccessMsg('Enquiry Created Successfully. We will get back to you soon.');
+            const msg = 'Enquiry Created Successfully. We will get back to you soon.';
+            setSuccessMsg(msg);
+            setSubmitted(true);
             toast.success('Enquiry Created Successfully.');
+
+            // After 5s, clear message and show form again
+            setTimeout(() => {
+                setSubmitted(false);
+                setSuccessMsg(null);
+            }, 5000);
         } catch (err) {
             const message =
                 err.response?.data?.message ||
@@ -36,8 +45,19 @@ export default function EnquiryForm() {
         }
     };
 
+    // If the form was just submitted successfully, show only the success UI
+    if (submitted) {
+        return (
+            <div className="bg-white p-4 rounded-xl shadow-md text-center">
+                <p className="text-green-600 font-semibold mb-2">{successMsg}</p>
+                <p className="text-gray-500 text-sm">You can submit another enquiry in a moment.</p>
+            </div>
+        );
+    }
+
+    // Otherwise, show the form
     return (
-        <div className="bg-white p-4 rounded-xl w-full shadow-md">
+        <div className="bg-white p-2">
             <h2 className="text-xl sm:text-2xl font-bold text-center text-primary mb-3">
                 Need help?
             </h2>
@@ -54,9 +74,7 @@ export default function EnquiryForm() {
                         {...register('name', { required: 'Name is required' })}
                     />
                     {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.name.message}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
                     )}
                 </div>
 
@@ -78,9 +96,7 @@ export default function EnquiryForm() {
                         })}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.email.message}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
                     )}
                 </div>
 
@@ -100,9 +116,7 @@ export default function EnquiryForm() {
                         })}
                     />
                     {errors.contact && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.contact.message}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.contact.message}</p>
                     )}
                 </div>
 
@@ -118,17 +132,12 @@ export default function EnquiryForm() {
                         {...register('message', { required: 'Message is required' })}
                     />
                     {errors.message && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {errors.message.message}
-                        </p>
+                        <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
                     )}
                 </div>
 
                 {/* Inline Error */}
                 {error && <p className="text-red-600 text-sm">{error}</p>}
-
-                {/* Inline Success */}
-                {successMsg && <p className="text-green-600 text-sm">{successMsg}</p>}
 
                 {/* Submit Button */}
                 <button
@@ -147,7 +156,6 @@ export default function EnquiryForm() {
                 </button>
             </form>
             <Toaster position="top-right" />
-
         </div>
     );
 }

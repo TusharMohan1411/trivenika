@@ -117,7 +117,7 @@ const HeroSection = () => {
                                             src={slide.image}
                                             alt={slide.title}
                                             fill
-                                            className="object-cover rounded-2xl"
+                                            className="object-cover"
                                         />
 
                                         {/* <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent rounded-2xl" />
