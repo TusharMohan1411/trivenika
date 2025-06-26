@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { format } from 'date-fns';
 import UserProfileSkeleton from './UserProfileSkeleton';
 import OrderCard from './OrderCard';
+import OrderAccordion from './OrderAccordion';
 
 function UserSection({ loading, error, userData }) {
     const [activeTab, setActiveTab] = useState('orders');
@@ -12,6 +13,8 @@ function UserSection({ loading, error, userData }) {
 
     const joinDate = format(new Date(userData.createdAt), 'MMMM d, yyyy');
 
+    console.log(userData)
+
     const serviceOrdersData = userData?.orders.reverse();
 
 
@@ -19,7 +22,7 @@ function UserSection({ loading, error, userData }) {
     return (
         <div className="space-y-6">
             {/* Upper Strip */}
-            <div className="bg-gradient-to-r from-[#002244] to-[#004488] text-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-gradient-to-r from-[#00441e] to-[#008832] text-white rounded-xl p-4 sm:p-6 shadow-lg">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                     <div className="flex items-center mb-3 sm:mb-0">
                         {/* Avatar Image */}
@@ -41,8 +44,8 @@ function UserSection({ loading, error, userData }) {
                         </div>
                     </div>
 
-                    <div className="bg-blue-900/50 px-4 py-2 rounded-lg border border-blue-700">
-                        <p className="text-blue-200 text-sm">Member since</p>
+                    <div className="bg-emerald-900/50 px-4 py-2 rounded-lg border border-emerald-700">
+                        <p className="text-emerald-200 text-sm">Member since</p>
                         <p className="font-semibold">{joinDate}</p>
                     </div>
                 </div>
@@ -72,9 +75,7 @@ function UserSection({ loading, error, userData }) {
                         {serviceOrdersData.length > 0 ? (
                             <div className="space-y-4">
                                 {serviceOrdersData.map(order => (
-                                    <div key={order._id}>
-                                        {/* <OrderCard order={order} /> */}
-                                    </div>
+                                    <OrderAccordion key={order._id} order={order} />
                                 ))}
                             </div>
                         ) : (

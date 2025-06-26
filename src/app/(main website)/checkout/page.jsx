@@ -31,6 +31,7 @@ import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { Home, Mail, MapPin, Minus, Phone, Plus, User } from 'lucide-react';
 import Image from 'next/image';
+import AuthDialog from '@/components/auth/LoginDialog';
 
 const indianStates = [
     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -57,12 +58,14 @@ const checkoutSchema = z.object({
 export default function CheckoutPage() {
     const [userId, setUserId] = useState('')
     const { data: session } = useSession();
+    const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
 
     useEffect(() => {
         if (session) {
             setUserId(session.user.id)
         }
     }, [session])
+    // console.log(session)
 
     const cart = useCartStore((state) => state.cart);
     const { updateQuantity } = useCartStore();
@@ -94,6 +97,7 @@ export default function CheckoutPage() {
 
     const onSubmit = async (data) => {
         if (!cart.length) return alert('Cart is empty');
+        if (!session.user.id) return setIsLoginDialogOpen(true)
 
         const orderPayload = {
             type: 'website',
@@ -120,7 +124,7 @@ export default function CheckoutPage() {
 
         if (data.paymentMethod === 'cod') {
             const confirmOrder = confirm('Are you sure you want to place a COD order?');
-            if (!confirmOrder) return;
+            if (!confirmOrder) return
 
             const res = await fetch('/api/order/create', {
                 method: 'POST',
@@ -577,7 +581,10 @@ export default function CheckoutPage() {
                     </form>
                 </Form>
             </div>
-
+            <AuthDialog
+                open={isLoginDialogOpen}
+                onOpenChange={setIsLoginDialogOpen}
+            />
         </div>
     );
 }

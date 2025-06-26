@@ -31,3 +31,17 @@ export async function getAllServicesSlugs() {
     return [];
   }
 }
+
+export async function getLatestServices() {
+  try {
+    await connectDB();
+    const latestServices = await Service.find()
+      .sort({ updatedAt: -1 })
+      .limit(4);
+
+    return JSON.parse(JSON.stringify(latestServices));
+  } catch (error) {
+    console.error("Error in getting lastest Products: ", error);
+    return null;
+  }
+}

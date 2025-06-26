@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/orderModel";
+import User from "@/models/userModel";
 
 export const runtime = "nodejs";
 
@@ -29,7 +30,7 @@ export async function POST(req) {
       );
     }
 
-    const newOrder = new Order({
+    const newOrder = await Order.create({
       type,
       user: user,
       shippingDetails,
@@ -42,10 +43,14 @@ export async function POST(req) {
       status: [{ currentStatus: "New", message: "Order received" }],
     });
 
-    await newOrder.save();
+    const updatedUserData = await User.findByIdAndUpdate(
+      user,
+      { $push: { orders: newOrder._id } },
+      { new: true, runValidators: true }
+    );
 
     return NextResponse.json(
-      { success: true, orderId: newOrder._id },
+      { success: true, orderId: newOrder._id, user: updatedUserData },
       { status: 201 }
     );
   } catch (err) {

@@ -10,6 +10,7 @@ import BlogData from '../components/BlogData';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from '@/components/ui/breadcrumb';
 import LatestBlogs from '@/components/website/LatestBlogs';
 import { Separator } from '@/components/ui/separator';
+import LatestServices from '@/components/website/LatestServices';
 
 export default async function page({ params }) {
     const { services, categories } = await getHomePageData();
@@ -69,6 +70,8 @@ export default async function page({ params }) {
                 </section>
 
                 <Separator className={'mt-10'} />
+
+                <LatestServices />
 
                 <div>
                     <LatestBlogs />

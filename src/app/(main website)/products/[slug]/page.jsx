@@ -14,6 +14,8 @@ import MultipleUses from './components/MultipleUses';
 import WhyToBuySection from './components/WhyToBuySection';
 import LabTestingSection from './components/LabTestingSection';
 import TestimonialSlider from './components/TestimonialSlider';
+import LatestServices from '@/components/website/LatestServices';
+import LatestBlogs from '@/components/website/LatestBlogs';
 
 
 // export async function generateStaticParams() {
@@ -115,7 +117,10 @@ async function Page({ params }) {
 
                                 <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
 
+                                <LatestServices />
+
                                 <TestimonialSlider />
+                                <LatestBlogs />
 
                                 {/* <ul className="space-y-3 mt-4">
                                     {service?.serviceTypeDetails?.map((item, idx) => (

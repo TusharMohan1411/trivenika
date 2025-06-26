@@ -16,20 +16,24 @@ import TestimonialSlider2 from "@/components/website/home/TestimonialSlider2";
 import WhyChooseSection from "@/components/website/home/WhyChooseSection";
 import WhyChooseSection2 from "@/components/website/home/WhyChooseSection2";
 import WhyChooseUs from "@/components/website/home/WhyChooseUs";
+import LatestBlogs from "@/components/website/LatestBlogs";
+import LatestServices from "@/components/website/LatestServices";
+import WebsiteLayout from "@/components/website/WebsiteLayout";
 import { getHomePageData } from "@/lib/main/getHomePageData";
 
 export default async function Home() {
 
   return (
-    <div className="">
-      <NavBar />
+    <WebsiteLayout>
       <HeroSection />
+      <LatestServices />
       <LabTestingSection />
       {/* <WhyChooseSection /> */}
       <WhyChooseSection2 />
       <OilUsageSection2 />
       {/* <OilUsageSection /> */}
       <TestimonialSlider />
+      <LatestBlogs />
       {/* <TestimonialSlider2 /> */}
       {/* <ConnectWithLawyer />
       <WhyChooseUs />
@@ -37,7 +41,6 @@ export default async function Home() {
       <Testimonials />
       */}
       <Contact />
-      <Footer />
-    </div>
+    </WebsiteLayout>
   );
 }

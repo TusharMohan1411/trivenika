@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+// import LatestServices from '@/components/website/LatestServices';
 
 export default function StoryMain() {
     const [language, setLanguage] = useState('english');
@@ -372,6 +373,8 @@ export default function StoryMain() {
                     </motion.div>
                 </motion.section>
             </div>
+
+            {/* <LatestServices /> */}
 
             {/* Enhanced Footer CTA */}
             <div className="relative bg-gradient-to-r from-[#2E8B57] to-[#1a5c38]  text-white py-16 text-center overflow-hidden">

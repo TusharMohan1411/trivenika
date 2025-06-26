@@ -16,7 +16,7 @@ export async function GET(req, { params }) {
       .select("-password")
       .populate({
         path: "orders",
-        populate: [{ path: "service" }],
+        populate: [{ path: "cart.serviceId", model: "Service" }],
       });
 
     if (!user) {

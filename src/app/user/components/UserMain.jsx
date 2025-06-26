@@ -21,7 +21,7 @@ function UserMain() {
     if (!session || session === undefined || !session.user.id) return <UserProfileSkeleton />
 
     return (
-        <div className='max-w-6xl mx-auto my- p-2 sm:p-5  rounded-2xl min-h-[90vh]'>
+        <div className='max-w-6xl mx-auto p-2 sm:p-5  rounded-2xl min-h-[90vh]'>
             <UserSection error={error} loading={loading} userData={userData} />
         </div>
     )
