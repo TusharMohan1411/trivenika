@@ -25,6 +25,7 @@ import OrderDetailsDialog from './OrdersDialog'
 import UpdateStatusDialog from './UpdateStatusDialog'
 import StatusHistorySheet from './StatusHistorySheet'
 import UpdatePaymentStatus from './UpdatePaymentStatus'
+import DownloadInvoiceButton from './DownloadInvoiceButton'
 
 function OrdersTable({
     orders,
@@ -46,6 +47,7 @@ function OrdersTable({
 
     const [statusHistorySheet, setStatusHistorySheet] = useState(false)
 
+    console.log(orders)
 
     if (isLoading) {
         return <TableSkeleton
@@ -86,8 +88,8 @@ function OrdersTable({
                                     <TableCell>{idx + 1}</TableCell>
                                     <TableCell>{order.shippingDetails?.fullName}</TableCell>
                                     <TableCell>{order.shippingDetails?.contact}</TableCell>
-                                    <TableCell>
-                                        <div className='max-w-xs text-wrap'>
+                                    <TableCell className={''}>
+                                        <div className='w-xs text-wrap'>
                                             {order.cart.map((item) => `${item.serviceName} (${item.variantName})`).join(', ')}
                                         </div>
                                     </TableCell>
@@ -148,7 +150,9 @@ function OrdersTable({
                                                     }}
                                                 >
                                                     View Status History</DropdownMenuItem>
-                                                <DropdownMenuItem>Download GST Bill</DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <DownloadInvoiceButton order={order} />
+                                                </DropdownMenuItem>
                                                 <DropdownMenuItem className='text-red-500'>Delete Order</DropdownMenuItem>
                                             </DropdownMenuContent>
                                         </DropdownMenu>
