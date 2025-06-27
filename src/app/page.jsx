@@ -39,7 +39,6 @@ export default async function Home() {
       <Testimonials />
       */}
       <Contact />
-      <EnquiryWidget />
     </WebsiteLayout>
   );
 }

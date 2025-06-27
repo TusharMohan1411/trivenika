@@ -1,4 +1,5 @@
 // app/layout.jsx
+import EnquiryWidget from "@/components/EnquiryWidget";
 import "./globals.css";;
 import { Poppins, Montserrat, Inter } from "next/font/google";
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         className={`${poppins.variable} ${montserrat.variable} ${inter.variable} antialiased`}
       >
         <main>{children}</main>
+        <EnquiryWidget />
       </body>
     </html>
   );
