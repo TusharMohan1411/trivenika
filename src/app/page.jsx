@@ -1,8 +1,5 @@
 // app/page.jsx
 import EnquiryWidget from "@/components/EnquiryWidget";
-import Footer from "@/components/website/common/Footer";
-import NavBar from "@/components/website/common/Navbar";
-import { ConnectWithLawyer } from "@/components/website/home/ConnectWithLawyer";
 import Contact from "@/components/website/home/Contact";
 import HeroSection from "@/components/website/home/HeroSection";
 import HeroSection2 from "@/components/website/home/HeroSection2";
