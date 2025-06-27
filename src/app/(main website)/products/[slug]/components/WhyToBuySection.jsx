@@ -65,7 +65,7 @@ const WhyToBuySection = ({ whyToBuy, productName }) => {
     };
 
     return (
-        <section className="py-0 md:py-0 bg-[#FFFDF7] relative overflow-hidden">
+        <section className="py-16 md:py-16 bg-[#FFFDF7] relative overflow-hidden">
             {/* Decorative elements */}
             {/* <div className="absolute top-0 left-0 w-64 h-64 bg-[#2E8B57]/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute bottom-0 right-0 w-72 h-72 bg-[#2E8B57]/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div> */}

@@ -104,7 +104,7 @@ async function Page({ params }) {
                                 </BreadcrumbList>
                             </Breadcrumb> */}
 
-                            <div className='mb-4 space-y-16'>
+                            <div className='mb-4 space-y-0'>
                                 {/* <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                                     {service.name}
                                 </h1> */}
