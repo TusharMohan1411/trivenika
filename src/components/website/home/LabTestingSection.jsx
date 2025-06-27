@@ -166,7 +166,7 @@ export default function LabTestingSection() {
 
                     {/* Right Image Section */}
                     <motion.div
-                        className="relative"
+                        className="relative pt-8 md:pt-20"
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
@@ -178,7 +178,7 @@ export default function LabTestingSection() {
 
                             {/* Main image */}
                             <motion.div
-                                className="relative w-full h-full rounded-2xl overflow-hidden border-8 border-white shadow-xl z-10"
+                                className="relative w-full h-full max-w-[500px] max-h-[500px] rounded-2xl overflow-hidden border-8 border-white shadow-xl z-10"
                                 whileHover={{ rotate: -1 }}
                             >
                                 <Image
