@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { format } from 'date-fns'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import Image from 'next/image'
+import DownloadInvoiceButton from '@/app/admin/serviceOrders/components/DownloadInvoiceButton'
 
 export default function OrderAccordion({ order }) {
     const [open, setOpen] = useState(false)
@@ -85,8 +86,13 @@ export default function OrderAccordion({ order }) {
                             ))}
                         </ul>
                     </div>
+                    {/* Download GST Bill button */}
+                    {order.status[order.status.length - 1].currentStatus === "Delivered" && order.paymentStatus === 'paid' &&
+                        <DownloadInvoiceButton order={order} />
+                    }
                 </div>
             )}
+
         </div>
     )
 }

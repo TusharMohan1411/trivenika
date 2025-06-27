@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import UserProfileSkeleton from './UserProfileSkeleton';
-import OrderCard from './OrderCard';
 import OrderAccordion from './OrderAccordion';
 
 function UserSection({ loading, error, userData }) {

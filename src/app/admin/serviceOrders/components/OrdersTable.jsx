@@ -150,10 +150,11 @@ function OrdersTable({
                                                     }}
                                                 >
                                                     View Status History</DropdownMenuItem>
-                                                <DropdownMenuItem>
-                                                    <DownloadInvoiceButton order={order} />
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem className='text-red-500'>Delete Order</DropdownMenuItem>
+                                                {order.status[order.status.length - 1].currentStatus === "Delivered" && order.paymentStatus === 'paid' &&
+                                                    <DropdownMenuItem>
+                                                        <DownloadInvoiceButton order={order} />
+                                                    </DropdownMenuItem>
+                                                }
                                             </DropdownMenuContent>
                                         </DropdownMenu>
                                     </TableCell>
