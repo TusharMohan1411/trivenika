@@ -54,7 +54,7 @@ export const useOrders = ({ status, page, pageSize }) => {
     mutationFn: ({ id, status }) => {
       return api.patch(`/orders/${id}`, {
         id,
-        status, // Now it's an object with currentStatus and message
+        status,
       });
     },
     enabled: canEdit,
@@ -64,6 +64,23 @@ export const useOrders = ({ status, page, pageSize }) => {
     },
     onError: (err) => {
       toast.error(err?.response?.data?.message || "Failed to update order");
+    },
+  });
+
+  const updatePaymentStatus = useMutation({
+    mutationFn: ({ id, data }) => {
+      return api.patch(`/orders/${id}/payment`, data);
+    },
+    enabled: canEdit,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["orders"]);
+      toast.success("Payment Status updated successfully");
+    },
+    onError: (err) => {
+      toast.error(
+        err?.response?.data?.message || "Failed to update payment Status."
+      );
+      console.log(err);
     },
   });
 
@@ -85,6 +102,7 @@ export const useOrders = ({ status, page, pageSize }) => {
     ordersQuery,
     updateOrder,
     deleteOrder,
+    updatePaymentStatus,
     permissions: {
       canView,
       canDelete,

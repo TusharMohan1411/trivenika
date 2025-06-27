@@ -8,49 +8,71 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { useForm } from 'react-hook-form';
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormControl,
+    FormMessage
+} from '@/components/ui/form';
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
 import LoaderButton from '@/components/custom/LoaderButton';
+import { useOrders } from '@/hooks/useOrders';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@/components/ui/input';
 
-const statusOptions = [
-    "New",
-    "Processing",
-    "Packed",
-    "Shipped",
-    "Ready for delivery",
-    "Delivered",
-    "cancelled",
-];
+const statusOptions = ["pending", "paid"];
 
-function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
+// ✅ Zod Schema
+const paymentSchema = z.object({
+    paymentStatus: z.enum(["pending", "paid"]),
+    paymentDate: z.string().min(1, "Payment date is required"),
+    message: z.string().optional()
+});
+
+
+function UpdatePaymentStatus({ open, onOpenChange, order }) {
+    const { updatePaymentStatus } = useOrders({ status: 'all', page: 1, pageSize: 10 });
+
+    const localISOTime = () => {
+        const now = new Date();
+        // timezone offset in minutes, convert to ms and subtract to shift into local
+        const tzOffsetMs = now.getTimezoneOffset() * 60000;
+        const localISO = new Date(now.getTime() - tzOffsetMs).toISOString().slice(0, 16);
+        return localISO;
+    };
+
     const form = useForm({
+        resolver: zodResolver(paymentSchema),
         defaultValues: {
-            currentStatus: '',
+            paymentStatus: '',
+            paymentDate: localISOTime(),
             message: ''
         }
     });
 
-    async function onSubmit(data) {
-        console.log({
-            orderId: order._id,
-            update: {
-                currentStatus: data.currentStatus,
-                message: data.message
-            }
-        });
 
+    async function onSubmit(data) {
         const update = {
-            currentStatus: data.currentStatus,
-            message: data.message
-        }
+            paymentStatus: data.paymentStatus,
+            paymentDate: data.paymentDate,
+            paymentMessage: data.message || ''
+        };
 
         try {
-            await updateOrder.mutateAsync({ id: order._id, status: update })
-            onOpenChange(false)
+            await updatePaymentStatus.mutateAsync({ id: order._id, data: { ...update } });
+            onOpenChange(false);
         } catch (error) {
-
+            console.error("Payment update failed:", error);
         }
     }
 
@@ -58,16 +80,16 @@ function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="bg-white rounded-xl overflow-hidden">
                 <DialogHeader>
-                    <DialogTitle>Update Order Status</DialogTitle>
+                    <DialogTitle>Update Payment Details</DialogTitle>
                 </DialogHeader>
 
                 <div className="py-2">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                            {/* Status Select */}
+                            {/* Payment Status */}
                             <FormField
                                 control={form.control}
-                                name="currentStatus"
+                                name="paymentStatus"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Status</FormLabel>
@@ -90,6 +112,25 @@ function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
                                 )}
                             />
 
+                            {/* Payment Date */}
+                            <FormField
+                                control={form.control}
+                                name="paymentDate"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Payment Date</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="datetime-local"
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
                             {/* Message Textarea */}
                             <FormField
                                 control={form.control}
@@ -98,7 +139,7 @@ function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
                                     <FormItem>
                                         <FormLabel>Message</FormLabel>
                                         <FormControl>
-                                            <Textarea placeholder="Enter status note (optional)" {...field} />
+                                            <Textarea placeholder="Enter payment note (optional)" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -106,7 +147,7 @@ function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
                             />
 
                             <LoaderButton
-                                loading={updateOrder.isPending}
+                                loading={updatePaymentStatus.isPending}
                                 type="submit"
                                 className="w-full">
                                 Submit
@@ -119,4 +160,4 @@ function UpdateStatusDialog({ open, onOpenChange, order, updateOrder }) {
     );
 }
 
-export default UpdateStatusDialog;
+export default UpdatePaymentStatus;

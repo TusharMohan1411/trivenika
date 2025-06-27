@@ -26,7 +26,7 @@ function page() {
         return ordersQuery?.data?.data || [];
     }, [ordersQuery?.data?.data]);
 
-    console.log(ordersData)
+    // console.log(ordersData)
 
     const totalCount = useMemo(() => {
         return ordersQuery?.data?.totalCount || 0;
@@ -42,7 +42,7 @@ function page() {
     return (
         <InnerDashboardLayout>
             <div className="flex items-center justify-between mb-4">
-                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Service Orders</h1>
+                <h1 className="text-primary font-bold sm:text-2xl lg:text-4xl">Orders</h1>
             </div>
 
             <div className="flex flex-wrap items-center gap-4 mb-6">

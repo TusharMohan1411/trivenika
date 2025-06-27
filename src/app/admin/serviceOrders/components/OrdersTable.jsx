@@ -24,6 +24,7 @@ import { format } from 'date-fns'
 import OrderDetailsDialog from './OrdersDialog'
 import UpdateStatusDialog from './UpdateStatusDialog'
 import StatusHistorySheet from './StatusHistorySheet'
+import UpdatePaymentStatus from './UpdatePaymentStatus'
 
 function OrdersTable({
     orders,
@@ -41,6 +42,7 @@ function OrdersTable({
     const [viewingOrder, setViewingOrder] = useState(null)
 
     const [updateStatusDialog, setUpdateStatusDialog] = useState(false)
+    const [updatePaymentStatusDialog, setUpdatePaymentStatusDialog] = useState(false)
 
     const [statusHistorySheet, setStatusHistorySheet] = useState(false)
 
@@ -63,7 +65,7 @@ function OrdersTable({
                 <Table className={'bg-white'}>
                     <TableHeader className={'bg-gray-100'}>
                         <TableRow>
-                            <TableHead><Checkbox /></TableHead>
+                            <TableHead>#</TableHead>
                             <TableHead>Name</TableHead>
                             <TableHead>Contact</TableHead>
                             <TableHead>Products</TableHead>
@@ -77,15 +79,17 @@ function OrdersTable({
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {orders.map((order) => {
+                        {orders.map((order, idx) => {
                             const lastStatus = order.status?.[order.status.length - 1]?.currentStatus || 'N/A';
                             return (
                                 <TableRow key={order._id}>
-                                    <TableCell><Checkbox /></TableCell>
+                                    <TableCell>{idx + 1}</TableCell>
                                     <TableCell>{order.shippingDetails?.fullName}</TableCell>
                                     <TableCell>{order.shippingDetails?.contact}</TableCell>
                                     <TableCell>
-                                        {order.cart.map((item) => `${item.serviceName} (${item.variantName})`).join(', ')}
+                                        <div className='max-w-xs text-wrap'>
+                                            {order.cart.map((item) => `${item.serviceName} (${item.variantName})`).join(', ')}
+                                        </div>
                                     </TableCell>
                                     <TableCell>
                                         <Badge variant="outline" className='capitalize'>{order.paymentMethod}</Badge>
@@ -121,13 +125,22 @@ function OrdersTable({
                                                         setViewingOrder(order);
                                                         setTimeout(() => setViewOrderDialog(true), 100);
                                                     }}
-                                                ><Eye size={18} className="text-gray-600" /> View</DropdownMenuItem>
+                                                > View</DropdownMenuItem>
                                                 <DropdownMenuItem
                                                     onClick={() => {
                                                         setViewingOrder(order);
                                                         setTimeout(() => setUpdateStatusDialog(true), 100);
                                                     }}
                                                 >Update Status</DropdownMenuItem>
+                                                {/* payment status update */}
+                                                {order.paymentStatus !== 'paid' &&
+                                                    <DropdownMenuItem
+                                                        onClick={() => {
+                                                            setViewingOrder(order);
+                                                            setTimeout(() => setUpdatePaymentStatusDialog(true), 100);
+                                                        }}
+                                                    >Update Payment Status</DropdownMenuItem>
+                                                }
                                                 <DropdownMenuItem
                                                     onClick={() => {
                                                         setViewingOrder(order)
@@ -181,6 +194,12 @@ function OrdersTable({
                 onOpenChange={setUpdateStatusDialog}
                 order={viewingOrder}
                 updateOrder={updateOrder}
+            />
+
+            <UpdatePaymentStatus
+                open={updatePaymentStatusDialog}
+                onOpenChange={setUpdatePaymentStatusDialog}
+                order={viewingOrder}
             />
 
             <StatusHistorySheet

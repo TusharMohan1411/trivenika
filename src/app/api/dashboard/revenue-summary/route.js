@@ -74,11 +74,11 @@ export async function GET(req) {
     const days = parseInt(searchParams.get("days")) || 28;
 
     const endDate = new Date();
-    endDate.setHours(23, 59, 59, 999); // include full end of day
+    // endDate.setHours(23, 59, 59, 999); // include full end of day
 
     const startDate = new Date();
     startDate.setDate(endDate.getDate() - days + 1);
-    startDate.setHours(0, 0, 0, 0); // set to start of day
+    // startDate.setHours(0, 0, 0, 0); // set to start of day
 
     const orders = await Order.find({
       createdAt: { $gte: startDate, $lte: endDate },
