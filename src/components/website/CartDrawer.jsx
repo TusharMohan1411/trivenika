@@ -36,7 +36,7 @@ export default function CartDrawer() {
                             </span>
                         )}
                     </div>
-                    <div className="text-sm text-gray-800">
+                    <div className="text-sm text-gray-800 max-[600px]:hidden">
                         <p className="text-xs">Shopping cart:</p>
                         <p className="font-semibold text-base">₹{totalPrice.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                     </div>

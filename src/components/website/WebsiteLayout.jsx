@@ -7,7 +7,7 @@ export default function WebsiteLayout({ children }) {
 
     return (
         <div >
-            <div className=''>
+            <div className='pb-20'>
                 <NavBar />
             </div>
 
