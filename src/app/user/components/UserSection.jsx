@@ -19,10 +19,10 @@ function UserSection({ loading, error, userData }) {
 
     // console.log(userData)
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 p-2">
             {/* Upper Strip */}
             <div className="bg-gradient-to-r from-[#00441e] to-[#008832] text-white rounded-xl p-4 sm:p-6 shadow-lg">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div className="flex items-center mb-3 sm:mb-0">
                         {/* Avatar Image */}
                         <div className="bg-gray-100 rounded-full p-1 border-2 border-white shadow-md">
@@ -69,8 +69,6 @@ function UserSection({ loading, error, userData }) {
                 {/* Tab Content */}
                 <div className="p-4 sm:p-6">
                     <div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Recent Orders</h3>
-
                         {serviceOrdersData.length > 0 ? (
                             <div className="space-y-4">
                                 {serviceOrdersData.map(order => (
