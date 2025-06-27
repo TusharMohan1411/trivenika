@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
-    type: { type: String, enum: ["regular", "website"], required: true },
+    type: { type: String, enum: ["pos", "website"], required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     shippingDetails: {
       fullName: { type: String, required: true },

@@ -27,20 +27,23 @@ function page() {
                 <h1 className='text-primary font-bold sm:text-2xl lg:text-4xl'>Dashboard</h1>
             </div>
             <div className='space-y-4 w-full'>
-                <div className='grid grid-cols-3 gap-4'>
-                    <div className='col-span-2'>
-                        <OrdersAreaChart />
-                    </div>
-                    <UserBarChart />
-                </div>
-                <TotalsCards />
 
-                <div className='grid grid-cols-3 gap-4'>
-                    <div className='col-span-2'>
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                    <div className='sm:col-span-2'>
                         <OrdersStatusPieCharts />
                     </div>
                     <EnquiriesPieChart />
                 </div>
+
+                <TotalsCards />
+
+                <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
+                    <div className='sm:col-span-2'>
+                        <OrdersAreaChart />
+                    </div>
+                    <UserBarChart />
+                </div>
+
                 <RevenueSummary />
 
             </div>

@@ -1,39 +1,44 @@
-import { NextResponse } from 'next/server'
-import { connectDB } from '@/lib/mongodb'
-import Order from '@/models/orderModel'
+// /api/dashboard/orders-status-summary
+import { connectDB } from "@/lib/mongodb";
+import Order from "@/models/orderModel";
+import { NextResponse } from "next/server";
 
-export async function GET(req) {
-    try {
-        await connectDB()
+export async function GET() {
+  await connectDB();
 
-        // Aggregate counts by type and status
-        const results = await Order.aggregate([
-            {
-                $match: {}
-            },
-            {
-                $group: {
-                    _id: { type: '$type', status: '$status' },
-                    count: { $sum: 1 }
-                }
-            }
-        ])
+  try {
+    const orders = await Order.find({});
 
-        // Initialize structure
-        const summary = {
-            call: { active: 0, completed: 0 },
-            service: { active: 0, completed: 0 }
-        }
+    const summary = {
+      website: { new: 0, inProcess: 0, delivered: 0, cancelled: 0 },
+      pos: { new: 0, inProcess: 0, delivered: 0, cancelled: 0 },
+    };
 
-        results.forEach(({ _id: { type, status }, count }) => {
-            if (summary[type] && summary[type][status] !== undefined) {
-                summary[type][status] = count
-            }
-        })
+    for (const order of orders) {
+      const { type } = order;
+      const latestStatus =
+        order.status?.[order.status.length - 1]?.currentStatus || "New";
 
-        return NextResponse.json(summary)
-    } catch (error) {
-        console.error('Orders status summary error:', error)
-        return NextResponse.json({ error: 'Server error' }, { status: 500 })
+      if (latestStatus === "New") {
+        summary[type].new++;
+      } else if (
+        ["Processing", "Packed", "Shipped", "Ready for delivery"].includes(
+          latestStatus
+        )
+      ) {
+        summary[type].inProcess++;
+      } else if (latestStatus === "Delivered") {
+        summary[type].delivered++;
+      } else if (latestStatus === "cancelled") {
+        summary[type].cancelled++;
+      }
     }
+
+    return NextResponse.json(summary);
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Error fetching order summary" },
+      { status: 500 }
+    );
+  }
 }

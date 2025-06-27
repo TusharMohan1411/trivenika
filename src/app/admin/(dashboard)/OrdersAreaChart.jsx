@@ -35,11 +35,11 @@ export default function OrdersAreaChart({ days = 7 }) {
 
     const chartData = React.useMemo(() => {
         if (!data) return []
-        const { dates, serviceCounts, callCounts } = data
+        const { dates, websiteCounts, posCounts } = data
         return dates.map((date, idx) => ({
             date,
-            Service: serviceCounts[idx] || 0,
-            Call: callCounts[idx] || 0,
+            Website: websiteCounts[idx] || 0,
+            POS: posCounts[idx] || 0,
         }))
     }, [data])
 
@@ -88,7 +88,7 @@ export default function OrdersAreaChart({ days = 7 }) {
                             <Legend />
                             <Area
                                 type="monotone"
-                                dataKey="Service"
+                                dataKey="Website"
                                 stroke="#6366f1"
                                 fill="#6366f1"
                                 fillOpacity={0.4}
@@ -96,7 +96,7 @@ export default function OrdersAreaChart({ days = 7 }) {
                             />
                             <Area
                                 type="monotone"
-                                dataKey="Call"
+                                dataKey="POS"
                                 stroke="#06b6d4"
                                 fill="#06b6d4"
                                 fillOpacity={0.4}

@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
@@ -12,12 +12,15 @@ import {
 } from 'recharts'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
 
-const COLORS = {
-    active: '#3b82f6',    // blue
-    completed: '#10b981', // green
+const COLORS_MAP = {
+    new: '#3b82f6',
+    inProcess: '#facc15',
+    delivered: '#10b981',
+    cancelled: '#ef4444',
 }
 
 async function fetchOrdersStatusSummary() {
+
     const res = await fetch('/api/dashboard/orders-status-summary')
     if (!res.ok) throw new Error('Failed to fetch orders status summary')
     return res.json()
@@ -29,10 +32,14 @@ export default function OrdersStatusPieCharts() {
         queryFn: fetchOrdersStatusSummary,
     })
 
-    if (isLoading) return <div className="p-4">Loading...</div>
+    if (isLoading) return <div className="p-4">
+        <Card>
+            Loading...
+        </Card>
+    </div>
     if (isError) return <div className="p-4 text-red-500">Error loading data</div>
 
-    const types = ['call', 'service']
+    const types = ['website', 'pos']
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -53,10 +60,10 @@ export default function OrdersStatusPieCharts() {
                                         cx="50%"
                                         cy="50%"
                                         outerRadius={80}
-                                        label
+                                        label={({ name }) => name.charAt(0).toUpperCase() + name.slice(1)}
                                     >
                                         {chartData.map((entry, idx) => (
-                                            <Cell key={idx} fill={COLORS[entry.name]} />
+                                            <Cell key={`cell-${idx}`} fill={COLORS_MAP[entry.name]} />
                                         ))}
                                     </Pie>
                                     <Tooltip formatter={(value) => value} />

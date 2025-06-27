@@ -2,12 +2,7 @@
 
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardContent
-} from '@/components/ui/card'
+import { Card, } from '@/components/ui/card'
 import {
     LayoutGrid,
     Settings,
@@ -15,9 +10,11 @@ import {
     Users,
     Phone,
     FileText,
-    Loader2
+    Loader2,
 } from 'lucide-react'
+import { AiFillProduct } from "react-icons/ai";
 import { motion } from 'framer-motion'
+import { FaProductHunt } from 'react-icons/fa'
 
 async function fetchTotals() {
     const res = await fetch('/api/dashboard/totals')
@@ -66,18 +63,11 @@ export default function TotalsCards() {
             bg: 'bg-blue-50'
         },
         {
-            label: 'Services',
+            label: 'Products',
             value: data.servicesCount,
-            icon: <Settings className="h-7 w-7" />,
+            icon: <AiFillProduct className="h-7 w-7" />,
             color: 'from-purple-500 to-purple-600',
             bg: 'bg-purple-50'
-        },
-        {
-            label: 'Sub Services',
-            value: data.subServicesCount,
-            icon: <Layers className="h-7 w-7" />,
-            color: 'from-green-500 to-green-600',
-            bg: 'bg-green-50'
         },
         {
             label: 'Users',
@@ -102,8 +92,10 @@ export default function TotalsCards() {
         },
     ]
 
+    console.log(data)
+
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {items.map((item, index) => (
                 <motion.div
                     key={item.label}

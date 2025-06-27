@@ -6,7 +6,6 @@ import {
     Area,
     Tooltip,
     ResponsiveContainer,
-    CartesianGrid,
     XAxis,
     Legend,
 } from 'recharts'
@@ -21,7 +20,7 @@ const fetchRevenueData = async () => {
 
 const formatDate = (dateStr) => {
     const date = new Date(dateStr)
-    return date.toLocaleDateString('en-GB', {
+    return date.toLocaleDateString('en-IN', {
         day: '2-digit',
         month: 'short',
     })
@@ -37,8 +36,8 @@ const RevenueSummary = () => {
 
     const chartData = data.dates.map((date, index) => ({
         date: formatDate(date),
-        call: data.callRevenue[index],
-        service: data.serviceRevenue[index],
+        pos: data.posRevenue[index],
+        website: data.websiteRevenue[index],
     }))
 
     return (
@@ -53,10 +52,10 @@ const RevenueSummary = () => {
                         ₹{data.totalRevenue}<br />Total
                     </div>
                     <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
-                        ₹{data.callRevenueTotal}<br />Call
+                        ₹{data.posRevenueTotal}<br />POS
                     </div>
                     <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
-                        ₹{data.serviceRevenueTotal}<br />Service
+                        ₹{data.websiteRevenueTotal}<br />Website
                     </div>
                 </div>
             </CardHeader>
@@ -64,7 +63,6 @@ const RevenueSummary = () => {
             <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                     <AreaChart data={chartData}>
-                        {/* <CartesianGrid strokeDasharray="3 3" vertical={false} /> */}
                         <XAxis
                             dataKey="date"
                             tickLine={false}
@@ -78,19 +76,19 @@ const RevenueSummary = () => {
                         <Legend verticalAlign="top" height={36} />
                         <Area
                             type="monotone"
-                            dataKey="call"
+                            dataKey="pos"
                             stroke="#3b82f6"
                             fill="#3b82f6"
                             fillOpacity={0.2}
-                            name="Call Revenue"
+                            name="POS Revenue"
                         />
                         <Area
                             type="monotone"
-                            dataKey="service"
+                            dataKey="website"
                             stroke="#8b5cf6"
                             fill="#8b5cf6"
                             fillOpacity={0.2}
-                            name="Service Revenue"
+                            name="Website Revenue"
                         />
                     </AreaChart>
                 </ResponsiveContainer>

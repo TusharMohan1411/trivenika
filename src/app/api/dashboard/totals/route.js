@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Category from "@/models/categoryModel";
 import Service from "@/models/serviceModel";
-import SubService from "@/models/subServiceModel";
 import User from "@/models/userModel";
 import Blog from "@/models/blogModel";
 
@@ -11,28 +10,18 @@ export async function GET() {
     await connectDB();
 
     // Fetch counts in parallel
-    const [
-      categoriesCount,
-      servicesCount,
-      subServicesCount,
-      usersCount,
-      //   callPlansCount,
-      blogsCount,
-    ] = await Promise.all([
-      Category.countDocuments(),
-      Service.countDocuments(),
-      SubService.countDocuments(),
-      User.countDocuments({ role: "user" }),
-      //   CallPlan.countDocuments(),
-      Blog.countDocuments(),
-    ]);
+    const [categoriesCount, servicesCount, usersCount, blogsCount] =
+      await Promise.all([
+        Category.countDocuments(),
+        Service.countDocuments(),
+        User.countDocuments({ role: "user" }),
+        Blog.countDocuments(),
+      ]);
 
     return NextResponse.json({
       categoriesCount,
       servicesCount,
-      subServicesCount,
       usersCount,
-      //   callPlansCount,
       blogsCount,
     });
   } catch (error) {
