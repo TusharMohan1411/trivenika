@@ -26,6 +26,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Settings, User, FileText, LogOut, LayoutDashboard } from 'lucide-react';
 import AuthDialog from './LoginDialog';
+import { FaRegCircleUser } from "react-icons/fa6";
+import { CiUser } from "react-icons/ci";
 
 export default function LoginMenu() {
     const { data: session } = useSession();
@@ -58,7 +60,7 @@ export default function LoginMenu() {
         switch (role) {
             case 'admin': return 'bg-red-100 text-red-800';
             case 'sub-admin': return 'bg-purple-100 text-purple-800';
-            default: return 'bg-blue-100 text-blue-800';
+            default: return 'bg-green-100 text-green-800';
         }
     };
 
@@ -72,13 +74,10 @@ export default function LoginMenu() {
                 <DropdownMenuTrigger asChild>
                     <button className="flex items-center space-x-2 group">
                         <div className="relative">
-                            <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-0.5 rounded-full group-hover:from-blue-600 group-hover:to-indigo-700 transition-all">
-                                <Avatar className="w-10 h-10 bg-white border-2 border-white">
-                                    <AvatarImage src="/avatar.jpg" alt="avatar" />
-                                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white font-semibold">
-                                        {getInitials()}
-                                    </AvatarFallback>
-                                </Avatar>
+                            <div className="bg-gradient-to-br from-green-500 to-green-600 p-0.5 rounded-full group-hover:from-green-600 group-hover:to-green-700 transition-all">
+                                <div className="w-10 h-10 bg-white border-2 border-white rounded-full flex items-center justify-center text-gray-600 text-xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></svg>
+                                </div>
                             </div>
                             <div className="absolute -bottom-1 -right-1">
                                 <Badge className={`${getRoleColor()} px-2 py-0.5 text-xs font-medium rounded-full`}>
@@ -94,14 +93,13 @@ export default function LoginMenu() {
                     className="w-72 p-0 border-0 shadow-xl rounded-xl overflow-hidden"
                 >
                     {/* User profile card */}
-                    <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
+                    <div className="bg-gradient-to-r from-green-600 to-green-700 p-6 text-white">
                         <div className="flex items-center gap-4">
-                            <Avatar className="w-14 h-14 border-2 border-white/30">
-                                <AvatarImage src="/lawyer2.png" alt="avatar" />
-                                <AvatarFallback className="bg-gradient-to-br from-blue-400 to-indigo-500 text-white font-semibold">
-                                    {getInitials()}
-                                </AvatarFallback>
-                            </Avatar>
+                            <div className="bg-gradient-to-br from-green-500 to-green-600 p-0.5 rounded-full group-hover:from-green-600 group-hover:to-green-700 transition-all">
+                                <div className="w-10 h-10 bg-white border-2 border-white rounded-full flex items-center justify-center text-gray-600 text-base">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-round-icon lucide-user-round"><circle cx="12" cy="8" r="5" /><path d="M20 21a8 8 0 0 0-16 0" /></svg>
+                                </div>
+                            </div>
                             <div>
                                 <h3 className="text-lg font-semibold">{displayName}</h3>
                                 <div className={`inline-block ${getRoleColor()} px-2 py-0.5 rounded-full text-xs mt-1 capitalize`}>

@@ -14,7 +14,7 @@ export default function BigNav() {
     const pathname = usePathname()
 
     return (
-        <div className="hidden xl:flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4">
             <div className="flex space-x-3">
                 {NAVBAR_LINKS.map((link, idx) => {
                     const isActive =
