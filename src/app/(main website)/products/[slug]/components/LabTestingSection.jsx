@@ -46,7 +46,7 @@ export default function LabTestingSection({ labTestingImage }) {
     };
 
     return (
-        <section className="bg-[#FFFDF7] px-4 md:px-8 py-6 md:py-12 relative overflow-hidden">
+        <section className="bg-[#FFFDF7] px-4 md:px-8 pt-6 md:pt-12 relative overflow-hidden">
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Left Text Section */}

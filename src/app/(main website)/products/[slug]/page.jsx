@@ -115,11 +115,10 @@ async function Page({ params }) {
 
                                 <LabTestingSection labTestingImage={service.labTestingReport} />
 
+                                <TestimonialSlider />
                                 <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
-
                                 <LatestServices />
 
-                                <TestimonialSlider />
                                 <LatestBlogs />
 
                                 {/* <ul className="space-y-3 mt-4">
