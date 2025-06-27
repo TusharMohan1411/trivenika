@@ -11,6 +11,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/parallax';
 import { useRef } from "react";
+import { Truck, Headset, Lock, BadgeCheck } from 'lucide-react';
 
 
 const HeroSection = () => {
@@ -53,18 +54,6 @@ const HeroSection = () => {
         return () => clearInterval(interval);
     }, [slides.length]);
 
-    const nextSlide = () => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-    };
-
-    const prevSlide = () => {
-        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    };
-
-    const goToSlide = (index) => {
-        setCurrentSlide(index);
-    };
-
     // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -85,12 +74,40 @@ const HeroSection = () => {
         }
     };
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % slides.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [slides.length]);
+
+    // Variants for staggering
+    const featuresContainer = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { staggerChildren: 0.15, when: 'beforeChildren' }
+        }
+    };
+    const featureItem = {
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: 'easeOut' } }
+    };
+
+    const features = [
+        { Icon: Truck, title: 'Free Shipping', text: 'On all orders above ₹499' },
+        { Icon: Headset, title: '24/7 Support', text: 'Instant customer support' },
+        { Icon: Lock, title: 'Secure Payment', text: 'Safe & encrypted payments' },
+        { Icon: BadgeCheck, title: 'Genuine Quality', text: '100% organic products' }
+    ];
+
     return (
-        <section className="bg-[#FDF1E1] py-12 px-4 sm:px-6">
+        <section className="bg-[#FDF1E1] pt-4 sm:pt-8 pb-12 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                     {/* Left - Carousel Section */}
-                    <div className="w-full lg:w-[65%] relative">
+                    <div className="w-full lg:w-[65%] aspect-[16/9] relative">
                         <Swiper
                             ref={swiperRef}
                             modules={[Parallax, Autoplay, Pagination, Navigation]}
@@ -100,7 +117,7 @@ const HeroSection = () => {
                             pagination={{ clickable: true }}
                             navigation={false}
                             loop={true}
-                            className="rounded-2xl shadow-xl relative h-[500px]"
+                            className="rounded-2xl shadow-xl relative h-full"
                         >
                             <div
                                 slot="container-start"
@@ -119,30 +136,6 @@ const HeroSection = () => {
                                             fill
                                             className="object-cover"
                                         />
-
-                                        {/* <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent rounded-2xl" />
-
-                                        <div className="absolute bottom-10 left-10 text-white max-w-lg z-10">
-                                            <h2
-                                                className="text-4xl font-bold mb-2"
-                                                data-swiper-parallax="-300"
-                                            >
-                                                {slide.title}
-                                            </h2>
-                                            <p
-                                                className="text-lg mb-4"
-                                                data-swiper-parallax="-200"
-                                            >
-                                                {slide.subtitle}
-                                            </p>
-                                            <a
-                                                href={slide.link}
-                                                className="inline-block bg-[#2E8B57] hover:bg-[#256e46] text-white font-medium py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
-                                                data-swiper-parallax="-100"
-                                            >
-                                                {slide.buttonText}
-                                            </a>
-                                        </div> */}
                                     </div>
                                 </SwiperSlide>
                             ))}
@@ -151,7 +144,7 @@ const HeroSection = () => {
 
                     {/* Right - Content Section */}
                     <motion.div
-                        className="flex-1"
+                        className="flex-1 max-[640px]:px-2"
                         initial="hidden"
                         animate="visible"
                         variants={containerVariants}
@@ -204,7 +197,7 @@ const HeroSection = () => {
                             </motion.li>
                         </motion.ul>
 
-                        <motion.div variants={itemVariants}>
+                        <motion.div variants={itemVariants} className=" text-center sm:text-left">
                             <a
                                 href="/products"
                                 className="inline-block bg-[#2E8B57] hover:bg-[#256e46] text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
@@ -217,50 +210,25 @@ const HeroSection = () => {
 
                 {/* Features Section */}
                 <motion.div
-                    className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
+                    className="mt-12 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-6"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={featuresContainer}
                 >
-                    <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                        <div className="bg-[#2E8B57]/10 p-3 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                            </svg>
-                        </div>
-                        <h3 className="font-semibold text-[#2E8B57] text-lg mb-2">Free Shipping</h3>
-                        <p className="text-gray-500 text-sm">Free shipping on all orders above ₹499</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                        <div className="bg-[#2E8B57]/10 p-3 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                            </svg>
-                        </div>
-                        <h3 className="font-semibold text-[#2E8B57] text-lg mb-2">24/7 Support</h3>
-                        <p className="text-gray-500 text-sm">Instant access to customer support</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                        <div className="bg-[#2E8B57]/10 p-3 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                            </svg>
-                        </div>
-                        <h3 className="font-semibold text-[#2E8B57] text-lg mb-2">Secure Payment</h3>
-                        <p className="text-gray-500 text-sm">We ensure secure money transfers</p>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col items-center text-center hover:shadow-md transition-shadow">
-                        <div className="bg-[#2E8B57]/10 p-3 rounded-full mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#2E8B57]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                        <h3 className="font-semibold text-[#2E8B57] text-lg mb-2">Genuine Quality</h3>
-                        <p className="text-gray-500 text-sm">High quality, natural products</p>
-                    </div>
+                    {features.map(({ Icon, title, text }, i) => (
+                        <motion.div
+                            key={i}
+                            className="bg-white p-4 sm:p-6 rounded-2xl shadow-lg duration-300 ease-in-out flex flex-col items-center text-center hover:shadow-2xl transition-all hover:-translate-y-1"
+                            variants={featureItem}
+                        >
+                            <div className="bg-gradient-to-br from-green-400 to-green-600 p-4 rounded-full mb-4">
+                                <Icon className="h-6 sm:h-8 h6 sm:w-8 text-white" />
+                            </div>
+                            <h3 className="font-semibold text-gray-800 text-lg mb-2">{title}</h3>
+                            <p className="text-gray-500 text-sm">{text}</p>
+                        </motion.div>
+                    ))}
                 </motion.div>
             </div>
         </section>
