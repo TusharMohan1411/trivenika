@@ -8,11 +8,13 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { ImagesIcon, X } from 'lucide-react';
+import { CirclePlus, ImagesIcon, RefreshCw, X } from 'lucide-react';
 import Image from 'next/image';
 import { useImages } from '@/hooks/useImages';
+import UploaderDialog from '@/app/admin/media/components/UploaderDialog';
 
 export default function MultiImageSelector({ open, onOpenChange, onChange }) {
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { imagesQuery } = useImages();
     const allImages = imagesQuery.data || [];
 
@@ -39,11 +41,28 @@ export default function MultiImageSelector({ open, onOpenChange, onChange }) {
         onOpenChange(false);
     };
 
+    const handleRefresh = async () => {
+        await imagesQuery.refetch();
+    };
+
     return (
         <Dialog open={open} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[800px] overflow-y-auto">
+            <DialogContent className="sm:max-w-[1200px] overflow-y-auto">
                 <DialogHeader>
-                    <DialogTitle>Select Images</DialogTitle>
+                    <div className="flex justify-between items-center">
+                        <DialogTitle>Select Images</DialogTitle>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={handleRefresh}
+                            disabled={imagesQuery.isRefetching}
+                        >
+                            <RefreshCw
+                                className={`h-4 w-4 ${imagesQuery.isRefetching ? 'animate-spin' : ''}`}
+                            />
+                            Refresh
+                        </Button>
+                    </div>
                 </DialogHeader>
 
                 <div className="flex flex-wrap gap-4 max-h-[70vh] overflow-y-auto p-2">
@@ -85,8 +104,21 @@ export default function MultiImageSelector({ open, onOpenChange, onChange }) {
                         );
                     })}
                 </div>
+                <UploaderDialog
+                    open={isDialogOpen}
+                    onOpenChange={setIsDialogOpen}
+                    onUploadSuccess={handleRefresh}
+                />
+
 
                 <DialogFooter className="mt-6">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setIsDialogOpen(true)}
+                    >
+                        <CirclePlus className="mr-1 h-4 w-4" /> Upload New
+                    </Button>
                     <Button
                         type="button"
                         onClick={handleSelect}

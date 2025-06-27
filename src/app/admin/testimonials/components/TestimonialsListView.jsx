@@ -36,39 +36,37 @@ export default function TestimonialsListView({ isLoading, error, testimonials, o
                 {testimonials.map((testimonial, index) => (
                     <div
                         key={index}
-                        className="relative bg-white p-6 rounded-xl shadow-lg text-center flex flex-col justify-between"
+                        className="relative bg-white rounded-xl shadow-lg flex flex-col justify-between"
                     >
                         <Badge
-                            className={`text-white px-2 py-1 rounded-full text-xs font-semibold ${testimonial.isVisible ? 'bg-green-500' : 'bg-red-500'
+                            className={`text-white absolute top-3 left-3 z-[1] px-2 py-1 rounded-full text-xs font-semibold ${testimonial.isVisible ? 'bg-green-500' : 'bg-red-500'
                                 }`}
                         >
                             {testimonial.isVisible ? 'Visible' : 'Hidden'}
                         </Badge>
 
-                        <div>
-                            <div className="flex items-center justify-center w-full">
+                        <div className=''>
+                            <div className="w-full h-72 relative">
                                 <Image
                                     src={testimonial.imageURL}
-                                    alt={'testimonial'}
-                                    height={400}
-                                    width={400}
-                                    className="w-30 h-30 object-contain rounded-full border-4 border-gray-400 shadow-md"
+                                    alt={`testimony`}
+                                    fill
+                                    className="object-cover rounded-t-xl"
                                 />
                             </div>
 
-                            <div className="mt-4">
+                            <div className="mt-4 px-4">
                                 <h3 className="text-lg font-semibold">{testimonial.userName}</h3>
-                                <p className="text-sm text-gray-500">{testimonial?.designation && testimonial?.designation + ','} {testimonial.company}</p>
-                                <div className="text-yellow-500 mt-2">
-                                    {"★".repeat(5)}
-                                </div>
-                                <p className="mt-1 text-gray-700 italic">
+                                <p className="text-sm text-gray-500">{testimonial?.designation}</p>
+
+                                <h2 className='font-semibold mt-4'>{testimonial.company}</h2>
+                                <p className="mt-1 text-gray-700">
                                     “{testimonial.message}”
                                 </p>
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-end gap-2 mt-5 w-full">
+                        <div className="flex items-center justify-end gap-2 mt-5 w-full p-6">
                             {canEdit &&
                                 <Button
                                     variant="outline"

@@ -1,89 +1,77 @@
-import { getTestimonialsData } from '@/lib/main/getStaticData';
-import Image from 'next/image';
+// app/components/TestimonialSlider.jsx
+"use client";
 
-export default async function Testimonials() {
-    const data = await getTestimonialsData({
-        isVisible: true,
-        limit: 3,
-        page: 1
-    });
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-    const testimonials = data?.testimonials?.length > 0 ? data.testimonials : [
-        {
-            userName: 'Sneha Kapoor',
-            designation: 'Boutique Owner',
-            company: 'Fashion Forward',
-            imageURL: '/avatars/sneha.png',
-            message: 'Starting my company felt overwhelming, but their legal team made it smooth and stress-free. Everything was done on time with full clarity.'
-        },
-        {
-            userName: 'Priya Mehta',
-            designation: 'Startup Founder',
-            company: 'InnovateX',
-            imageURL: '/avatars/priya.png',
-            message: 'Their GST and PF registration service was quick, transparent, and affordable. Highly recommend for any small business owner.'
-        },
-        {
-            userName: 'Yogesh Arora',
-            designation: 'Tech Entrepreneur',
-            company: 'CodeVerse',
-            imageURL: '/avatars/yogesh.png',
-            message: 'We had no idea how to protect our brand, but their trademark experts guided us through every step. Professional and reliable.'
-        }
-    ];
+import Image from "next/image";
+import { BiUserCircle } from "react-icons/bi";
+
+export default function Testimonials({ testimonials }) {
 
     return (
-        <section className="bg-secondary w-full" id='testimonials'>
-            <div className='w-11/12 md:max-w-7xl py-16 lg:px-16 mx-auto flex flex-col gap-12'>
-                {/* Heading */}
-                <div className="max-w-3xl mx-auto px-4 text-center">
-                    <h2 className="text-white text-2xl md:text-3xl">Trusted by</h2>
-                    <h3 className="text-white text-3xl md:text-5xl font-bold">
-                        Professionals Across India
-                    </h3>
+        <section className="bg-[#FFFCF6] py-16 md:py-24 px-4 md:px-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-[#2E8B57]">
+                        What Our Customers Say
+                    </h2>
+                    <p className="text-gray-600 mt-2 max-w-2xl mx-auto">
+                        Real Stories. Genuine Experiences. Trusted by Families Across India.
+                    </p>
                 </div>
 
-                {/* Cards */}
-                <div className="w-full mx-auto py-10 flex flex-col md:flex-row gap-y-16 sm:gap-8">
+                <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={30}
+                    slidesPerView={1}
+                    navigation
+                    speed={1200}
+                    loop={true}
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },
+                        768: { slidesPerView: 2 },
+                        1024: { slidesPerView: 3 },
+                    }}
+                >
                     {testimonials.map((t, idx) => (
-                        <div key={idx} className="relative bg-white rounded-2xl p-4 pt-16 flex-1 shadow-lg">
-                            {/* Avatar */}
-                            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
-                                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-sm shadow-black/50">
+                        <SwiperSlide key={idx}>
+                            <div className="bg-white rounded-2xl overflow-hidden border-2 flex flex-col h-full">
+                                {/* Vertical Testimonial image */}
+                                <div className="w-full h-72 relative">
                                     <Image
                                         src={t.imageURL}
-                                        alt={t.userName}
-                                        width={200}
-                                        height={200}
-                                        className='h-full w-full object-cover'
+                                        alt={`${t.name} testimony`}
+                                        fill
+                                        className="object-cover"
                                     />
                                 </div>
+
+                                <div className="p-6 flex flex-col h-full">
+                                    {/* <div className="text-yellow-400 text-xl mb-3">★★★★★</div> */}
+                                    <h3 className="font-bold text-lg mb-2">{t.company}</h3>
+                                    <p className="text-gray-800 text-base mb-4 flex-grow">
+                                        “{t.message}”
+                                    </p>
+
+                                    <div className="mt-3 flex items-center gap-3">
+                                        {/* User icon */}
+                                        <BiUserCircle className="text-4xl text-[#2E8B57]" />
+                                        <div>
+                                            <p className="font-semibold text-gray-900">{t.userName}</p>
+                                            <p className="text-xs text-gray-500">{t.designation}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
-                            {/* Name & Role */}
-                            <h4 className="text-center text-xl font-semibold text-gray-800">
-                                {t.userName}
-                            </h4>
-                            <p className="text-sm text-gray-500 text-center">{t?.designation && t?.designation + ','} {t.company}</p>
-
-
-                            {/* Stars */}
-                            <div className="flex justify-center mt-2">
-                                <span className="text-yellow-400 text-lg">★★★★★</span>
-                            </div>
-
-                            {/* Divider */}
-                            <hr className="my-4 border-t border-dashed border-gray-200" />
-
-                            {/* Quote */}
-                            <blockquote className="text-gray-700 text-sm leading-relaxed relative pl-4">
-                                <span className="absolute top-0 left-0 text-4xl text-gray-200">“</span>
-                                <span className="ml-2">{t.message}</span>
-                            </blockquote>
-                        </div>
+                        </SwiperSlide>
                     ))}
-                </div>
-
+                </Swiper>
             </div>
         </section>
     );

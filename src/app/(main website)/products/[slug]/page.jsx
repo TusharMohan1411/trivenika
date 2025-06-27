@@ -13,9 +13,9 @@ import ProductHeroSection from './components/productHeroSection';
 import MultipleUses from './components/MultipleUses';
 import WhyToBuySection from './components/WhyToBuySection';
 import LabTestingSection from './components/LabTestingSection';
-import TestimonialSlider from './components/TestimonialSlider';
 import LatestServices from '@/components/website/LatestServices';
 import LatestBlogs from '@/components/website/LatestBlogs';
+import TestimonialSlider from '@/components/website/home/TestimonialSlider';
 
 
 // export async function generateStaticParams() {

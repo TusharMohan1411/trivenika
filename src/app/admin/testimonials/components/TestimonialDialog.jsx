@@ -62,7 +62,7 @@ export default function TestimonialDialog({ open, onOpenChange, selectedTestimon
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-[485px] max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>
                         {selectedTestimonial ? "Edit Testimonial" : "Add Testimonial"}
@@ -78,21 +78,21 @@ export default function TestimonialDialog({ open, onOpenChange, selectedTestimon
                         {/* Image URL */}
                         {!image
                             && <div
-                                className="flex-1 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center cursor-pointer h-48 mb-4 sm:mb-0"
+                                className="flex-1 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer h-48 mb-4 sm:mb-0"
                                 onClick={() => { setIsDialogOpen(true) }}
                             >
                                 <span className="text-gray-500">Click to select Customer image</span>
                             </div>
                         }
                         {image
-                            && <div className="h-full w-full border rounded-full">
+                            && <div className="h-full w-full border rounded-xl">
                                 <Image
-                                    height={100}
-                                    width={100}
+                                    height={1000}
+                                    width={1000}
                                     quality={100}
                                     src={image}
                                     alt={image}
-                                    className="w-full h-44 object-contain"
+                                    className="w-full h-72 object-cover rounded-xl"
                                 />
                             </div>
                         }
@@ -132,16 +132,18 @@ export default function TestimonialDialog({ open, onOpenChange, selectedTestimon
                         {/* designation */}
                         <div className="grid grid-cols-4 items-start gap-4">
                             <Label htmlFor="designation" className="text-right mt-2">
-                                Designation
+                                Place
                             </Label>
                             <div className="col-span-3">
                                 <Input
                                     id="designation"
-                                    {...register("designation")}
+                                    {...register("designation", {
+                                        required: "Place is required."
+                                    })}
                                     className={clsx("w-full", {
                                         "border-red-500": errors.name,
                                     })}
-                                    placeholder="CEO"
+                                    placeholder="Rohtak, Haryana"
                                 />
                                 {errors.designation && (
                                     <p className="text-sm text-red-500 mt-1">
@@ -154,16 +156,18 @@ export default function TestimonialDialog({ open, onOpenChange, selectedTestimon
                         {/* Company */}
                         <div className="grid grid-cols-4 items-start gap-4">
                             <Label htmlFor="company" className="text-right mt-2">
-                                Company
+                                Heading
                             </Label>
                             <div className="col-span-3">
                                 <Input
                                     id="company"
-                                    {...register("company")}
+                                    {...register("company", {
+                                        required: "Heading is required."
+                                    })}
                                     className={clsx("w-full", {
                                         "border-red-500": errors.name,
                                     })}
-                                    placeholder="ABC Pvt. Ltd."
+                                    placeholder="Excellent Quality"
                                 />
                                 {errors.company && (
                                     <p className="text-sm text-red-500 mt-1">
