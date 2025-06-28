@@ -1,21 +1,19 @@
 import { connectDB } from "@/lib/mongodb";
-import Collection from "@/models/collectionModel";
+import Category from "@/models/categoryModel";
 import { NextResponse } from "next/server";
 
-// GET all collections
+// GET all categorys
 export async function GET() {
   try {
     await connectDB();
-    const collections = await Collection.find()
-      .populate("products") // Optional: populate product data
-      .sort({ updatedAt: -1 });
-    return NextResponse.json({ data: collections });
+    const categories = await Category.find().sort({ updatedAt: -1 });
+    return NextResponse.json({ data: categories });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
 
-// POST a new collection
+// POST a new Category
 export async function POST(request) {
   try {
     const body = await request.json();
@@ -23,20 +21,20 @@ export async function POST(request) {
 
     // Check for existing name or slug
     if (body.name || body.slug) {
-      const existing = await Collection.findOne({
+      const existing = await Category.findOne({
         $or: [{ name: body.name }, { slug: body.slug }],
       });
 
       if (existing) {
         throw new Error(
-          "Collection with this name or slug already exists. Please use a unique value."
+          "Category with this name or slug already exists. Please use a unique value."
         );
       }
     }
 
-    const newCollection = await Collection.create(body);
+    const newCollection = await Category.create(body);
     return NextResponse.json(
-      { success: true, collection: newCollection },
+      { success: true, Category: newCollection },
       { status: 201 }
     );
   } catch (e) {
