@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await connectDB();
     const collections = await Collection.find()
-      .populate("products") // Optional: populate product data
+      .populate("products.productId")
       .sort({ updatedAt: -1 });
     return NextResponse.json({ data: collections });
   } catch (e) {

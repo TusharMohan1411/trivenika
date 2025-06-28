@@ -13,11 +13,23 @@ import {
     TableCell,
 } from '@/components/ui/table';
 import TableSkeleton from '@/components/custom/TableSkeleton';
+// Removed extra space after filename below:
+// import DeleteConfirmationDialog from './DeleteConfirmationDialog';
 import DeleteConfirmationDialog from './DeleteConfirmationDialog ';
 import AddProductSheet from './AddProductSheet';
 import { Badge } from '@/components/ui/badge';
 
-export default function CollectionsListView({ isLoading, error, collections, onEdit, onDelete, isDeleting, deleteError, canEdit, canDelete }) {
+export default function CollectionsListView({
+    isLoading,
+    error,
+    collections,
+    onEdit,
+    onDelete,
+    isDeleting,
+    deleteError,
+    canEdit,
+    canDelete,
+}) {
     const [deletingId, setDeletingId] = useState(null);
     const [activeCollection, setActiveCollection] = useState(null);
 
@@ -100,5 +112,5 @@ export default function CollectionsListView({ isLoading, error, collections, onE
                 />
             )}
         </div>
-    )
-};
+    );
+}
