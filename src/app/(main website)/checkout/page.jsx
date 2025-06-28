@@ -133,8 +133,12 @@ export default function CheckoutPage() {
 
         if (data.paymentMethod === 'cod') {
             const confirmOrder = confirm('Are you sure you want to place a COD order?');
-            if (!confirmOrder) return
+            if (!confirmOrder) {
+                setOrdering(false)
+                toast.dismiss(toastId)
+                return
 
+            }
             const res = await fetch('/api/order/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -238,7 +242,7 @@ export default function CheckoutPage() {
                             <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
                                 <Image
                                     src={item.image}
-                                    alt={item.name}
+                                    alt={'afasfd'}
                                     fill
                                     className="object-cover"
                                 />
