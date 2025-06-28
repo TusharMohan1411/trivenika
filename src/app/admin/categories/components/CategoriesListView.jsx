@@ -1,3 +1,4 @@
+// app/admin/categories/components/CategoriesListView.jsx
 'use client';
 
 import { useState } from 'react';

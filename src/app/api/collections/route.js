@@ -1,5 +1,6 @@
 import { connectDB } from "@/lib/mongodb";
 import Collection from "@/models/collectionModel";
+import Service from "@/models/serviceModel";
 import { NextResponse } from "next/server";
 
 // GET all collections

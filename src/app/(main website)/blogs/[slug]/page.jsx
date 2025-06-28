@@ -54,7 +54,7 @@ export default async function page({ params }) {
 
                         <BlogData blog={blog} />
                     </div>
-                    <div className="lg:w-82 flex flex-col gap-5 lg:sticky lg:top-6 lg:h-fit">
+                    <div className="lg:w-82 flex flex-col gap-5 lg:sticky lg:top-28 lg:h-fit">
                         <div>
                             <div className='flex flex-col gap-4'>
                                 {/* {relatedServices.map((item, idx) => (

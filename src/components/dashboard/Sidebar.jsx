@@ -93,7 +93,7 @@ export default function Sidebar({ isOpen, setIsSidebarOpen, sidebarLinks }) {
                     />
                     <div>
                         <p className="text-sm font-medium sm:hidden lg:block text-gray-100 capitalize">{role}</p>
-                        <p className="text-xs text-gray-400 sm:hidden lg:block">cavakeel.com</p>
+                        <p className="text-xs text-gray-400 sm:hidden lg:block">trivenika.in</p>
                     </div>
                 </div>
 

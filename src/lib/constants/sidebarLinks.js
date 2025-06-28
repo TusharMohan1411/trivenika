@@ -53,12 +53,12 @@ export const ADMIN_SIDEBAR_LINKS = [
     href: "/admin/products",
     icon: <FaBriefcase />,
   },
-  // {
-  //   key: Resources.CALL_PLANS,
-  //   label: "Call Plans",
-  //   href: "/admin/callPlans",
-  //   icon: <FaPhoneAlt />,
-  // },
+  {
+    key: Resources.COLLECTIONS,
+    label: "Collections",
+    href: "/admin/collections",
+    icon: <FaPhoneAlt />,
+  },
   {
     key: Resources.BLOGS,
     label: "Blogs",
