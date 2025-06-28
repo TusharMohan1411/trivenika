@@ -4,7 +4,7 @@ import { format } from 'date-fns'
 import { ChevronDown, ChevronUp, MapPin, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import DownloadInvoiceButton from '@/app/admin/serviceOrders/components/DownloadInvoiceButton'
+import DownloadInvoiceButton from '@/app/admin/orders/components/DownloadInvoiceButton'
 
 export default function OrderAccordion({ order }) {
     const [open, setOpen] = useState(false)
