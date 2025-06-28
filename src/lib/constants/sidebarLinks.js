@@ -31,8 +31,8 @@ export const ADMIN_SIDEBAR_LINKS = [
   },
   {
     key: Resources.SERVICE_ORDERS,
-    label: "Service Orders",
-    href: "/admin/serviceOrders",
+    label: "Orders",
+    href: "/admin/orders",
     icon: <FaClipboardList />,
   },
   // {
