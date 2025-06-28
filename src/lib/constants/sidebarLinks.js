@@ -20,6 +20,8 @@ import {
   FaInfoCircle,
   FaAddressCard,
 } from "react-icons/fa";
+import { RiCollageLine } from "react-icons/ri";
+
 import { Resources } from "../permissions";
 
 export const ADMIN_SIDEBAR_LINKS = [
@@ -57,7 +59,7 @@ export const ADMIN_SIDEBAR_LINKS = [
     key: Resources.COLLECTIONS,
     label: "Collections",
     href: "/admin/collections",
-    icon: <FaPhoneAlt />,
+    icon: <RiCollageLine />,
   },
   {
     key: Resources.BLOGS,
