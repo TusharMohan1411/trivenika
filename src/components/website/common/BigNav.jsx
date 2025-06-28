@@ -15,7 +15,7 @@ export default function BigNav() {
 
     return (
         <div className="hidden lg:flex items-center space-x-4">
-            <div className="flex space-x-3">
+            <div className="flex space-x-1">
                 {NAVBAR_LINKS.map((link, idx) => {
                     const isActive =
                         link.href === '/'

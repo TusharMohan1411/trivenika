@@ -59,7 +59,7 @@ export default function MobileNav({ isOpen, onClose }) {
                                     <Link
                                         key={idx}
                                         href={link.href}
-                                        className="flex items-center justify-center px-4 py-3 text-sm font-medium text-gray-700 hover:text-white hover:bg-[#003366] rounded-lg transition-colors duration-200"
+                                        className="flex items-center justify-center px-4 py-3 text-sm font-medium text-gray-700 hover:text-white hover:bg-[#006624] rounded-lg transition-colors duration-200"
                                     >
                                         {link.label}
                                     </Link>

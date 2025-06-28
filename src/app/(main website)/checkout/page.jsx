@@ -32,6 +32,9 @@ import { useSession } from 'next-auth/react';
 import { Home, Mail, MapPin, Minus, Phone, Plus, User } from 'lucide-react';
 import Image from 'next/image';
 import AuthDialog from '@/components/auth/LoginDialog';
+import LoaderButton from '@/components/custom/LoaderButton';
+import { toast, Toaster } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const indianStates = [
     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -56,9 +59,11 @@ const checkoutSchema = z.object({
 });
 
 export default function CheckoutPage() {
+    const router = useRouter()
     const [userId, setUserId] = useState('')
     const { data: session } = useSession();
     const [isLoginDialogOpen, setIsLoginDialogOpen] = useState(false)
+    const [ordering, setOrdering] = useState(false)
 
     useEffect(() => {
         if (session) {
@@ -98,6 +103,10 @@ export default function CheckoutPage() {
     const onSubmit = async (data) => {
         if (!cart.length) return alert('Cart is empty');
         if (!session.user.id) return setIsLoginDialogOpen(true)
+        if (session.user.role !== 'user') return alert("Admins cannot do orders.")
+
+        const toastId = toast.loading('Processing Order... please wait')
+        setOrdering(true)
 
         const orderPayload = {
             type: 'website',
@@ -134,9 +143,13 @@ export default function CheckoutPage() {
 
             const result = await res.json();
             if (res.ok) {
-                alert('COD Order placed successfully ✅');
+                toast.success("Order Placed Sucessfully", { id: toastId })
+                setOrdering(false)
+                router.push('/user')
             } else {
-                alert('Failed to place order: ' + result?.error || 'Server error');
+                toast.error("Failed to place order", { id: toastId })
+                console.log('Failed to place order: ' + result?.error || 'Server error');
+                setOrdering(false)
             }
         } else {
             // Create Razorpay order first
@@ -172,17 +185,23 @@ export default function CheckoutPage() {
                                 ...orderPayload,
                                 razorpayOrder: razorData.id,
                                 transactionId: response.razorpay_payment_id,
-                                paymentStatus: 'paid'
+                                paymentStatus: 'paid',
+                                paymentDate: new Date().toISOString()
                             })
                         });
 
                         if (saveRes.ok) {
-                            alert('Online order placed successfully ✅');
+                            toast.success("Order Placed Sucessfully", { id: toastId })
+                            setOrdering(false)
+                            router.push('/user')
                         } else {
-                            alert('Failed to save order');
+                            toast.error("Failed to place order", { id: toastId })
+                            setOrdering(false)
                         }
                     } else {
-                        alert('Payment verification failed');
+                        // alert('Payment verification failed');
+                        toast.error("Payment verification failed", { id: toastId })
+                        setOrdering(false)
                     }
                 },
                 prefill: {
@@ -193,15 +212,15 @@ export default function CheckoutPage() {
                 theme: { color: '#10b981' },
                 modal: {
                     ondismiss: () => {
-                        console.log("Payment popup closed.");
-                        // toast.error("Payment cancelled by user!", { id: toastId })
+                        // console.log("Payment popup closed.");
+                        toast.error("Payment cancelled by user!", { id: toastId })
+                        setOrdering(false)
                         // setLoading(false)
                     },
                 },
             };
 
             new window.Razorpay(options).open()
-
         }
     };
 
@@ -210,7 +229,7 @@ export default function CheckoutPage() {
             <div className="p-6 sm:col-span-2 border-gray-100">
                 <h2 className="text-2xl font-bold mb-6 text-primary ">Order Summary</h2>
 
-                <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-50">
+                <div className="space-y-4 mb-6 max-h-[800px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-50">
                     {cart.map((item) => (
                         <div
                             key={`${item.productId}-${item.variantId}`}
@@ -572,12 +591,13 @@ export default function CheckoutPage() {
                             )}
                         />
 
-                        <Button
+                        <LoaderButton
                             type="submit"
+                            loading={ordering}
                             className="w-full bg-green-600 hover:bg-green-700 text-white py-6 text-lg font-semibold shadow-md transition-all transform hover:scale-[1.02]"
                         >
                             Place Order
-                        </Button>
+                        </LoaderButton>
                     </form>
                 </Form>
             </div>
@@ -585,6 +605,7 @@ export default function CheckoutPage() {
                 open={isLoginDialogOpen}
                 onOpenChange={setIsLoginDialogOpen}
             />
+            <Toaster position='top-right' richColors />
         </div>
     );
 }

@@ -140,12 +140,16 @@ export const NAVBAR_LINKS = [
     href: "/",
   },
   {
-    label: "Products",
-    href: "/products",
+    label: "Wood Pressed Oils",
+    href: "/collections/wood-pressed-oils",
   },
   {
-    label: "Blogs",
-    href: "/blogs",
+    label: "A2 Ghee",
+    href: "/collections/a2-ghee",
+  },
+  {
+    label: "Products",
+    href: "/products",
   },
   {
     label: "About Us",
@@ -155,8 +159,21 @@ export const NAVBAR_LINKS = [
     label: "Our Story",
     href: "/our-story",
   },
-  {
-    label: "Contact Us",
-    href: "/contact-us",
-  },
 ];
+
+// {
+//     label: "Blogs",
+//     href: "/blogs",
+//   },
+//   {
+//     label: "About Us",
+//     href: "/about-us",
+//   },
+//   {
+//     label: "Our Story",
+//     href: "/our-story",
+//   },
+//   {
+//     label: "Contact Us",
+//     href: "/contact-us",
+//   },
