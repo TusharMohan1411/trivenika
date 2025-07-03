@@ -2,67 +2,38 @@
 'use client';
 
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Parallax, Autoplay, Pagination, Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/parallax';
-import { useRef } from "react";
-import { Truck, Headset, Lock, BadgeCheck } from 'lucide-react';
 
+import { Truck, Headset, Lock, BadgeCheck } from 'lucide-react';
+import { getBanners } from "@/lib/main/getBanners";
 
 const HeroSection = () => {
     const swiperRef = useRef(null);
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const [slides, setSlides] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Mock data for carousel slides (will be replaced with DB data later)
-    const slides = [
-        {
-            id: 1,
-            title: "Summer Special Offer",
-            subtitle: "Get 20% off on all oils",
-            image: "/hero.png",
-            link: "/offers/summer-sale",
-            buttonText: "Shop Now"
-        },
-        {
-            id: 2,
-            title: "New Arrivals",
-            subtitle: "Freshly pressed coconut oil",
-            image: "/hero.png",
-            link: "/products/coconut-oil",
-            buttonText: "Discover"
-        },
-        {
-            id: 3,
-            title: "Organic Spices",
-            subtitle: "Pure, chemical-free spices",
-            image: "/hero.png",
-            link: "/category/spices",
-            buttonText: "Explore"
-        }
-    ];
-
-    // Auto-rotate slides every 5 seconds
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [slides.length]);
+        (async () => {
+            const banners = await getBanners();
+            setSlides(banners);
+            setLoading(false);
+        })();
+    }, []);
 
-    // Animation variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
+            transition: { staggerChildren: 0.2 },
+        },
     };
 
     const itemVariants = {
@@ -70,29 +41,22 @@ const HeroSection = () => {
         visible: {
             y: 0,
             opacity: 1,
-            transition: { duration: 0.5, ease: "easeOut" }
-        }
+            transition: { duration: 0.5, ease: "easeOut" },
+        },
     };
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000);
-        return () => clearInterval(interval);
-    }, [slides.length]);
-
-    // Variants for staggering
     const featuresContainer = {
         hidden: { opacity: 0, y: 20 },
         visible: {
             opacity: 1,
             y: 0,
-            transition: { staggerChildren: 0.15, when: 'beforeChildren' }
-        }
+            transition: { staggerChildren: 0.15, when: "beforeChildren" },
+        },
     };
+
     const featureItem = {
         hidden: { opacity: 0, scale: 0.9 },
-        visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: 'easeOut' } }
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
     };
 
     const features = [
@@ -106,40 +70,62 @@ const HeroSection = () => {
         <section className="bg-[#FDF1E1] pt-4 sm:pt-8 pb-12 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-                    {/* Left - Carousel Section */}
+                    {/* Left - Swiper Banner */}
                     <div className="w-full lg:w-[65%] aspect-[16/9] relative">
-                        <Swiper
-                            ref={swiperRef}
-                            modules={[Parallax, Autoplay, Pagination, Navigation]}
-                            parallax={true}
-                            autoplay={{ delay: 5000, disableOnInteraction: false }}
-                            speed={800}
-                            pagination={{ clickable: true }}
-                            navigation={false}
-                            loop={true}
-                            className="rounded-2xl shadow-xl relative h-full"
-                        >
-                            <div
-                                slot="container-start"
-                                className="absolute inset-0"
-                                data-swiper-parallax="-20%"
-                            >
-                                {/* Background gradient if needed */}
+                        {loading ? (
+                            <div className="w-full h-full flex items-center justify-center bg-white rounded-xl">
+                                <p className="text-gray-400">Loading banners...</p>
                             </div>
+                        ) : slides.length === 0 ? (
+                            <div className="w-full h-full flex items-center justify-center bg-white rounded-xl">
+                                <p className="text-gray-400">No banners available</p>
+                            </div>
+                        ) : (
+                            <Swiper
+                                ref={swiperRef}
+                                modules={[Parallax, Autoplay, Pagination, Navigation]}
+                                parallax={true}
+                                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                                speed={800}
+                                pagination={{ clickable: true }}
+                                navigation={false}
+                                loop={true}
+                                className="rounded-2xl shadow-xl relative h-full"
+                            >
+                                {slides.map((slide, index) => (
+                                    <SwiperSlide key={slide._id || index} className="relative w-full h-full">
+                                        <div className="w-full h-full relative group">
+                                            {slide.link ? (
+                                                <Link href={slide.link}>
+                                                    <Image
+                                                        src={slide.image}
+                                                        alt={`Banner ${index + 1}`}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </Link>
+                                            ) : (
+                                                <Image
+                                                    src={slide.image}
+                                                    alt={`Banner ${index + 1}`}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            )}
 
-                            {slides.map((slide, index) => (
-                                <SwiperSlide key={index} className="relative w-full h-full">
-                                    <div className="w-full h-full relative">
-                                        <Image
-                                            src={slide.image}
-                                            alt={slide.title}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                                            {slide.link && (
+                                                <a
+                                                    href={slide.link}
+                                                    className="absolute bottom-4 left-4 bg-[#2E8B57] text-white px-5 py-2 rounded shadow-md hover:bg-[#256e46] transition"
+                                                >
+                                                    {slide.buttonText || "Shop Now"}
+                                                </a>
+                                            )}
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        )}
                     </div>
 
                     {/* Right - Content Section */}

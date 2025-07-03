@@ -14,6 +14,7 @@ export const Resources = {
   CATEGORIES: "categories",
   TAGS: "tags",
   MEDIA: "media",
+  BANNERS: "banners",
   USERS: "users",
   // SETTINGS: 'settings',
   TESTIMONIALS: "testimonials",

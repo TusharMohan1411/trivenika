@@ -21,6 +21,7 @@ import {
   FaAddressCard,
 } from "react-icons/fa";
 import { RiCollageLine } from "react-icons/ri";
+import { SiAffinitydesigner } from "react-icons/si";
 
 import { Resources } from "../permissions";
 
@@ -84,6 +85,12 @@ export const ADMIN_SIDEBAR_LINKS = [
     label: "Media",
     href: "/admin/media",
     icon: <FaImages />,
+  },
+  {
+    key: Resources.BANNERS,
+    label: "Banners",
+    href: "/admin/banners",
+    icon: <SiAffinitydesigner />,
   },
   {
     key: Resources.USERS,

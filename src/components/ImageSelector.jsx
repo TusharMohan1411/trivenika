@@ -21,7 +21,7 @@ function ImageSelector({ open, onOpenChange, setImage }) {
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-[800px] overflow-y-auto">
+            <DialogContent className="sm:max-w-[1200px] h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <div className="flex justify-between items-center">
                         <DialogTitle>Select an Image</DialogTitle>
@@ -38,7 +38,7 @@ function ImageSelector({ open, onOpenChange, setImage }) {
                     </div>
                 </DialogHeader>
 
-                <div className='flex flex-wrap gap-3 max-h-[50vh] overflow-y-auto pt-4'>
+                <div className='flex flex-wrap gap-3 max-h-[90vh] overflow-y-auto pt-4'>
                     {imagesQuery.isRefetching ? (
                         <div className="w-full flex justify-center py-8">
                             <Loader />
