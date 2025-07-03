@@ -17,13 +17,14 @@ import WhyChooseUs from "@/components/website/home/WhyChooseUs";
 import LatestBlogs from "@/components/website/LatestBlogs";
 import LatestServices from "@/components/website/LatestServices";
 import WebsiteLayout from "@/components/website/WebsiteLayout";
+import { getBanners } from "@/lib/main/getBanners";
 import { getHomePageData } from "@/lib/main/getHomePageData";
 
 export default async function Home() {
-
+  const banners = await getBanners();
   return (
     <WebsiteLayout>
-      <HeroSection />
+      <HeroSection banners={banners} />
       <LatestServices />
       <LabTestingSection />
       {/* <WhyChooseSection /> */}
