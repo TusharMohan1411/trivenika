@@ -6,7 +6,7 @@ export const getBanners = async () => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/banners`,
       {
-        revalidate: 60,
+        next: { revalidate: 60 }, // Revalidate every 60 seconds
       }
     );
 
@@ -27,11 +27,13 @@ export async function getHomePageCollections() {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/collections/getHomePageCollections`,
       {
-        headers: {
-          "Cache-Control": "no-store",
-        },
+        next: { revalidate: 60 }, // ← revalidates every 60 seconds
       }
     );
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch homepage collections");
+    }
 
     return res.data;
   } catch (error) {
