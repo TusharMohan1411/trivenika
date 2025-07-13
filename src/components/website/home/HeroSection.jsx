@@ -45,8 +45,9 @@ export default function HeroSection({ banners = [] }) {
         hidden: { opacity: 0, scale: 0.9 },
         visible: { opacity: 1, scale: 1, transition: { duration: 0.4, ease: "easeOut" } },
     };
+
     const features = [
-        { Icon: Truck, title: 'Free Shipping', text: 'On all orders above ₹499' },
+        { Icon: Truck, title: 'Free Shipping', text: 'On all orders above ₹999' },
         { Icon: Headset, title: '24/7 Support', text: 'Instant customer support' },
         { Icon: Lock, title: 'Secure Payment', text: 'Safe & encrypted payments' },
         { Icon: BadgeCheck, title: 'Genuine Quality', text: '100% organic products' }

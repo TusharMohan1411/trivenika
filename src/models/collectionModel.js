@@ -27,6 +27,16 @@ const collectionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    featureOnHomePage: {
+      type: Boolean,
+      required: true,
+    },
+    saleStart: {
+      type: Date,
+    },
+    saleEnd: {
+      type: Date,
+    },
     products: [
       {
         productId: {

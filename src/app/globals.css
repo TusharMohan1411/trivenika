@@ -185,6 +185,7 @@ button {
 /* Custom scrollbar for dialog */
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {

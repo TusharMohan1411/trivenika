@@ -80,17 +80,19 @@ export default function CollectionsListView({
                                     <Pencil size={20} />
                                 </Badge>
                             </TableCell>
-                            <TableCell>
-                                {canEdit && (
-                                    <Button size="icon" variant="outline" onClick={() => onEdit(col)}>
-                                        <Pencil size={16} />
-                                    </Button>
-                                )}
-                                {canDelete && (
-                                    <Button variant="destructive" onClick={() => setDeletingId(col._id)}>
-                                        <Trash size={16} />
-                                    </Button>
-                                )}
+                            <TableCell className={''}>
+                                <div className='gap-2 flex items-start justify-start'>
+                                    {canEdit && (
+                                        <Button size="icon" variant="outline" onClick={() => onEdit(col)}>
+                                            <Pencil size={16} />
+                                        </Button>
+                                    )}
+                                    {canDelete && (
+                                        <Button variant="destructive" onClick={() => setDeletingId(col._id)}>
+                                            <Trash size={16} />
+                                        </Button>
+                                    )}
+                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

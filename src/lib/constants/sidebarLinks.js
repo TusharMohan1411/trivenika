@@ -149,6 +149,10 @@ export const NAVBAR_LINKS = [
     href: "/",
   },
   {
+    label: "Offers",
+    href: "/collections/offers",
+  },
+  {
     label: "Wood Pressed Oils",
     href: "/collections/wood-pressed-oils",
   },
