@@ -10,8 +10,8 @@ export async function GET() {
       featureOnHomePage: true,
     })
       .sort({ updatedAt: -1 })
+      .limit(4)
       .populate("products.productId")
-      .populate("products.variantId")
       .lean();
 
     return NextResponse.json({ data: res, message: "Data fetched" });

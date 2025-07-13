@@ -31,10 +31,6 @@ export async function getHomePageCollections() {
       }
     );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch homepage collections");
-    }
-
     return res.data;
   } catch (error) {
     console.error("Failed to fetch homepage collections:", error);
