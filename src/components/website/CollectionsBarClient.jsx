@@ -20,67 +20,65 @@ export default function CollectionsBarClient({ collections }) {
     };
 
     return (
-        <div className="bg-gray-50">
-            <div className="max-w-6xl mx-auto">
-                <motion.div
-                    className="flex space-x-6 items-center justify-center overflow-x-auto hide-scrollbar px-4 sm:px-5 py-10"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="show"
-                >
-                    {collections.map((col) => {
-                        const isActive = pathname.includes(`/collections/${col.slug}`);
-                        return (
-                            <motion.div
-                                key={col._id}
-                                variants={itemVariants}
-                                className="flex-shrink-0"
+        <div className="overflow-x-auto hide-scrollbar py-2 sm:py-4 mt-3">
+            <motion.div
+                className="flex w-full space-x-2 sm:space-x-4 justify-start sm:justify-center snap-x snap-mandatory px-2 sm:px-5"
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+            >
+                {collections.map((col) => {
+                    const isActive = pathname.includes(`/collections/${col.slug}`);
+                    return (
+                        <motion.div
+                            key={col._id}
+                            variants={itemVariants}
+                            className="flex-shrink-0 w-32 sm:w-40 sm:h-32 snap-center"
+                        >
+                            <Link
+                                href={`/collections/${col.slug}`}
+                                className={`group flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-lg p-2 sm:p-3 rounded-2xl bg-white border ${isActive
+                                    ? 'border-primary bg-gradient-to-tr border-2 from-green-100 to-green-50'
+                                    : 'border-gray-300'
+                                    }`}
                             >
-                                <Link
-                                    href={`/collections/${col.slug}`}
-                                    className={`group flex flex-col items-center transition-transform transform hover:scale-105 hover:shadow-lg p-3 rounded-2xl bg-white ${isActive
-                                        ? 'shadow-xl bg-gradient-to-tr from-green-100 to-green-50'
-                                        : ''
+                                <div
+                                    className={`p-0 sm:p-2 rounded-full transition-all duration-200 ${isActive
+                                        ? 'bg-white'
+                                        : 'bg-gray-200 group-hover:bg-green-100'
                                         }`}
                                 >
-                                    <div
-                                        className={`p-2 rounded-full transition-all duration-200 ${isActive
-                                            ? 'bg-white text-white'
-                                            : 'bg-gray-200 group-hover:bg-green-100'
-                                            }`}
-                                    >
-                                        <Image
-                                            src={col.icon}
-                                            alt={col.name}
-                                            width={50}
-                                            height={50}
-                                            className="object-contain rounded-full"
-                                        />
-                                    </div>
+                                    <Image
+                                        src={col.icon}
+                                        alt={col.name}
+                                        width={100}
+                                        height={100}
+                                        className="h-12 sm:h-14 w-12 sm:w-14 object-contain rounded-full"
+                                    />
+                                </div>
 
-                                    <span
-                                        className={`mt-2 text-sm font-semibold ${isActive
-                                            ? 'text-green-800'
-                                            : 'text-gray-700 group-hover:text-green-700'
-                                            }`}
-                                    >
-                                        {col.name}
-                                    </span>
-
-                                    {isActive && (
-                                        <motion.div
-                                            className="w-6 h-1 bg-green-600 rounded-full mt-3"
-                                            initial={{ scaleX: 0 }}
-                                            animate={{ scaleX: 1 }}
-                                            transition={{ duration: 0.4 }}
-                                        />
-                                    )}
-                                </Link>
-                            </motion.div>
-                        );
-                    })}
-                </motion.div>
-            </div>
+                                <span
+                                    className={`mt-2 text-xs sm:text-sm font-semibold text-center ${isActive
+                                        ? 'text-green-800'
+                                        : 'text-gray-700 group-hover:text-green-700'
+                                        }`}
+                                >
+                                    {col.name}
+                                </span>
+                                {/* 
+                                {isActive && (
+                                    <motion.div
+                                        className="w-6 h-1 bg-green-600 rounded-full mt-2"
+                                        initial={{ scaleX: 0 }}
+                                        animate={{ scaleX: 1 }}
+                                        transition={{ duration: 0.4 }}
+                                    />
+                                )} */}
+                            </Link>
+                        </motion.div>
+                    );
+                })}
+            </motion.div>
 
             <style jsx>{`
         .hide-scrollbar {

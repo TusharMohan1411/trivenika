@@ -34,7 +34,7 @@ export default function HomePageCollections({ cols }) {
                                 height={1000}
                                 width={1000}
                                 alt='banner'
-                                className='h-full w-full object-cover rounded-sm sm:rounded-xl aspect-[900/320]'
+                                className='h-full w-full object-cover rounded-sm sm:rounded-xl aspect-[1200/500] sm:aspect-[1200/300]'
                             />
                         </div>
                         <h2 className='font-bold text-primary text-2xl py-5 text-center'>{c?.heading}</h2>

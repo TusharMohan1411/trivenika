@@ -150,7 +150,7 @@ export const NAVBAR_LINKS = [
   },
   {
     label: "Offers",
-    href: "/collections/offers",
+    href: "/collections",
   },
   {
     label: "Wood Pressed Oils",

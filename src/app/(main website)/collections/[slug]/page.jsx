@@ -7,6 +7,7 @@ import ProductCard from '../../products/components/ProductCard';
 import LatestServices from '@/components/website/LatestServices';
 import LatestBlogs from '@/components/website/LatestBlogs';
 import CollectionsBar from '@/components/website/CollectionsBar';
+import SaleCountdownTimer from '@/components/website/SaleCountdownTimer';
 
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
@@ -28,30 +29,33 @@ export default async function Page({ params }) {
         <WebsiteLayout>
             {/* Simple Banner Image */}
             <div className='pb-16'>
-                <div className="w-full h-64 md:h-80 relative">
+                <div className="">
                     {collection.bannerImage &&
                         <Image
                             src={collection.bannerImage}
-                            alt={collection.name}
-                            fill
-                            className="object-cover"
+                            height={2000}
+                            width={2000}
+                            quality={100}
+                            alt='banner'
+                            className="h-full w-full object-cover aspect-[1200/500] sm:aspect-[1200/300]"
                             priority
                         />
                     }
                 </div>
-
-                <CollectionsBar />
+                <div className='px-1'>
+                    <CollectionsBar />
+                </div>
 
                 {/* Clean Heading Section */}
-                <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-8">
-                    <div className="text-center mb-8">
-                        <h1 className="text-3xl md:text-4xl font-bold text-[#1a3c32] mb-6">
+                <div className="max-w-7xl mx-auto px-2 sm:px-4 pt-4 sm:pt-6">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <h1 className="text-2xl md:text-4xl font-bold text-[#1a3c32] mb-6">
                             {collection.heading}
                         </h1>
-                        {collection.description && (
-                            <p className="text-lg text-[#1a3c32]/80 max-w-2xl mx-auto">
-                                {collection.description}
-                            </p>
+
+                        {/* Add Countdown Timer Here */}
+                        {collection.saleStart && collection.saleEnd && (
+                            <SaleCountdownTimer saleEnd={collection.saleEnd} saleStart={collection.saleStart} />
                         )}
                     </div>
 
@@ -68,7 +72,6 @@ export default async function Page({ params }) {
                 </div>
 
                 <LatestServices />
-                <LatestBlogs />
             </div>
         </WebsiteLayout>
     );

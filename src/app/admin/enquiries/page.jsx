@@ -33,7 +33,7 @@ function page() {
     }, [enquiriesQuery.data]);
 
     const pageCount = Math.ceil(totalCount / pageSize)
-    console.log(enquiriesQuery);
+    // console.log(enquiriesQuery);
 
     if (!canView) {
         return (

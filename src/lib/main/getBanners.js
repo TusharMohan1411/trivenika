@@ -6,7 +6,7 @@ export const getBanners = async () => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/banners`,
       {
-        cache: "no-store",
+        revalidate: 60,
       }
     );
 
