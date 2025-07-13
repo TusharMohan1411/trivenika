@@ -25,7 +25,7 @@ export default function HomePageCollections({ cols }) {
         <div className='space-y-10 sm:space-y-20 max-w-7xl mx-auto px-3 pb-20 sm:pb-10'>
             {cols.map((c, idx) => {
                 const items = findItems(c);
-                console.log(c)
+                // console.log(c)
                 return (
                     <section key={idx}>
                         <div>
