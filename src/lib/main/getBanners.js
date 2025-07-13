@@ -24,14 +24,19 @@ export const getBanners = async () => {
 
 export async function getHomePageCollections() {
   try {
-    const res = await axios.get(
+    const res = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL || ""}/api/collections/getHomePageCollections`,
       {
         next: { revalidate: 60 }, // ← revalidates every 60 seconds
       }
     );
 
-    return res.data;
+    if (!res.ok) {
+      throw new Error("Failed to fetch banners");
+    }
+
+    const json = await res.json();
+    return json.data || [];
   } catch (error) {
     console.error("Failed to fetch homepage collections:", error);
     throw error;

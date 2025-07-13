@@ -19,16 +19,17 @@ import LatestBlogs from "@/components/website/LatestBlogs";
 import LatestServices from "@/components/website/LatestServices";
 import WebsiteLayout from "@/components/website/WebsiteLayout";
 import { getBanners, getHomePageCollections } from "@/lib/main/getBanners";
-import { getHomePageData } from "@/lib/main/getHomePageData";
+// import { getHomePageData } from "@/lib/main/getHomePageData";
 
 export default async function Home() {
   const banners = await getBanners();
   const cols = await getHomePageCollections();
+  console.log(cols)
   return (
     <WebsiteLayout>
       <HeroSection banners={banners} />
       <LatestServices />
-      <HomePageCollections cols={cols.data} />
+      <HomePageCollections cols={cols} />
       <LabTestingSection />
       {/* <WhyChooseSection /> */}
       <WhyChooseSection2 />
