@@ -32,6 +32,7 @@ export const ServiceFormSchema = z.object({
   categories: z.array(z.string()).min(1, "Select at least one category"),
   tags: z.array(z.string()).optional(),
   status: z.boolean(),
+  outOfStock: z.boolean(),
 
   multipleUseHeading: z.string().optional(),
   multipleUsePoints: z

@@ -146,34 +146,60 @@ export default function Step1BasicDetails() {
                 />
 
                 {/* Status Switch */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
-                    <div>
-                        <Label htmlFor="status" className="block font-medium text-gray-700">
-                            Status
-                        </Label>
-                        <p className="text-sm text-gray-500 mt-1">
-                            {watch('status')
-                                ? 'Published (visible to public)'
-                                : 'Draft (only you can see)'}
-                        </p>
+                <div>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border mb-2">
+                        <div>
+                            <Label htmlFor="status" className="block font-medium text-gray-700">
+                                Status
+                            </Label>
+                            <p className="text-sm text-gray-500 mt-1">
+                                {watch('status')
+                                    ? 'Published (visible to public)'
+                                    : 'Draft (only you can see)'}
+                            </p>
+                        </div>
+                        <FormField
+                            control={control}
+                            name="status"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center gap-2">
+                                    <FormLabel>Status</FormLabel>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            className="scale-125 data-[state=checked]:bg-green-500"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                     </div>
-                    <FormField
-                        control={control}
-                        name="status"
-                        render={({ field }) => (
-                            <FormItem className="flex items-center gap-2">
-                                <FormLabel>Status</FormLabel>
-                                <FormControl>
-                                    <Switch
-                                        checked={field.value}
-                                        onCheckedChange={field.onChange}
-                                        className="scale-125 data-[state=checked]:bg-green-500"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+
+                    {/* Out of stock Switch */}
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+                        <Label htmlFor="outOfStock" className="block font-medium text-gray-700">
+                            Out of Stock
+                        </Label>
+                        <FormField
+                            control={control}
+                            name="outOfStock"
+                            render={({ field }) => (
+                                <FormItem className="flex items-center gap-2">
+                                    <FormLabel>Out of Stock</FormLabel>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                            className="scale-125 data-[state=checked]:bg-red-500"
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                 </div>
 
                 {/* Images Selector */}

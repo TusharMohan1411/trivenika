@@ -29,6 +29,7 @@ export default function ServiceForm({ defaultValues, onSubmit, loading, error })
             categories: [],
             tags: [],
             status: true,
+            outOfStock: false,
             multipleUseHeading: '',
             multipleUsePoints: [''],
             shortPoints: [''],
@@ -47,7 +48,7 @@ export default function ServiceForm({ defaultValues, onSubmit, loading, error })
     const [currentStep, setCurrentStep] = useState(0);
 
     const stepFieldsMap = [
-        ['name', 'slug', 'shortDescription', 'images', 'categories', 'tags', 'status'],
+        ['name', 'slug', 'shortDescription', 'images', 'categories', 'tags', 'status', 'outOfStock'],
         ['pageHeading', ''],
         ['productBigDescription'],
     ];

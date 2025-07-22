@@ -2,8 +2,20 @@
 import React from 'react'
 import WebsiteLayout from '@/components/website/WebsiteLayout'
 import ServicesBox from './ServicesBox'
+import {
+    FaLeaf,
+    FaFlask,
+    FaRecycle,
+    FaPaw,
+} from 'react-icons/fa'
 
 export default function ServicesClient({ services }) {
+    const badges = [
+        { label: 'Organic', Icon: FaLeaf },
+        { label: 'Chemical-Free', Icon: FaFlask },
+        { label: 'Sustainable', Icon: FaRecycle },
+        { label: 'Cruelty-Free', Icon: FaPaw },
+    ]
     return (
         <WebsiteLayout>
             <div className='pb-10 sm:pb-20'>
@@ -31,13 +43,15 @@ export default function ServicesClient({ services }) {
                                 Each formulation is a blend of traditional wisdom and modern science.
                             </p>
 
-                            <div className="flex flex-wrap justify-center gap-3 max-w-md mx-auto">
-                                {['Organic', 'Chemical-Free', 'Sustainable', 'Cruelty-Free'].map((tag, i) => (
+                            {/* Badges with icons */}
+                            <div className="flex flex-wrap justify-center gap-3 max-w-lg mx-auto">
+                                {badges.map(({ label, Icon }, i) => (
                                     <span
                                         key={i}
-                                        className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs sm:text-sm font-medium"
+                                        className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs sm:text-sm font-medium inline-flex items-center"
                                     >
-                                        {tag}
+                                        <Icon className="w-3 h-3 mr-1" aria-hidden="true" />
+                                        {label}
                                     </span>
                                 ))}
                             </div>

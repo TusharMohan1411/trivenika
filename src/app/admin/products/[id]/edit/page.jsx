@@ -23,8 +23,8 @@ const EditServicePage = () => {
 
     const handleSubmit = async (data) => {
         await updateService.mutateAsync({ id: service._id, data })
-        console.log('Update service:', data);
-        router.push('/admin/services')
+        console.log('Update product:', data);
+        router.push('/admin/products')
     };
 
     if (isLoading) return <Loader />

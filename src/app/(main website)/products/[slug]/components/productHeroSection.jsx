@@ -14,7 +14,7 @@ import { Separator } from '@/components/ui/separator';
 import { BiSolidLeaf } from "react-icons/bi";
 import { useRouter } from 'next/navigation';
 
-export default function ProductHeroSection({ product }) {
+export default function ProductHeroSection({ product, preview }) {
     const router = useRouter()
     const { images = [], name, shortDescription, shortPoints = [], variants = [] } = product;
     const [selectedVariant, setSelectedVariant] = useState(0);
@@ -200,24 +200,25 @@ export default function ProductHeroSection({ product }) {
                     </div>
                 </div>
 
-
                 {/* Quantity + actions */}
                 <div className="space-y-4 pt-2">
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
+                            disabled={preview}
                             onClick={() => addToCart(product, variant, quantity)}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] hover:bg-amber-800 text-white rounded-lg font-medium transition-colors shadow-md"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] hover:bg-amber-800 text-white rounded-lg font-medium transition-colors shadow-md disabled:cursor-not-allowed"
                         >
                             <ShoppingCart size={20} />
                             Add to Cart
                         </button>
 
                         <button
+                            disabled={preview}
                             onClick={() => {
                                 addToCart(product, variant, quantity);
                                 router.push('/checkout')
                             }}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md">
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md disabled:cursor-not-allowed">
                             <Zap size={20} />
                             Buy Now
                         </button>

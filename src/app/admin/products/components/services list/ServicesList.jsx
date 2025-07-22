@@ -19,6 +19,7 @@ import DeleteConfirmationDialog from '../DeleteConfirmationDialog ';
 import { useServiceStore } from '@/store/serviceStore';
 import TableSkeleton from '@/components/custom/TableSkeleton';
 import Link from 'next/link';
+import ProductPreviewDialog from '../ProductPreviewDialog';
 
 export default function ServicesListView({
     isLoading,
@@ -33,6 +34,8 @@ export default function ServicesListView({
 }) {
     const router = useRouter();
     const [deletingId, setDeletingId] = useState(null);
+    const [previewDialog, setPreviewDialog] = useState(false)
+    const [selectedProduct, setSelectedProduct] = useState(null)
 
     const handleEdit = (service) => {
         router.push(`/admin/products/${service._id}/edit`);
@@ -152,15 +155,19 @@ export default function ServicesListView({
                                     <div className="flex items-center justify-center gap-2">
                                         {/* <ServiceDetailsDialog service={service} /> */}
 
-                                        <Link href={`/products/${service.slug}`} target='_blank'>
-                                            <Button
-                                                size="icon"
-                                                variant="outline"
-                                                className="hover:bg-gray-100"
-                                            >
-                                                <Eye size={18} className="text-gray-600" />
-                                            </Button>
-                                        </Link>
+                                        {/* <Link href={`/products/${service.slug}`} target='_blank'> */}
+                                        <Button
+                                            size="icon"
+                                            variant="outline"
+                                            className="hover:bg-gray-100"
+                                            onClick={() => {
+                                                setSelectedProduct(service)
+                                                setPreviewDialog(true)
+                                            }}
+                                        >
+                                            <Eye size={18} className="text-gray-600" />
+                                        </Button>
+                                        {/* </Link> */}
 
                                         {canEdit &&
                                             <Button
@@ -197,6 +204,12 @@ export default function ServicesListView({
                 error={deleteError}
                 title="Delete Product"
                 description="Are you sure you want to delete this Product?"
+            />
+
+            <ProductPreviewDialog
+                open={previewDialog}
+                onOpenChange={setPreviewDialog}
+                service={selectedProduct}
             />
         </section>
     );

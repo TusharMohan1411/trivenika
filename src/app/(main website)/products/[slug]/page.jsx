@@ -58,13 +58,13 @@ async function Page({ params }) {
 
     const { services, categories } = await getHomePageData();
     const service = await getServiceBySlug(params.slug);
-    console.log(service)
+    // console.log(service)
 
     if (!service) {
         notFound();
     }
 
-    console.log(service)
+    // console.log(service)
 
     return (
         <WebsiteLayout>

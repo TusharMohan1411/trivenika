@@ -15,9 +15,9 @@ function page() {
     } = createService
 
     const handleSubmit = async (data) => {
-        console.log('Add service:', data);
+        console.log('Add product:', data);
         await createServiceAsync(data)
-        router.push('/admin/services')
+        router.push('/admin/products')
     };
 
     return (

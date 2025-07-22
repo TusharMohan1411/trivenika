@@ -27,6 +27,7 @@ const serviceSchema = new mongoose.Schema(
 
     images: [{ type: String, required: true }], //
     status: { type: Boolean, default: true }, //
+    outOfStock: { type: Boolean, default: true },
 
     shortPoints: [{ type: String }], //
     whyToBuy: [whyToBuySchema], //

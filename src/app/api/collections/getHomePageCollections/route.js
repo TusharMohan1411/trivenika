@@ -1,3 +1,5 @@
+// api/collections/getHomePageCollections/route.js
+
 import { connectDB } from "@/lib/mongodb";
 import Collection from "@/models/collectionModel";
 import Service from "@/models/serviceModel";
