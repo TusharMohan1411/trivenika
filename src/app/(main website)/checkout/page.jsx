@@ -134,7 +134,7 @@ export default function CheckoutPage() {
                 quantity: item.quantity,
                 price: item.price,
             })),
-            totalAmount: total,
+            totalAmount: totalAmount,
             paymentMethod: data.paymentMethod,
         };
 
@@ -167,7 +167,7 @@ export default function CheckoutPage() {
             const razorRes = await fetch('/api/order/razorpay', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ amount: total })
+                body: JSON.stringify({ amount: totalAmount })
             });
             const razorData = await razorRes.json();
             if (!razorData?.id) return alert('Failed to create Razorpay order');
