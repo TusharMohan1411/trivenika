@@ -12,7 +12,7 @@ function UserSection({ loading, error, userData }) {
 
     const joinDate = format(new Date(userData.createdAt), 'MMMM d, yyyy');
 
-    console.log(userData)
+    // console.log(userData)
 
     const serviceOrdersData = userData?.orders.reverse();
 

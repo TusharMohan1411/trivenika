@@ -134,7 +134,10 @@ export default function CheckoutPage() {
                 quantity: item.quantity,
                 price: item.price,
             })),
+            orderValue: orderValue,
+            subTotal: subTotal,
             totalAmount: totalAmount,
+            shippingCharges: shippingCharges,
             paymentMethod: data.paymentMethod,
         };
 
@@ -163,7 +166,7 @@ export default function CheckoutPage() {
                 setOrdering(false)
             }
         } else {
-            // Create Razorpay order first
+            // Create Razorpay order 
             const razorRes = await fetch('/api/order/razorpay', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -200,15 +203,16 @@ export default function CheckoutPage() {
                                 paymentDate: new Date().toISOString()
                             })
                         });
-                        clearCart();
                         if (saveRes.ok) {
                             toast.success("Order Placed Sucessfully", { id: toastId })
                             setOrdering(false)
                             router.push('/user')
+                            clearCart();
                         } else {
                             toast.error("Failed to place order", { id: toastId })
                             setOrdering(false)
                         }
+
                     } else {
                         // alert('Payment verification failed');
                         toast.error("Payment verification failed", { id: toastId })
