@@ -1,4 +1,5 @@
 // app/collections/[slug]/page.jsx
+export const revalidate = 60;
 import WebsiteLayout from '@/components/website/WebsiteLayout';
 import { getCollectionBySlug } from '@/lib/main/services';
 import Image from 'next/image';
@@ -23,7 +24,7 @@ export default async function Page({ params }) {
         return { product: item.productId, variant };
     });
 
-    console.log(collection)
+    // console.log(collection)
 
     return (
         <WebsiteLayout>

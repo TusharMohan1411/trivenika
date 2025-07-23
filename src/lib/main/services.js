@@ -59,6 +59,7 @@ export async function getAllServicesSlugs() {
   }
 }
 
+// get latest products
 export async function getLatestServices() {
   try {
     await connectDB();

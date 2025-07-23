@@ -1,3 +1,4 @@
+export const revalidate = 60;
 import React from 'react';
 import { getLatestServices } from '@/lib/main/services';
 import ProductCard2 from './ProductCard2';

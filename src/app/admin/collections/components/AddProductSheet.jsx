@@ -29,7 +29,7 @@ export default function AddProductSheet({ collection, onClose }) {
         if (!options.length) return;
         const init = collection.products
             .map((p) => {
-                const match = options.find((o) => o.variant._id === p.variantId);
+                const match = options.find((o) => o.variant.name.toLowerCase() === p.variantName.toLowerCase());
                 return match ? { product: match.product, variant: match.variant } : null;
             })
             .filter(Boolean);

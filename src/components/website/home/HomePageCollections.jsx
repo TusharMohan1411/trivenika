@@ -7,7 +7,7 @@ export default function HomePageCollections({ cols }) {
 
     function findItems(collection) {
         const items = collection?.products?.map((item) => {
-            const variant = item?.productId?.variants?.find((v) => v._id === item.variantId) || {
+            const variant = item?.productId?.variants?.find((v) => v.name.toLowerCase() === item.variantName.toLowerCase()) || {
                 name: item.variantName,
                 _id: item.variantId,
                 actualPrice: 0,

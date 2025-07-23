@@ -21,11 +21,17 @@ export async function getHomePageCollections() {
     await connectDB();
     const collections = await Collection.find({ featureOnHomePage: true })
       .sort({ updatedAt: -1 })
-      .limit(4)
       .populate("products.productId")
       .lean();
 
-    return JSON.parse(JSON.stringify(collections)) || [];
+    const trimmedCollections = collections.map((col) => ({
+      ...col,
+      products: col.products.slice(0, 12),
+    }));
+
+    console.log(trimmedCollections);
+
+    return JSON.parse(JSON.stringify(trimmedCollections)) || [];
   } catch (error) {
     console.error("Homepage collections fetch error (DB):", error);
     return [];

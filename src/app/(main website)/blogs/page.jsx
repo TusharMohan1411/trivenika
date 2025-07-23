@@ -1,3 +1,4 @@
+export const revalidate = 60;
 // app/blogs/page.jsx
 import React from 'react';
 import { getHomePageData } from '@/lib/main/getHomePageData';
@@ -7,7 +8,7 @@ import { getBlogsData } from '@/lib/main/getBlogsData';
 export default async function page() {
     const { services, categories } = await getHomePageData();
     const blogs = await getBlogsData();
-    console.log(blogs)
+    // console.log(blogs)
 
     return (
         <BlogsClient

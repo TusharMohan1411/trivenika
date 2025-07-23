@@ -1,4 +1,5 @@
 // app/blogs/[slug]page.jsx
+export const revalidate = 60;
 
 import EnquiryForm from '@/components/website/EnquiryForm';
 import TalkToLawyerCard from '@/components/website/TalkToLawyerCard';

@@ -1,4 +1,5 @@
 // app/services/[slug]/page.jsx
+export const revalidate = 60;
 import TalkToLawyerCard from '@/components/website/TalkToLawyerCard';
 import WebsiteLayout from '@/components/website/WebsiteLayout';
 import { getAllServicesSlugs, getServiceBySlug } from '@/lib/main/services';
