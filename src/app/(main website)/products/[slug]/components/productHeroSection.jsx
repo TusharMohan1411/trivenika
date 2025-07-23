@@ -56,7 +56,7 @@ export default function ProductHeroSection({ product, preview }) {
             {/* Image Gallery */}
             <div className="flex flex-col-reverse md:flex-row gap-4 w-full lg:w-1/2">
                 {/* Thumbnails */}
-                <div className="flex md:flex-col gap-2 py-2 md:py-0 max-[500px]:overflow-x-auto">
+                <div className="flex md:flex-col gap-2 py-2 md:py-0 max-[500px]:overflow-x-auto max-[500px]:pl-2">
                     {allImages.map((src, i) => (
                         <div
                             key={i}
@@ -219,8 +219,8 @@ export default function ProductHeroSection({ product, preview }) {
                             disabled={preview || isOutOfStock}
                             onClick={() => addToCart(product, variant, quantity)}
                             className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] text-white rounded-lg font-medium transition-colors shadow-md ${preview || isOutOfStock
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'hover:bg-amber-800'
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'hover:bg-amber-800'
                                 }`}
                         >
                             <ShoppingCart size={20} />
@@ -234,8 +234,8 @@ export default function ProductHeroSection({ product, preview }) {
                                 router.push('/checkout')
                             }}
                             className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 text-white rounded-lg font-medium transition-colors shadow-md ${preview || isOutOfStock
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-green-700 hover:bg-primary'
+                                ? 'bg-gray-400 cursor-not-allowed'
+                                : 'bg-green-700 hover:bg-primary'
                                 }`}
                         >
                             <Zap size={20} />

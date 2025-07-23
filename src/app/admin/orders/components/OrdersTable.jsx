@@ -68,14 +68,15 @@ function OrdersTable({
                     <TableHeader className={'bg-gray-100'}>
                         <TableRow>
                             <TableHead>#</TableHead>
+                            <TableHead>Order Id</TableHead>
                             <TableHead>Name</TableHead>
                             <TableHead>Contact</TableHead>
-                            <TableHead>Products</TableHead>
+                            {/* <TableHead>Products</TableHead> */}
                             <TableHead>Payment Method</TableHead>
                             <TableHead>Payment Status</TableHead>
                             <TableHead>Amount</TableHead>
                             <TableHead>Status</TableHead>
-                            <TableHead>Type</TableHead>
+                            {/* <TableHead>Type</TableHead> */}
                             <TableHead>Created At</TableHead>
                             <TableHead className='text-center'>Actions</TableHead>
                         </TableRow>
@@ -86,13 +87,14 @@ function OrdersTable({
                             return (
                                 <TableRow key={order._id}>
                                     <TableCell>{idx + 1}</TableCell>
+                                    <TableCell>{order?.orderId || '-'}</TableCell>
                                     <TableCell>{order.shippingDetails?.fullName}</TableCell>
                                     <TableCell>{order.shippingDetails?.contact}</TableCell>
-                                    <TableCell className={''}>
+                                    {/* <TableCell className={''}>
                                         <div className='w-xs text-wrap'>
                                             {order.cart.map((item) => `${item.serviceName} (${item.variantName})`).join(', ')}
                                         </div>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>
                                         <Badge variant="outline" className='capitalize'>{order.paymentMethod}</Badge>
                                     </TableCell>
@@ -103,9 +105,9 @@ function OrdersTable({
                                     <TableCell>
                                         <Badge variant="secondary" className='capitalize'>{lastStatus}</Badge>
                                     </TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Badge className='capitalize'>{order.type}</Badge>
-                                    </TableCell>
+                                    </TableCell> */}
                                     <TableCell>
                                         <div>
                                             <div>{format(new Date(order.createdAt), 'dd MMM yyyy')}</div>

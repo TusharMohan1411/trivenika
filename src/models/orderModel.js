@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
   {
+    orderId: { type: String, unique: true, required: true },
     type: { type: String, enum: ["pos", "website"], required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     shippingDetails: {

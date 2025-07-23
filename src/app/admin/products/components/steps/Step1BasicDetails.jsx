@@ -443,7 +443,7 @@ export default function Step1BasicDetails() {
                 <div className="gap-3 grid grid-cols-2">
                     {variantFields.map((field, index) => (
                         <Card key={field.id} className="p-4 relative">
-                            <Button
+                            {/* <Button
                                 type="button"
                                 variant="destructive"
                                 size="icon"
@@ -451,7 +451,7 @@ export default function Step1BasicDetails() {
                                 onClick={() => removeVariant(index)}
                             >
                                 ✕
-                            </Button>
+                            </Button> */}
 
                             <div className="space-y-4">
                                 {/* Icon selector */}

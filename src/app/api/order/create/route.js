@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/orderModel";
 import User from "@/models/userModel";
+import { generateOrderId } from "@/lib/services/generateOrderId";
 
 export const runtime = "nodejs";
 
@@ -33,7 +34,10 @@ export async function POST(req) {
       );
     }
 
+    const newOrderId = await generateOrderId();
+
     const newOrder = await Order.create({
+      orderId: newOrderId,
       type,
       user: user,
       shippingDetails,
@@ -56,7 +60,7 @@ export async function POST(req) {
     );
 
     return NextResponse.json(
-      { success: true, orderId: newOrder._id, user: updatedUserData },
+      { success: true, orderMainId: newOrder._id, user: updatedUserData },
       { status: 201 }
     );
   } catch (err) {

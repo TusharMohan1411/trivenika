@@ -26,6 +26,8 @@ function page() {
         return ordersQuery?.data?.data || [];
     }, [ordersQuery?.data?.data]);
 
+    console.log(ordersData)
+
     // console.log(ordersData)
 
     const totalCount = useMemo(() => {
