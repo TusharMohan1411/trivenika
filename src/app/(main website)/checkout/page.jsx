@@ -97,6 +97,13 @@ export default function CheckoutPage() {
         },
     });
 
+    const localISOTime = () => {
+        const now = new Date();
+        const tzOffsetMs = now.getTimezoneOffset() * 60000;
+        const localISO = new Date(now.getTime() - tzOffsetMs).toISOString().slice(0, 16);
+        return localISO;
+    };
+
     // load Razorpay script
     useEffect(() => {
         const script = document.createElement('script')
@@ -201,7 +208,7 @@ export default function CheckoutPage() {
                                 razorpayOrder: razorData.id,
                                 transactionId: response.razorpay_payment_id,
                                 paymentStatus: 'paid',
-                                paymentDate: new Date().toISOString()
+                                paymentDate: localISOTime()
                             })
                         });
                         if (saveRes.ok) {

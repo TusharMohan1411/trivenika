@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { FiPackage, FiCheckCircle, FiTruck, FiClock, FiMapPin, FiPhone, FiMail, FiCreditCard } from 'react-icons/fi';
 
 function OrderDetails({ order, resetForm }) {
-
+    console.log(order)
     const getStatusIndex = (status) => {
         const statusOrder = [
             "New",
@@ -77,12 +77,12 @@ function OrderDetails({ order, resetForm }) {
     const progressPercentage = (statusIndex / 6) * 100;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 py-0 sm:px-6 lg:px-8">
             {/* Order Header */}
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div className="bg-white rounded-xl shadow-sm p-6 mb-4">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Order #{order._id}</h1>
+                        <h1 className="text-xl md:text-2xl font-bold text-gray-900">Order #{order?.orderId || '-'}</h1>
                         <p className="mt-1 text-sm text-gray-500">
                             Placed on {formatDate(order.createdAt)}
                         </p>
@@ -99,7 +99,7 @@ function OrderDetails({ order, resetForm }) {
             </div>
 
             {/* Progress Bar */}
-            <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div className="bg-white rounded-xl shadow-sm p-6 mb-4">
                 <div className="mb-4 flex justify-between">
                     <div className="text-sm font-medium text-gray-700">Order Status</div>
                     <div className="text-sm font-medium text-emerald-600">{latestStatus.currentStatus}</div>
@@ -129,7 +129,7 @@ function OrderDetails({ order, resetForm }) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Order Timeline */}
                 <div className="lg:col-span-2">
                     <div className="bg-white rounded-xl shadow-sm p-6">
@@ -182,23 +182,23 @@ function OrderDetails({ order, resetForm }) {
                     </div>
 
                     {/* Order Items */}
-                    <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
+                    <div className="bg-white rounded-xl shadow-sm p-6 mt-4">
                         <h2 className="text-lg font-bold text-gray-900 mb-4">Order Items</h2>
 
-                        <div className="border border-gray-200 rounded-lg overflow-hidden">
-                            <table className="min-w-full divide-y divide-gray-200">
+                        <div className="border border-gray-200 rounded-lg  overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200 ">
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Product
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Price
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Quantity
+                                        <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Qty
                                         </th>
-                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <th scope="col" className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                             Total
                                         </th>
                                     </tr>
@@ -206,22 +206,22 @@ function OrderDetails({ order, resetForm }) {
                                 <tbody className="bg-white divide-y divide-gray-200">
                                     {order.cart.map((item, idx) => (
                                         <tr key={idx}>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-md"></div>
-                                                    <div className="ml-4">
+                                            <td className="px-2 max-w-32 py-4 whitespace-nowrap">
+                                                <div className="flex items-center  text-wrap">
+                                                    {/* <div className="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-md"></div> */}
+                                                    <div className="">
                                                         <div className="text-sm font-medium text-gray-900">{item.serviceName}</div>
                                                         <div className="text-sm text-gray-500">{item.variantName}</div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-2 py-4 whitespace-nowrap text-left text-sm text-gray-500">
                                                 ₹{item.price.toLocaleString()}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                                                 {item.quantity}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 ₹{(item.price * item.quantity).toLocaleString()}
                                             </td>
                                         </tr>
@@ -235,7 +235,7 @@ function OrderDetails({ order, resetForm }) {
                 {/* Order Summary */}
                 <div>
                     {/* Shipping Details */}
-                    <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+                    <div className="bg-white rounded-xl shadow-sm p-6 mb-4">
                         <h2 className="text-lg font-bold text-gray-900 mb-4">Shipping Details</h2>
 
                         <div className="space-y-3">
@@ -275,7 +275,7 @@ function OrderDetails({ order, resetForm }) {
                     </div>
 
                     {/* Payment Details */}
-                    <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+                    <div className="bg-white rounded-xl shadow-sm p-6 mb-4">
                         <h2 className="text-lg font-bold text-gray-900 mb-4">Payment Details</h2>
 
                         <div className="space-y-3">
@@ -340,11 +340,6 @@ function OrderDetails({ order, resetForm }) {
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Subtotal</span>
                                 <span>₹{order.orderValue.toLocaleString()}</span>
-                            </div>
-
-                            <div className="flex justify-between">
-                                <span className="text-gray-600">Discount</span>
-                                <span className="text-green-600">-₹{order.discount.toLocaleString()}</span>
                             </div>
 
                             <div className="flex justify-between">

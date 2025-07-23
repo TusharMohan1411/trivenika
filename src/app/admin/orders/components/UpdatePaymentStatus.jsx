@@ -45,7 +45,6 @@ function UpdatePaymentStatus({ open, onOpenChange, order }) {
 
     const localISOTime = () => {
         const now = new Date();
-        // timezone offset in minutes, convert to ms and subtract to shift into local
         const tzOffsetMs = now.getTimezoneOffset() * 60000;
         const localISO = new Date(now.getTime() - tzOffsetMs).toISOString().slice(0, 16);
         return localISO;

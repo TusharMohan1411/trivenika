@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import WebsiteLayout from '@/components/website/WebsiteLayout';
 import { motion } from 'framer-motion';
-import { FiPackage, FiTruck, FiCheckCircle, FiSearch } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import OrderDetails from './components/orderDetails';
+import axios from 'axios';
 
 const TrackOrderPage = () => {
     const [orderId, setOrderId] = useState('');
@@ -12,99 +13,25 @@ const TrackOrderPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Simulated order data
-    const mockOrderData = {
-        _id: "ORD12345",
-        type: "website",
-        user: "USER123",
-        shippingDetails: {
-            fullName: "John Doe",
-            contact: "9876543210",
-            email: "john.doe@example.com",
-            address: "123 Main Street, Apt 4B",
-            state: "California",
-            pin: "90001"
-        },
-        cart: [
-            {
-                serviceId: "SVC001",
-                variantId: "VAR001",
-                serviceName: "Organic Green Tea",
-                variantName: "Premium Pack - 100g",
-                quantity: 2,
-                price: 599
-            },
-            {
-                serviceId: "SVC002",
-                variantId: "VAR002",
-                serviceName: "Himalayan Honey",
-                variantName: "Raw & Unprocessed - 500g",
-                quantity: 1,
-                price: 899
-            }
-        ],
-        orderValue: 2097,
-        discount: 200,
-        subTotal: 1897,
-        shippingCharges: 0,
-        totalAmount: 1897,
-        paymentStatus: "paid",
-        paymentMethod: "online",
-        paymentDate: "2023-06-15T10:30:00Z",
-        paymentMessage: "Payment successful",
-        status: [
-            {
-                currentStatus: "New",
-                message: "Order received",
-                date: "2023-06-15T10:30:00Z"
-            },
-            {
-                currentStatus: "Processing",
-                message: "Order being prepared",
-                date: "2023-06-15T11:45:00Z"
-            },
-            {
-                currentStatus: "Packed",
-                message: "Items packed and ready for shipping",
-                date: "2023-06-16T09:15:00Z"
-            },
-            {
-                currentStatus: "Shipped",
-                message: "Shipped via FedEx",
-                date: "2023-06-17T14:20:00Z"
-            },
-            {
-                currentStatus: "Ready for delivery",
-                message: "Out for delivery",
-                date: "2023-06-18T08:30:00Z"
-            }
-        ],
-        transactionId: "TXN123456789",
-        razorpayOrder: "order_123456789",
-        createdAt: "2023-06-15T10:30:00Z"
-    };
-
     const handleTrackOrder = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+        setOrder(null);
 
         try {
-            // Simulate API call with delay
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            const response = await axios.post('/api/orders/getOrderDetailsById', {
+                orderId: orderId.trim(),
+            });
 
-            // In a real app, you would make an API call here:
-            // const response = await fetch(`/api/orders/${orderId}`);
-            // const data = await response.json();
-
-            // For demo purposes, using mock data
-            if (orderId === mockOrderData._id) {
-                setOrder(mockOrderData);
-            } else {
-                setError('Order not found. Please check your order ID and try again.');
-            }
+            setOrder(response.data.data);
         } catch (err) {
-            setError('Failed to fetch order details. Please try again later.');
+            console.error('Track Order Error:', err);
+            if (err.response && err.response.data?.error) {
+                setError(err.response.data.error);
+            } else {
+                setError('Failed to fetch order details. Please try again later.');
+            }
         } finally {
             setLoading(false);
         }
@@ -120,21 +47,21 @@ const TrackOrderPage = () => {
 
     return (
         <WebsiteLayout>
-            <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-1 py-8 sm:px-3 lg:px-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-12"
+                    className="text-center mb-6"
                 >
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Track Your Order</h1>
-                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-5">Track Your Order</h1>
+                    <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
                         Enter your order ID below to check the status of your purchase and get real-time updates
                     </p>
                 </motion.div>
 
                 {!order ? (
-                    <div className="flex justify-center">
+                    <div className="flex justify-center px-5">
                         <div className="w-full max-w-lg">
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
@@ -233,3 +160,76 @@ const TrackOrderPage = () => {
 };
 
 export default TrackOrderPage;
+
+
+// Simulated order data
+// const mockOrderData = {
+//     _id: "ORD12345",
+//     type: "website",
+//     user: "USER123",
+//     shippingDetails: {
+//         fullName: "John Doe",
+//         contact: "9876543210",
+//         email: "john.doe@example.com",
+//         address: "123 Main Street, Apt 4B",
+//         state: "California",
+//         pin: "90001"
+//     },
+//     cart: [
+//         {
+//             serviceId: "SVC001",
+//             variantId: "VAR001",
+//             serviceName: "Organic Green Tea",
+//             variantName: "Premium Pack - 100g",
+//             quantity: 2,
+//             price: 599
+//         },
+//         {
+//             serviceId: "SVC002",
+//             variantId: "VAR002",
+//             serviceName: "Himalayan Honey",
+//             variantName: "Raw & Unprocessed - 500g",
+//             quantity: 1,
+//             price: 899
+//         }
+//     ],
+//     orderValue: 2097,
+//     discount: 200,
+//     subTotal: 1897,
+//     shippingCharges: 0,
+//     totalAmount: 1897,
+//     paymentStatus: "paid",
+//     paymentMethod: "online",
+//     paymentDate: "2023-06-15T10:30:00Z",
+//     paymentMessage: "Payment successful",
+//     status: [
+//         {
+//             currentStatus: "New",
+//             message: "Order received",
+//             date: "2023-06-15T10:30:00Z"
+//         },
+//         {
+//             currentStatus: "Processing",
+//             message: "Order being prepared",
+//             date: "2023-06-15T11:45:00Z"
+//         },
+//         {
+//             currentStatus: "Packed",
+//             message: "Items packed and ready for shipping",
+//             date: "2023-06-16T09:15:00Z"
+//         },
+//         {
+//             currentStatus: "Shipped",
+//             message: "Shipped via FedEx",
+//             date: "2023-06-17T14:20:00Z"
+//         },
+//         {
+//             currentStatus: "Ready for delivery",
+//             message: "Out for delivery",
+//             date: "2023-06-18T08:30:00Z"
+//         }
+//     ],
+//     transactionId: "TXN123456789",
+//     razorpayOrder: "order_123456789",
+//     createdAt: "2023-06-15T10:30:00Z"
+// };
