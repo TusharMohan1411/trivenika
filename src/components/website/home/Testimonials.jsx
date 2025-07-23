@@ -43,7 +43,7 @@ export default function Testimonials({ testimonials }) {
                         <SwiperSlide key={idx}>
                             <div className="bg-white rounded-2xl overflow-hidden border-2 flex flex-col h-full">
                                 {/* Vertical Testimonial image */}
-                                <div className="w-full h-72 relative">
+                                <div className="w-full max-h-72 relative aspect-[16/13]">
                                     <Image
                                         src={t.imageURL}
                                         alt={`${t.name} testimony`}

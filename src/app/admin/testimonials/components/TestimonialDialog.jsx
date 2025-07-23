@@ -73,15 +73,15 @@ export default function TestimonialDialog({ open, onOpenChange, selectedTestimon
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <p className="text-xs bg-gray-100 rounded-full px-2 border py-1 -mb-2 w-fit">Image aspect ratio: 16/13</p>
                     <div className="grid gap-4 py-4">
-
                         {/* Image URL */}
                         {!image
                             && <div
-                                className="flex-1 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer h-48 mb-4 sm:mb-0"
+                                className="flex-1 border-2 border-dashed border-gray-300 rounded-xl flex items-center justify-center cursor-pointer h-48 mb-4 sm:mb-0 aspect-[16/13] w-full"
                                 onClick={() => { setIsDialogOpen(true) }}
                             >
-                                <span className="text-gray-500">Click to select Customer image</span>
+                                <span className="text-gray-500">Click to select product image</span>
                             </div>
                         }
                         {image

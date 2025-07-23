@@ -17,6 +17,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Switch } from '@/components/ui/switch'
 import TableSkeleton from '@/components/custom/TableSkeleton'
+import { useBlogs } from '@/hooks/useBlogs'
+import toast from 'react-hot-toast'
+import { format } from 'date-fns'
 
 export default function BlogsTable({
     isLoading,
@@ -30,7 +33,8 @@ export default function BlogsTable({
     deleteError,
     canDelete,
     canEdit,
-    onlyAdmin
+    onlyAdmin,
+    updateBlog
 }) {
     const [deletingBlogId, setDeletingBlogId] = useState(null)
 
@@ -95,12 +99,37 @@ export default function BlogsTable({
                                         className='rounded-sm w-auto'
                                     />
                                 </TableCell>
-                                <TableCell>{item.title}</TableCell>
                                 <TableCell>
-                                    {new Date(item.createdAt).toLocaleString()}
+                                    <div className={'max-w-96 text-wrap'}>
+                                        {item.title}
+                                    </div>
                                 </TableCell>
-                                <TableCell><Switch checked={item.status} /></TableCell>
-                                {/* <TableCell><Switch className={'data-[state=checked]:bg-emerald-600'} checked={item.featured} /></TableCell> */}
+                                <TableCell>
+                                    <div>
+                                        <div>{format(new Date(item.createdAt), 'dd MMM yyyy')}</div>
+                                        <div className="text-xs text-muted-foreground">
+                                            {format(new Date(item.createdAt), 'hh:mm a')}
+                                        </div>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <Switch
+                                        checked={item.status}
+                                        onCheckedChange={(val) => {
+                                            const toastId = toast.loading('Updating...')
+                                            try {
+                                                const data = {
+                                                    status: val
+                                                }
+                                                updateBlog.mutateAsync({ id: item._id, data })
+                                            } catch (error) {
+
+                                            } finally {
+                                                toast.dismiss(toastId)
+                                            }
+                                        }}
+                                    />
+                                </TableCell>
                                 <TableCell className={'text-center space-x-2'}>
                                     {canEdit &&
                                         <Link href={`/admin/blogs/edit/${item._id}`}>

@@ -38,8 +38,8 @@ export default function AddProductSheet({ collection, onClose }) {
 
     const toggle = (item) => {
         setSelected((prev) =>
-            prev.some((s) => s.variant._id === item.variant._id)
-                ? prev.filter((s) => s.variant._id !== item.variant._id)
+            prev.some((s) => s.variant.name.toLowerCase() === item.variantName.toLowerCase())
+                ? prev.filter((s) => s.variant.name.toLowerCase() !== item.variantName.toLowerCase())
                 : [...prev, item]
         );
     };
@@ -80,8 +80,8 @@ export default function AddProductSheet({ collection, onClose }) {
                             <p className="text-sm text-gray-500">No variants selected</p>
                         ) : (
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[70vh]">
-                                {selected.map((item) => (
-                                    <div key={item.variant._id} onClick={() => toggle(item)}>
+                                {selected.map((item, idx) => (
+                                    <div key={idx} onClick={() => toggle(item)}>
                                         <ProductCardColl
                                             product={item.product}
                                             variant={item.variant}

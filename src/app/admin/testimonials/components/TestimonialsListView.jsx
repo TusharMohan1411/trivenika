@@ -46,7 +46,7 @@ export default function TestimonialsListView({ isLoading, error, testimonials, o
                         </Badge>
 
                         <div className=''>
-                            <div className="w-full h-72 relative">
+                            <div className="w-full max-h-72 relative aspect-[16/13]">
                                 <Image
                                     src={testimonial.imageURL}
                                     alt={`testimony`}

@@ -91,7 +91,7 @@ export default function UsersListView({
                                             <Pencil size={16} />
                                         </Button>
                                     }
-                                    {canDelete &&
+                                    {/* {canDelete &&
                                         <Button
                                             size="icon"
                                             variant="destructive"
@@ -100,7 +100,7 @@ export default function UsersListView({
                                         >
                                             <Trash size={16} />
                                         </Button>
-                                    }
+                                    } */}
                                 </TableCell>
                             </TableRow>
                         ))}

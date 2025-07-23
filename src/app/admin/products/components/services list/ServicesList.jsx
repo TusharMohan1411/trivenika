@@ -20,6 +20,8 @@ import { useServiceStore } from '@/store/serviceStore';
 import TableSkeleton from '@/components/custom/TableSkeleton';
 import Link from 'next/link';
 import ProductPreviewDialog from '../ProductPreviewDialog';
+import { useServices } from '@/hooks/useServices';
+import toast from 'react-hot-toast';
 
 export default function ServicesListView({
     isLoading,
@@ -32,6 +34,7 @@ export default function ServicesListView({
     canDelete,
     canEdit
 }) {
+    const { updateService } = useServices();
     const router = useRouter();
     const [deletingId, setDeletingId] = useState(null);
     const [previewDialog, setPreviewDialog] = useState(false)
@@ -143,8 +146,18 @@ export default function ServicesListView({
                                     <div className="flex justify-center">
                                         <Switch
                                             checked={service.status}
-                                            onCheckedChange={(checked) => {
-                                                // TODO: call your API/mutation to toggle `service.status`
+                                            onCheckedChange={(val) => {
+                                                const toastId = toast.loading('Updating...')
+                                                try {
+                                                    const data = {
+                                                        status: val
+                                                    }
+                                                    updateService.mutateAsync({ id: service._id, data })
+                                                } catch (error) {
+
+                                                } finally {
+                                                    toast.dismiss(toastId)
+                                                }
                                             }}
                                         />
                                     </div>
@@ -178,14 +191,14 @@ export default function ServicesListView({
                                                 <Pencil size={16} />
                                             </Button>
                                         }
-                                        {canDelete &&
+                                        {/* {canDelete &&
                                             <Button
                                                 variant="destructive"
                                                 onClick={() => handleDeleteClick(service._id)}
                                             >
                                                 <Trash size={16} />
                                             </Button>
-                                        }
+                                        } */}
                                     </div>
                                 </TableCell>
                             </TableRow>

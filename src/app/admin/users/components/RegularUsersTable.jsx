@@ -52,6 +52,7 @@ export default function RegularUsersTable({
                             <TableHead>Name</TableHead>
                             <TableHead>Phone</TableHead>
                             <TableHead>Orders</TableHead>
+                            <TableHead>Role</TableHead>
                             <TableHead>Joined Date</TableHead>
                             <TableHead className="text-center">Actions</TableHead>
                         </TableRow>
@@ -65,6 +66,14 @@ export default function RegularUsersTable({
                                 <TableCell>
                                     <span className="bg-gray-100 text-gray-800 rounded-full px-3 py-1 text-xs">
                                         {user.orders?.length || 0}
+                                    </span>
+                                </TableCell>
+                                <TableCell>
+                                    <span className={`px-2 py-1 capitalize rounded-full text-xs ${user.role === 'user'
+                                        ? 'bg-pink-100 text-pink-800'
+                                        : 'bg-blue-100 text-blue-800'
+                                        }`}>
+                                        {user.role}
                                     </span>
                                 </TableCell>
                                 <TableCell>

@@ -12,7 +12,7 @@ import NotAuthorizedPage from '@/components/notAuthorized'
 
 function Page() {
     // filters
-    const [status, setStatus] = useState('active');
+    const [status, setStatus] = useState('all');
     const [featured, setFeatured] = useState('all');
 
     // pagination
@@ -23,6 +23,7 @@ function Page() {
     const {
         blogsQuery,
         deleteBlog,
+        updateBlog,
         permissions: { canView, canAdd, canEdit, canDelete, onlyAdmin }
     } = useBlogs({ status, featured, page, pageSize })
 
@@ -111,6 +112,7 @@ function Page() {
                     onlyAdmin={onlyAdmin}
                     page={page}
                     blogs={blogsQuery.data?.data || []}
+                    updateBlog={updateBlog}
                     pageCount={Math.ceil((blogsQuery.data?.totalCount || 0) / pageSize)}
                 />
             }

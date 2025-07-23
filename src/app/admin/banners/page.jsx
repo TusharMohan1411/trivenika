@@ -12,7 +12,7 @@ function BannersPage() {
     const { bannersQuery, deleteBanner, permissions } = useBanners();
     const [openDialog, setOpenDialog] = useState(false);
 
-    console.log(bannersQuery.data)
+    // console.log(bannersQuery.data)
 
     const handleDelete = (id) => {
         if (window.confirm('Are you sure you want to delete this banner?')) {

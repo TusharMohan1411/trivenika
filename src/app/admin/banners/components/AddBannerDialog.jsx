@@ -34,7 +34,7 @@ export const AddBannerDialog = ({ open, onOpenChange }) => {
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-[800px]">
                 <DialogHeader>
-                    <DialogTitle>Add Banner</DialogTitle>
+                    <DialogTitle>Add Banner (16:9)</DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-4">
