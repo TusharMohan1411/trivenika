@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { FiMenu, FiShoppingCart, FiHome, FiGrid, FiUser, FiMessageSquare } from 'react-icons/fi'
 import { usePathname } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import BigNav from './BigNav'
 import MobileNav from './MobileNav'
 import LoginButton from '@/components/auth/LoginButton'
@@ -29,6 +29,12 @@ export default function NavBar() {
         { name: 'Profile', href: '/user', icon: <FiUser size={24} /> },
         { name: 'Contact', href: '/contact-us', icon: <FiMessageSquare size={24} /> },
     ]
+
+    // animation variants for icons
+    const iconVariants = {
+        active: { y: -22, color: '#ffffff', transition: { duration: 0.5 } },
+        inactive: { y: 0, color: '#4B5563', transition: { duration: 0.5 } },
+    }
 
     return (
         <>
@@ -87,29 +93,34 @@ export default function NavBar() {
                                 href={item.href}
                                 className="relative flex-1 flex justify-center items-center"
                             >
-                                {/* Shared layoutId circle for smooth movement */}
-                                {isActive && (
+                                {/* Shared circle layout animation */}
+                                <AnimatePresence>
+                                    {isActive && (
+                                        <motion.div
+                                            key="circle"
+                                            layoutId="active-circle"
+                                            transition={{ type: 'spring', stiffness: 80, damping: 15, duration: 0.8 }}
+                                            className="absolute left-1/2 bottom-15 transform -translate-x-1/2 translate-y-1/2 w-16 h-16 bg-gradient-to-br from-emerald-500 to-green-700 rounded-full shadow-lg z-20"
+                                        />
+                                    )}
+                                </AnimatePresence>
+
+                                {/* Icon and Label */}
+                                <div className="flex flex-col items-center justify-center space-y-1 z-20">
                                     <motion.div
-                                        layoutId="active-circle"
-                                        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-                                        className="absolute left-1/2 bottom-15 transform -translate-x-1/2 translate-y-1/2 w-16 h-16 text-white bg-gradient-to-br from-emerald-500 to-green-700 rounded-full flex items-center justify-center shadow-lg z-20"
+                                        variants={iconVariants}
+                                        animate={isActive ? 'active' : 'inactive'}
+                                        className="p-1 rounded-full"
                                     >
                                         {item.icon}
                                     </motion.div>
-                                )}
-
-                                {/* Icon and Label */}
-                                <div
-                                    className={`flex flex-col items-center justify-center space-y-1 z-10 ${isActive ? 'text-transparent' : 'text-gray-600 hover:text-gray-900'
-                                        }`}
-                                >
-                                    <div className="p-1 rounded-full">{item.icon}</div>
-                                    <span
-                                        className={`text-xs ${isActive ? 'font-bold text-emerald-700' : ''
-                                            }`}
+                                    <motion.span
+                                        initial={false}
+                                        animate={{ color: isActive ? '#047857' : '#4B5563', transition: { duration: 0.5 } }}
+                                        className="text-xs font-medium"
                                     >
                                         {item.name}
-                                    </span>
+                                    </motion.span>
                                 </div>
                             </Link>
                         )
