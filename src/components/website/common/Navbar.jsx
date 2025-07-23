@@ -81,7 +81,7 @@ export default function NavBar() {
             {/* Floating Bottom Nav */}
             <div className="lg:hidden fixed bottom-0 left-0 w-full z-50 border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)] rounded-t-4xl">
                 <div className="relative flex justify-center items-center h-20 bg-white rounded-t-4xl px-5">
-                    {items.map((item, idx) => {
+                    {items.map(item => {
                         const isActive =
                             item.href === '/'
                                 ? pathname === '/'
@@ -108,6 +108,7 @@ export default function NavBar() {
                                 {/* Icon and Label */}
                                 <div className="flex flex-col items-center justify-center space-y-1 z-20">
                                     <motion.div
+                                        layoutId={`icon-${item.name}`}
                                         variants={iconVariants}
                                         animate={isActive ? 'active' : 'inactive'}
                                         className="p-1 rounded-full"
@@ -115,6 +116,7 @@ export default function NavBar() {
                                         {item.icon}
                                     </motion.div>
                                     <motion.span
+                                        layoutId={`label-${item.name}`}
                                         initial={false}
                                         animate={{ color: isActive ? '#047857' : '#4B5563', transition: { duration: 0.5 } }}
                                         className="text-xs font-medium"
