@@ -56,7 +56,7 @@ import TestimonialSlider from '@/components/website/home/TestimonialSlider';
 
 async function Page({ params }) {
 
-    const { services, categories } = await getHomePageData();
+    // const { services, categories } = await getHomePageData();
     const service = await getServiceBySlug(params.slug);
     // console.log(service)
 
@@ -64,6 +64,7 @@ async function Page({ params }) {
         notFound();
     }
 
+    console.log(service)
     // console.log(service)
 
     return (

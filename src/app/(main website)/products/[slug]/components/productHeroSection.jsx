@@ -49,6 +49,8 @@ export default function ProductHeroSection({ product, preview }) {
         ? Math.round(((actualPrice - discountedPrice) / actualPrice) * 100)
         : 0;
 
+    const isOutOfStock = product?.outOfStock;
+
     return (
         <div className="flex flex-col lg:flex-row gap-8 p-2 max-w-7xl mx-auto">
             {/* Image Gallery */}
@@ -109,11 +111,15 @@ export default function ProductHeroSection({ product, preview }) {
                     </Swiper>
 
                     {/* Discount badge */}
-                    {discountPercent > 0 && (
+                    {isOutOfStock ? (
+                        <div className="absolute top-1 sm:top-4 right-1 sm:right-4 bg-gray-700 text-white px-3 py-1 rounded-full font-bold text-sm z-10">
+                            Out of Stock
+                        </div>
+                    ) : discountPercent > 0 ? (
                         <div className="absolute top-1 sm:top-4 right-1 sm:right-4 bg-red-500 text-white px-3 py-1 rounded-full font-bold text-sm z-10">
                             {discountPercent}% OFF
                         </div>
-                    )}
+                    ) : null}
                 </div>
 
             </div>
@@ -202,28 +208,42 @@ export default function ProductHeroSection({ product, preview }) {
 
                 {/* Quantity + actions */}
                 <div className="space-y-4 pt-2">
+                    {isOutOfStock && (
+                        <div className="text-center text-gray-500 italic">
+                            We'll notify you when this product is back in stock
+                        </div>
+                    )}
+
                     <div className="flex flex-col sm:flex-row gap-3 pt-4">
                         <button
-                            disabled={preview}
+                            disabled={preview || isOutOfStock}
                             onClick={() => addToCart(product, variant, quantity)}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] hover:bg-amber-800 text-white rounded-lg font-medium transition-colors shadow-md disabled:cursor-not-allowed"
+                            className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 bg-[#5D4037] text-white rounded-lg font-medium transition-colors shadow-md ${preview || isOutOfStock
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'hover:bg-amber-800'
+                                }`}
                         >
                             <ShoppingCart size={20} />
-                            Add to Cart
+                            {isOutOfStock ? 'Unavailable' : 'Add to Cart'}
                         </button>
 
                         <button
-                            disabled={preview}
+                            disabled={preview || isOutOfStock}
                             onClick={() => {
                                 addToCart(product, variant, quantity);
                                 router.push('/checkout')
                             }}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-3 hover:bg-primary bg-green-700 text-white rounded-lg font-medium transition-colors shadow-md disabled:cursor-not-allowed">
+                            className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 text-white rounded-lg font-medium transition-colors shadow-md ${preview || isOutOfStock
+                                    ? 'bg-gray-400 cursor-not-allowed'
+                                    : 'bg-green-700 hover:bg-primary'
+                                }`}
+                        >
                             <Zap size={20} />
-                            Buy Now
+                            {isOutOfStock ? 'Unavailable' : 'Buy Now'}
                         </button>
                     </div>
                 </div>
+
             </div>
         </div>
     );

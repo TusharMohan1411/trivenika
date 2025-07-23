@@ -6,8 +6,8 @@ import NavBar from '@/components/website/common/Navbar'
 export default function WebsiteLayout({ children }) {
 
     return (
-        <div >
-            <div className='pb-20'>
+        <div className='pb-14 sm:pb-0 bg-[#F5EFE6]'>
+            <div className='pb-6 sm:pb-12 bg-[#F5EFE6]'>
                 <NavBar />
             </div>
 

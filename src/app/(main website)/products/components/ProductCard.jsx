@@ -85,12 +85,14 @@ function ProductCard({ product, variant }) {
                         )}
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 mt-2">
-
-                        <button
-                            onClick={() => addToCart(product, variant)}
-                            className="border border-primary text-primary px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-[#f0f4f9] transition flex-1 text-center flex gap-1 items-center justify-center">
-                            <span>   <IoCartOutline size={16} /></span>  Add
-                        </button>
+                        {product?.outOfStock
+                            ? <p className='border bg-gray-100 text-gray-700 text-sm rounded-md px-2 py-1'>Out of stock</p>
+                            : <button
+                                onClick={() => addToCart(product, variant)}
+                                className="border border-primary text-primary px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-[#f0f4f9] transition flex-1 text-center flex gap-1 items-center justify-center">
+                                <span>   <IoCartOutline size={16} /></span>  Add
+                            </button>
+                        }
                     </div>
                 </div>
             </div>

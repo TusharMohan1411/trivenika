@@ -54,7 +54,7 @@ export default function HeroSection({ banners = [] }) {
     ];
 
     return (
-        <section className="bg-[#FDF1E1] pt-4 sm:pt-8 pb-12 px-4 sm:px-6">
+        <section className="bg-[#FDF1E1] pt-20 sm:pt-12 pb-12 px-4 sm:px-6">
             <div className="max-w-7xl mx-auto">
                 <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
                     <div className="w-full lg:w-[65%] aspect-[16/9] relative">

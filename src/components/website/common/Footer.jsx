@@ -6,6 +6,7 @@ export default function Footer() {
     const quickLinks = [
         { label: 'Home', href: '/' },
         { label: 'Products', href: '/products' },
+        { label: 'Track Order', href: '/track-order' },
         { label: 'Our Story', href: '/our-story' },
         { label: 'About Us', href: '/about' },
         { label: 'Contact Us', href: '/contact-us' },
