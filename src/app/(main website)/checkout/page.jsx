@@ -29,13 +29,14 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
-import { Home, Mail, MapPin, Minus, Phone, Plus, User } from 'lucide-react';
+import { Home, Mail, MapPin, Minus, Phone, Plus, Truck, User } from 'lucide-react';
 import Image from 'next/image';
 import AuthDialog from '@/components/auth/LoginDialog';
 import LoaderButton from '@/components/custom/LoaderButton';
 import { toast, Toaster } from 'sonner';
 import { useRouter } from 'next/navigation';
 import EmptyCart from './components/EmptyCart';
+import { motion } from 'framer-motion';
 
 const indianStates = [
     'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -303,9 +304,69 @@ export default function CheckoutPage() {
                         </div>
                     ))}
                 </div>
-                <div className="border-t border-gray-200 pt-4 grid grid-cols-2">
-                    {/* Subtotal, shipping charges, discount, total */}
-                    <div className="space-y-3">
+                <div className="border-t border-gray-200 pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Free Shipping Progress Section */}
+                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-500">
+                        <div className="flex items-center justify-between mb-3">
+                            <h3 className="font-medium text-emerald-800 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
+                                    <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h4.05a2.5 2.5 0 014.9 0H20a1 1 0 001-1v-4a1 1 0 00-.293-.707l-4-4A1 1 0 0016 4H3z" />
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M14.586 9H12V6.414L14.586 9z" />
+                                </svg>
+                                Free Shipping
+                            </h3>
+                            <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+                                ₹999+
+                            </span>
+                        </div>
+
+                        <div className="relative pt-1">
+                            {/* Progress bar background */}
+                            <div className="overflow-hidden h-2.5 mb-2 flex rounded-full bg-emerald-100">
+                                {/* Animated progress bar */}
+                                <div
+                                    className="transition-all duration-700 ease-out shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-emerald-400 to-teal-500"
+                                    style={{ width: `${Math.min(100, (orderValue / 999) * 100)}%` }}
+                                ></div>
+                            </div>
+
+                            {/* Progress labels */}
+                            <div className="flex justify-between text-xs">
+                                <span className="text-emerald-600">₹0</span>
+                                <span className="text-emerald-600">₹999</span>
+                            </div>
+
+                            {/* Dynamic message */}
+                            {orderValue < 999 ? (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="mt-4 text-center"
+                                >
+                                    <p className="text-sm font-medium text-amber-600">
+                                        Add <span className="font-bold">₹{(999 - orderValue).toLocaleString()}</span> more for free shipping!
+                                    </p>
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="mt-4 flex items-center justify-center"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                    </svg>
+                                    <span className="text-sm font-medium text-emerald-600">
+                                        You've earned free shipping!
+                                    </span>
+                                </motion.div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Order Summary */}
+                    <div className="space-y-3 pt-3">
                         <div className="flex justify-between text-gray-600">
                             <span>Subtotal</span>
                             <span>₹{orderValue.toLocaleString()}</span>
