@@ -160,7 +160,7 @@ export default function CheckoutPage() {
             if (res.ok) {
                 toast.success("Order Placed Sucessfully", { id: toastId })
                 setOrdering(false)
-                router.push('/user')
+                router.push('/orderSuccess')
             } else {
                 toast.error("Failed to place order", { id: toastId })
                 console.log('Failed to place order: ' + result?.error || 'Server error');
@@ -207,7 +207,7 @@ export default function CheckoutPage() {
                         if (saveRes.ok) {
                             toast.success("Order Placed Sucessfully", { id: toastId })
                             setOrdering(false)
-                            router.push('/user')
+                            router.push('/orderSuccess')
                             clearCart();
                         } else {
                             toast.error("Failed to place order", { id: toastId })
