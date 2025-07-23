@@ -70,8 +70,8 @@ export default function NavBar() {
             <MobileNav isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
             {/* Redesigned Floating Bottom Nav */}
-            <div className="lg:hidden fixed z-50 bottom-0 left-0 w-full bg-white border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
-                <div className="relative flex justify-around items-center h-20">
+            <div className="lg:hidden rounded-t-4xl fixed z-50 bottom-0 left-0 w-full  border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)]">
+                <div className="relative flex justify-center items-center h-20 gap-3 rounded-t-4xl bg-white">
                     {items.map(item => {
                         const isActive =
                             item.href === '/'
@@ -82,7 +82,7 @@ export default function NavBar() {
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className="relative flex-1 flex flex-col items-center justify-center"
+                                className="relative w-14 flex flex-col items-center justify-center"
                             >
                                 {/* Floating Active Indicator */}
                                 <AnimatePresence>
@@ -95,9 +95,8 @@ export default function NavBar() {
                                                 type: 'spring',
                                                 stiffness: 300,
                                                 damping: 20,
-                                                duration: 1,
                                             }}
-                                            className="absolute -top-1.5 w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg z-20"
+                                            className="absolute -top-1.5 w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-700 rounded-full  flex items-center justify-center shadow-lg z-20"
                                         >
                                         </motion.div>
                                     )}
