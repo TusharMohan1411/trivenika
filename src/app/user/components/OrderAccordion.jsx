@@ -11,7 +11,7 @@ export default function OrderAccordion({ order }) {
 
     // helper to get variant data from populated serviceId
     const getVariant = (cartItem) =>
-        cartItem.serviceId.variants.find(v => v._id === cartItem.variantId)
+        cartItem.serviceId.variants.find(v => v.name === cartItem.variantName)
 
     // derive current status from last entry
     const latestStatus = order.status[order.status.length - 1]?.currentStatus || ''
@@ -65,12 +65,14 @@ export default function OrderAccordion({ order }) {
                                     return (
                                         <div key={item._id || item.variantId} className="flex items-center gap-4">
                                             <div className="relative w-16 h-16 flex-shrink-0">
-                                                <Image
-                                                    src={variant.image}
-                                                    alt={`${item.serviceName} – ${item.variantName}`}
-                                                    fill
-                                                    className="object-cover rounded"
-                                                />
+                                                {variant?.image &&
+                                                    <Image
+                                                        src={variant.image}
+                                                        alt={`${item.serviceName} – ${item.variantName}`}
+                                                        fill
+                                                        className="object-cover rounded"
+                                                    />
+                                                }
                                             </div>
                                             <div className="flex-grow">
                                                 <p className="font-medium">

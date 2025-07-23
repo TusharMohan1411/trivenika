@@ -25,7 +25,7 @@ export default function NavBar() {
     const items = [
         { name: 'Home', href: '/', icon: <FiHome size={24} /> },
         { name: 'Products', href: '/products', icon: <FiGrid size={24} /> },
-        { name: 'Cart', href: '/cart', icon: <FiShoppingCart size={24} /> },
+        { name: 'Cart', href: '/checkout', icon: <FiShoppingCart size={24} /> },
         { name: 'Profile', href: '/user', icon: <FiUser size={24} /> },
         { name: 'Contact', href: '/contact-us', icon: <FiMessageSquare size={24} /> },
     ]
@@ -52,9 +52,9 @@ export default function NavBar() {
                                 <Image
                                     alt="logo"
                                     src="/logo.png"
-                                    height={300}
-                                    width={300}
-                                    className="h-8 w-auto"
+                                    height={500}
+                                    width={500}
+                                    className="h-12 w-auto"
                                 />
                             </div>
                         </Link>
