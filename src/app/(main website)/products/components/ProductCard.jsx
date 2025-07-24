@@ -11,7 +11,13 @@ function ProductCard({ product, variant }) {
         ((variant.actualPrice - variant.discountedPrice) / variant.actualPrice) * 100
     );
 
-    const { addToCart } = useCartStore();
+    const { cart, addToCart, updateQuantity } = useCartStore();
+
+    const existingCartItem = cart.find(
+        (item) =>
+            item.productId === product._id && item.variantId === variant._id
+    );
+
 
     return (
         <div className="group bg-white border border-gray-300 rounded-md overflow-hidden hover:shadow-md transition-all duration-300 h-full flex flex-col">
@@ -85,14 +91,49 @@ function ProductCard({ product, variant }) {
                         )}
                     </div>
                     <div className="flex flex-col sm:flex-row gap-2 mt-2">
-                        {product?.outOfStock
-                            ? <p className='border bg-gray-100 text-gray-700 text-sm rounded-md px-2 py-1 max-[500px]:max-w-16 text-wrap text-center'>Out of stock</p>
-                            : <button
+                        {product?.outOfStock ? (
+                            <p className='border bg-gray-100 text-gray-700 text-sm rounded-md px-2 py-1 max-[500px]:max-w-16 text-wrap text-center'>
+                                Out of stock
+                            </p>
+                        ) : existingCartItem ? (
+                            <div className="flex items-center border border-primary rounded-md overflow-hidden text-primary text-sm">
+                                <button
+                                    onClick={() =>
+                                        updateQuantity(
+                                            product._id,
+                                            variant._id,
+                                            existingCartItem.quantity - 1
+                                        )
+                                    }
+                                    className="px-2 py-1 hover:bg-primary hover:text-white transition"
+                                >
+                                    –
+                                </button>
+                                <div className="px-3 py-1 bg-primary text-white">
+                                    {existingCartItem.quantity}
+                                </div>
+                                <button
+                                    onClick={() =>
+                                        updateQuantity(
+                                            product._id,
+                                            variant._id,
+                                            existingCartItem.quantity + 1
+                                        )
+                                    }
+                                    className="px-2 py-1 hover:bg-primary hover:text-white transition"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        ) : (
+                            <button
                                 onClick={() => addToCart(product, variant)}
-                                className="border border-primary text-primary px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-[#f0f4f9] transition flex-1 text-center flex gap-1 items-center justify-center">
-                                <span>   <IoCartOutline size={16} /></span>  Add
+                                className="border border-primary text-primary px-3 py-2 rounded-lg text-xs sm:text-sm hover:bg-[#f0f4f9] transition flex-1 text-center flex gap-1 items-center justify-center"
+                            >
+                                <IoCartOutline size={16} /> Add
                             </button>
-                        }
+                        )}
+
                     </div>
                 </div>
             </div>
