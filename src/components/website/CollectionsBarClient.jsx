@@ -33,7 +33,7 @@ export default function CollectionsBarClient({ collections }) {
                         <motion.div
                             key={col._id}
                             variants={itemVariants}
-                            className="flex-shrink-0 w-32 sm:w-40 sm:h-32 snap-center"
+                            className="flex-shrink-0 w-36 sm:w-40 sm:h-36 snap-center"
                         >
                             <Link
                                 href={`/collections/${col.slug}`}
