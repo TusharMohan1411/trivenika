@@ -1,12 +1,17 @@
+import Service from "@/models/serviceModel";
+import { connectDB } from "../mongodb";
 import clientPromise from "../mongodbClient";
 
+// To fetch products on all products page
 export async function getServices() {
   try {
-    const client = await clientPromise;
-    const db = client.db();
-    return await db.collection("services").find({}).toArray();
-  } catch (e) {
-    console.error(e);
+    await connectDB();
+    const services = await Service.find({ status: true })
+      .sort({ updatedAt: -1 })
+      .lean();
+    return JSON.parse(JSON.stringify(services)) || [];
+  } catch (error) {
+    onsole.error("Unable to fetch services" + e);
     return [];
   }
 }

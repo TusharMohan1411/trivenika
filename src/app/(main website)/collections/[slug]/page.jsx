@@ -13,7 +13,7 @@ import SaleCountdownTimer from '@/components/website/SaleCountdownTimer';
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
     const items = collection?.products.map((item) => {
-        const variant = item?.productId?.variants?.find((v) => v._id === item.variantId) || {
+        const variant = item?.productId?.variants?.find((v) => v.name === item.variantName) || {
             name: item.variantName,
             _id: item.variantId,
             actualPrice: 0,

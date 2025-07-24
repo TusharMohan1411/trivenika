@@ -3,6 +3,7 @@ import { connectDB } from "@/lib/mongodb";
 import Banner from "@/models/bannerModel";
 import Collection from "@/models/collectionModel";
 
+// to get banners of home page top
 export const getBanners = async () => {
   try {
     await connectDB();
@@ -14,8 +15,7 @@ export const getBanners = async () => {
   }
 };
 
-// import { connectDB } from "@/lib/mongodb";
-
+// To get collections on home page
 export async function getHomePageCollections() {
   try {
     await connectDB();
@@ -26,10 +26,10 @@ export async function getHomePageCollections() {
 
     const trimmedCollections = collections.map((col) => ({
       ...col,
-      products: col.products.slice(0, 12),
+      products: col.products
+        .filter((p) => p.productId.status === true)
+        .slice(0, 12),
     }));
-
-    console.log(trimmedCollections);
 
     return JSON.parse(JSON.stringify(trimmedCollections)) || [];
   } catch (error) {

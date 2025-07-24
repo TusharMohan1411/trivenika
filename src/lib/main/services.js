@@ -18,15 +18,26 @@ export async function getServiceBySlug(slug) {
     return null;
   }
 }
+
+// to get collection with the help of slug
 export async function getCollectionBySlug(slug) {
   try {
     await connectDB();
 
-    const collection = await Collection.findOne({ slug }).populate(
+    const fullCollection = await Collection.findOne({ slug }).populate(
       "products.productId"
     );
 
-    return collection ? JSON.parse(JSON.stringify(collection)) : null;
+    const filteredProducts = fullCollection.products?.filter(
+      (p) => p?.productId?.status === true
+    );
+
+    const collection = {
+      ...fullCollection.toObject(),
+      products: filteredProducts,
+    };
+
+    return JSON.parse(JSON.stringify(collection)) || [];
   } catch (error) {
     console.error(`Error fetching collection ${slug}:`, error);
     return null;
@@ -63,7 +74,7 @@ export async function getAllServicesSlugs() {
 export async function getLatestServices() {
   try {
     await connectDB();
-    const latestServices = await Service.find()
+    const latestServices = await Service.find({ status: true })
       .sort({ updatedAt: -1 })
       .limit(4);
 

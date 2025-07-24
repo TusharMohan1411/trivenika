@@ -6,7 +6,5 @@ import { getHomePageData } from '@/lib/main/getHomePageData';
 export default async function Page() {
     const { services } = await getHomePageData();
 
-    console.log(services)
-
     return <ServicesClient services={services} />
 }
