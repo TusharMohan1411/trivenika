@@ -11,6 +11,7 @@ import MobileNav from './MobileNav'
 import LoginButton from '@/components/auth/LoginButton'
 import CartDrawer from '../CartDrawer'
 import { useCartStore } from '@/store/cartStore'
+import { Tag } from 'lucide-react'
 
 export default function NavBar() {
     const [mobileOpen, setMobileOpen] = useState(false)
@@ -26,9 +27,10 @@ export default function NavBar() {
     const items = [
         { name: 'Home', href: '/', icon: <FiHome size={24} /> },
         { name: 'Products', href: '/products', icon: <FiGrid size={24} /> },
+        { name: 'Offers', href: '/collections/offers', icon: <Tag size={24} /> },
         { name: 'Cart', href: '/checkout', icon: <FiShoppingCart size={24} /> },
         { name: 'Profile', href: '/user', icon: <FiUser size={24} /> },
-        { name: 'Contact', href: '/contact-us', icon: <FiMessageSquare size={24} /> },
+        // { name: 'Contact', href: '/contact-us', icon: <FiMessageSquare size={24} /> },
     ]
 
     // animation variants for icons
@@ -120,10 +122,21 @@ export default function NavBar() {
                                         {item.icon}
                                     </motion.div>
                                     {/* Cart badge */}
-                                    {item.name === 'Cart' && totalQty > 0 && (
-                                        <span className={`${isActive ? '-top-7 bg-yellow-300 text-black' : '-top-2 bg-green-600 text-white'} absolute right-[15px]  text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow`}>
-                                            {totalQty}
-                                        </span>
+                                    {item.name === 'Cart' && (
+                                        <AnimatePresence>
+                                            {!isActive && totalQty > 0 && (
+                                                <motion.span
+                                                    key="cart-badge"
+                                                    initial={{ opacity: 0, scale: 0 }}
+                                                    animate={{ opacity: 1, scale: 1 }}
+                                                    exit={{ opacity: 0, scale: 0 }}
+                                                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                                                    className={` transition-all ease-in-out duration-300 absolute right-[15px] -top-2 bg-green-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow`}
+                                                >
+                                                    {totalQty}
+                                                </motion.span>
+                                            )}
+                                        </AnimatePresence>
                                     )}
 
                                     <motion.span
