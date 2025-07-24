@@ -4,6 +4,7 @@ import Category from "@/models/categoryModel";
 import Tag from "@/models/tagModel";
 import Collection from "@/models/collectionModel";
 
+// get service by slug
 export async function getServiceBySlug(slug) {
   try {
     await connectDB(); // ensures mongoose is connected
@@ -82,5 +83,25 @@ export async function getLatestServices() {
   } catch (error) {
     console.error("Error in getting lastest Products: ", error);
     return null;
+  }
+}
+
+// get related products
+
+export async function getRelatedServices(service) {
+  try {
+    if (!service?.tags?.length) return [];
+
+    const tagIds = service?.tags?.map((t) => t._id);
+
+    const related = await Service.find({
+      _id: { $ne: service._id },
+      tags: { $in: tagIds },
+    }).limit(8);
+
+    return JSON.parse(JSON.stringify(related)) || [];
+  } catch (error) {
+    console.error("Error fetching related products:", err);
+    return [];
   }
 }

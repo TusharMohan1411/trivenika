@@ -2,7 +2,7 @@
 export const revalidate = 60;
 import TalkToLawyerCard from '@/components/website/TalkToLawyerCard';
 import WebsiteLayout from '@/components/website/WebsiteLayout';
-import { getAllServicesSlugs, getServiceBySlug } from '@/lib/main/services';
+import { getAllServicesSlugs, getRelatedServices, getServiceBySlug } from '@/lib/main/services';
 import { notFound } from 'next/navigation';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from '@/components/ui/breadcrumb';
 import EnquiryForm from '@/components/website/EnquiryForm';
@@ -17,6 +17,7 @@ import LabTestingSection from './components/LabTestingSection';
 import LatestServices from '@/components/website/LatestServices';
 import LatestBlogs from '@/components/website/LatestBlogs';
 import TestimonialSlider from '@/components/website/home/TestimonialSlider';
+import RelatedProducts from '@/components/website/RelatedProducts';
 
 
 // export async function generateStaticParams() {
@@ -65,8 +66,9 @@ async function Page({ params }) {
         notFound();
     }
 
-    console.log(service)
-    // console.log(service)
+    // console.log(service?.tags)
+    const relatedServices = await getRelatedServices(service)
+
 
     return (
         <WebsiteLayout>
@@ -119,9 +121,9 @@ async function Page({ params }) {
 
                                 <TestimonialSlider />
                                 <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
-                                <LatestServices />
 
-                                <LatestBlogs />
+                                <RelatedProducts products={relatedServices} />
+                                <LatestServices />
 
                                 {/* <ul className="space-y-3 mt-4">
                                     {service?.serviceTypeDetails?.map((item, idx) => (

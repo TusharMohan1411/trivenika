@@ -12,6 +12,8 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import LatestBlogs from '@/components/website/LatestBlogs';
 import { Separator } from '@/components/ui/separator';
 import LatestServices from '@/components/website/LatestServices';
+import RelatedProducts from '@/components/website/RelatedProducts';
+import { getRelatedServices } from '@/lib/main/services';
 
 export default async function page({ params }) {
     const { services, categories } = await getHomePageData();
@@ -19,8 +21,10 @@ export default async function page({ params }) {
     const slug = await params
     const blog = await getBlogBySlug(slug.slug)
 
+    const relatedServices = await getRelatedServices(blog)
+
     return (
-        <WebsiteLayout services={services} categories={categories}>
+        <WebsiteLayout >
             <article className="max-w-7xl mx-auto space-y-5 px-2">
                 <script
                     type="application/ld+json"
@@ -71,6 +75,8 @@ export default async function page({ params }) {
                 </section>
 
                 <Separator className={'mt-10'} />
+
+                <RelatedProducts products={relatedServices} />
 
                 <LatestServices />
 
