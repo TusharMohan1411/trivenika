@@ -29,16 +29,16 @@ export async function getCollectionBySlug(slug) {
       "products.productId"
     );
 
-    const filteredProducts = fullCollection.products?.filter(
+    const filteredProducts = fullCollection?.products?.filter(
       (p) => p?.productId?.status === true
     );
 
     const collection = {
-      ...fullCollection.toObject(),
+      ...fullCollection?.toObject(),
       products: filteredProducts,
     };
 
-    return JSON.parse(JSON.stringify(collection)) || [];
+    return collection ? JSON.parse(JSON.stringify(collection)) : null;
   } catch (error) {
     console.error(`Error fetching collection ${slug}:`, error);
     return null;

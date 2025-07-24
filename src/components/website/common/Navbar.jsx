@@ -10,6 +10,7 @@ import BigNav from './BigNav'
 import MobileNav from './MobileNav'
 import LoginButton from '@/components/auth/LoginButton'
 import CartDrawer from '../CartDrawer'
+import { useCartStore } from '@/store/cartStore'
 
 export default function NavBar() {
     const [mobileOpen, setMobileOpen] = useState(false)
@@ -35,6 +36,7 @@ export default function NavBar() {
         active: { y: -22, color: '#ffffff', transition: { duration: 0.5 } },
         inactive: { y: 0, color: '#4B5563', transition: { duration: 0.5 } },
     }
+    const cart = useCartStore((state) => state.cart);
 
     return (
         <>
@@ -81,11 +83,13 @@ export default function NavBar() {
             {/* Floating Bottom Nav */}
             <div className="lg:hidden fixed bottom-0 left-0 w-full z-50 border-t shadow-[0_-2px_10px_rgba(0,0,0,0.05)] rounded-t-4xl">
                 <div className="relative flex justify-center items-center h-20 bg-white rounded-t-4xl px-5">
+
                     {items.map(item => {
                         const isActive =
                             item.href === '/'
                                 ? pathname === '/'
                                 : pathname.startsWith(item.href)
+                        const totalQty = cart.reduce((sum, ci) => sum + ci.quantity, 0);
 
                         return (
                             <Link
@@ -115,6 +119,13 @@ export default function NavBar() {
                                     >
                                         {item.icon}
                                     </motion.div>
+                                    {/* Cart badge */}
+                                    {item.name === 'Cart' && totalQty > 0 && (
+                                        <span className={`${isActive ? '-top-7 bg-yellow-300 text-black' : '-top-2 bg-green-600 text-white'} absolute right-[15px]  text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow`}>
+                                            {totalQty}
+                                        </span>
+                                    )}
+
                                     <motion.span
                                         layoutId={`label-${item.name}`}
                                         initial={false}

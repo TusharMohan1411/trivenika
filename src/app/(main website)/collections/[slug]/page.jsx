@@ -12,7 +12,11 @@ import SaleCountdownTimer from '@/components/website/SaleCountdownTimer';
 
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
-    const items = collection?.products.map((item) => {
+    if (!collection || Object.keys(collection).length) {
+        return <div>asdasfd</div>
+    }
+
+    const items = collection?.products?.map((item) => {
         const variant = item?.productId?.variants?.find((v) => v.name === item.variantName) || {
             name: item.variantName,
             _id: item.variantId,
@@ -62,7 +66,7 @@ export default async function Page({ params }) {
 
                     {/* Products Grid */}
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6">
-                        {items.map(({ product, variant }) => (
+                        {items?.map(({ product, variant }) => (
                             <ProductCard
                                 key={`${product._id}-${variant._id}`}
                                 product={product}
