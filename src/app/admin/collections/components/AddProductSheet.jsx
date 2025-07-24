@@ -38,7 +38,7 @@ export default function AddProductSheet({ collection, onClose }) {
 
     const toggle = (item) => {
         setSelected((prev) =>
-            prev.some((s) => s.variant.name.toLowerCase() === item.variantName.toLowerCase())
+            prev.some((s) => s.variant.name === item.variantName)
                 ? prev.filter((s) => s.variant.name.toLowerCase() !== item.variantName.toLowerCase())
                 : [...prev, item]
         );

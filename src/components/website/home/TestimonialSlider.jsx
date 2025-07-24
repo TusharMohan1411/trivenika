@@ -43,7 +43,7 @@ export default async function TestimonialSlider() {
 
     const res = await getTestimonialsData({
         isVisible: true,
-        limit: 3,
+        limit: 15,
         page: 1,
     })
 

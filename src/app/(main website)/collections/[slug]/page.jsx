@@ -12,9 +12,6 @@ import SaleCountdownTimer from '@/components/website/SaleCountdownTimer';
 
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
-    if (!collection || Object.keys(collection).length) {
-        return <div>asdasfd</div>
-    }
 
     const items = collection?.products?.map((item) => {
         const variant = item?.productId?.variants?.find((v) => v.name === item.variantName) || {
