@@ -20,13 +20,13 @@ import TestimonialSlider from '@/components/website/home/TestimonialSlider';
 import RelatedProducts from '@/components/website/RelatedProducts';
 
 
-// export async function generateStaticParams() {
-//     const services = await getAllServicesSlugs();
+export async function generateStaticParams() {
+    const services = await getAllServicesSlugs();
 
-//     return services.map(service => ({
-//         slug: service.slug,
-//     }));
-// }
+    return services.map(service => ({
+        slug: service.slug,
+    }));
+}
 
 
 // export async function generateMetadata({ params }) {
@@ -92,21 +92,6 @@ async function Page({ params }) {
 
                     <section className="flex gap-4 lg:gap-10 flex-col lg:flex-row relative">
                         <div className="flex-1 h-full flex flex-col">
-                            {/* <Breadcrumb className="mb-3">
-                                <BreadcrumbList>
-                                    <BreadcrumbItem>
-                                        <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                                    </BreadcrumbItem>
-                                    <BreadcrumbSeparator />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbLink href="/">Products</BreadcrumbLink>
-                                    </BreadcrumbItem>
-                                    <BreadcrumbSeparator />
-                                    <BreadcrumbItem>
-                                        <BreadcrumbPage>{service.name}</BreadcrumbPage>
-                                    </BreadcrumbItem>
-                                </BreadcrumbList>
-                            </Breadcrumb> */}
 
                             <div className='mb-4 space-y-0'>
                                 {/* <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-4">

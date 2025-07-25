@@ -1,4 +1,4 @@
-export const revalidate = 20;
+export const revalidate = 60;
 import React from 'react'
 import ServicesClient from './components/ServicesClient'
 import { getHomePageData } from '@/lib/main/getHomePageData';

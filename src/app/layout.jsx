@@ -33,7 +33,9 @@ export default function RootLayout({ children }) {
         className={`${poppins.variable} ${montserrat.variable} ${inter.variable} antialiased`}
       >
         <main>{children}</main>
-        {/* <EnquiryWidget /> */}
+        <div className="max-[1024px]:hidden">
+          <EnquiryWidget />
+        </div>
       </body>
     </html>
   );
