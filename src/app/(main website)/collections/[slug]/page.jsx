@@ -30,7 +30,7 @@ export default async function Page({ params }) {
     return (
         <WebsiteLayout>
             {/* Simple Banner Image */}
-            <div className='pb-16 pt-5'>
+            <div className='pb-16 pt-5 sm:pt-0'>
                 <div className="">
                     {collection.bannerImage &&
                         <Image

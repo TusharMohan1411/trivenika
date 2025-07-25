@@ -72,7 +72,7 @@ export default function SaleCountdownTimer({ saleStart, saleEnd }) {
                     <div className="flex flex-col md:flex-row items-center justify-between">
                         {/* Title Section */}
                         <div className="flex items-center mb-3 md:mb-0">
-                            <h3 className="text-sm md:text-base lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-rose-600 whitespace-nowrap">
+                            <h3 className="text-lg md:text-xl lg:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-rose-600 whitespace-nowrap">
                                 {isUrgent ? 'Hurry up! Sale Ending Soon' : 'Limited Time Offer'}
                             </h3>
                         </div>
@@ -88,7 +88,7 @@ export default function SaleCountdownTimer({ saleStart, saleEnd }) {
                                                 {value.toString().padStart(2, '0')}
                                             </span>
                                         </div>
-                                        <span className="mt-1 text-[10px] sm:text-xs text-gray-600 uppercase">
+                                        <span className="mt-1 text-[13px] sm:text-xs text-gray-600 uppercase">
                                             {isMobile ? unit.charAt(0) : labelMap[unit]}
                                         </span>
                                     </div>
@@ -98,7 +98,7 @@ export default function SaleCountdownTimer({ saleStart, saleEnd }) {
 
 
                         {/* CTA Section */}
-                        <button className="mt-3 md:mt-0 px-4 py-2 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-xs md:text-sm font-bold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+                        <button className="mt-4 md:mt-0 px-4 py-2 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-base md:text-lg font-bold rounded-lg shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
                             SHOP NOW
                         </button>
                     </div>
