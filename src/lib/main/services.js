@@ -57,6 +57,20 @@ export async function getCollections() {
   }
 }
 
+export async function getAllCollectionsSlugs() {
+  try {
+    await connectDB();
+
+    const collections = await Collection.find({}, "slug"); // only fetch `slug` field
+    return collections.map((cl) => ({
+      slug: cl.slug,
+    }));
+  } catch (error) {
+    console.error("Error fetching service slugs:", error);
+    return [];
+  }
+}
+
 export async function getAllServicesSlugs() {
   try {
     await connectDB();

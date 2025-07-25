@@ -1,7 +1,7 @@
 // app/collections/[slug]/page.jsx
 export const revalidate = 60;
 import WebsiteLayout from '@/components/website/WebsiteLayout';
-import { getCollectionBySlug } from '@/lib/main/services';
+import { getAllCollectionsSlugs, getCollectionBySlug } from '@/lib/main/services';
 import Image from 'next/image';
 import React from 'react';
 import ProductCard from '../../products/components/ProductCard';
@@ -9,6 +9,13 @@ import LatestServices from '@/components/website/LatestServices';
 import LatestBlogs from '@/components/website/LatestBlogs';
 import CollectionsBar from '@/components/website/CollectionsBar';
 import SaleCountdownTimer from '@/components/website/SaleCountdownTimer';
+
+export async function generateStaticParams() {
+    const collections = await getAllCollectionsSlugs();
+    return collections.map(cl => ({
+        slug: cl.slug,
+    }));
+}
 
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
