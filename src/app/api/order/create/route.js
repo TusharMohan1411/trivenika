@@ -60,7 +60,7 @@ export async function POST(req) {
     );
 
     return NextResponse.json(
-      { success: true, orderMainId: newOrder._id, user: updatedUserData },
+      { success: true, orderDetails: newOrder, user: updatedUserData },
       { status: 201 }
     );
   } catch (err) {

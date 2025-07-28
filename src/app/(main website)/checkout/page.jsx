@@ -165,6 +165,11 @@ export default function CheckoutPage() {
 
             const result = await res.json();
             if (res.ok) {
+                await fetch('/api/orderMail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(result)
+                })
                 toast.success("Order Placed Sucessfully", { id: toastId })
                 setOrdering(false)
                 router.push('/orderSuccess')
@@ -211,7 +216,13 @@ export default function CheckoutPage() {
                                 paymentDate: localISOTime()
                             })
                         });
+                        const result = await saveRes.json()
                         if (saveRes.ok) {
+                            await fetch('/api/orderMail', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(result)
+                            })
                             toast.success("Order Placed Sucessfully", { id: toastId })
                             setOrdering(false)
                             router.push('/orderSuccess')
