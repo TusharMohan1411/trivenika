@@ -1,20 +1,15 @@
+// app/services/[slug]/page.jsx
 export const revalidate = 60;
-
 import WebsiteLayout from '@/components/website/WebsiteLayout';
+import { getAllServicesSlugs, getRelatedServices, getServiceBySlug } from '@/lib/main/services';
 import { notFound } from 'next/navigation';
-import {
-    getAllServicesSlugs,
-    getRelatedServices,
-    getServiceBySlug
-} from '@/lib/main/services';
-
 import ProductHeroSection from './components/productHeroSection';
+import MultipleUses from './components/MultipleUses';
 import WhyToBuySection from './components/WhyToBuySection';
 import LabTestingSection from './components/LabTestingSection';
-import MultipleUses from './components/MultipleUses';
-import RelatedProducts from '@/components/website/RelatedProducts';
 import LatestServices from '@/components/website/LatestServices';
 import TestimonialSlider from '@/components/website/home/TestimonialSlider';
+import RelatedProducts from '@/components/website/RelatedProducts';
 
 // ✅ Generate static pages
 export async function generateStaticParams() {
@@ -37,12 +32,12 @@ export async function generateMetadata({ params }) {
         title: product.name,
         description: product.shortDescription,
         alternates: {
-            canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/services/${product.slug}`,
+            canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`,
         },
         openGraph: {
             title: product.name,
             description: product.shortDescription,
-            url: `${process.env.NEXT_PUBLIC_SITE_URL}/services/${product.slug}`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL}/products/${product.slug}`,
             images: product.images,
             type: 'website',
         },
@@ -55,12 +50,15 @@ export async function generateMetadata({ params }) {
     };
 }
 
-// ✅ Actual Page
 async function Page({ params }) {
-    const product = await getServiceBySlug(params.slug);
-    if (!product) notFound();
 
-    const relatedServices = await getRelatedServices(product);
+    const service = await getServiceBySlug(params.slug);
+
+    if (!service) {
+        notFound();
+    }
+    const relatedServices = await getRelatedServices(service)
+
 
     return (
         <WebsiteLayout>
@@ -72,41 +70,44 @@ async function Page({ params }) {
                         dangerouslySetInnerHTML={{
                             __html: JSON.stringify({
                                 "@context": "https://schema.org",
-                                "@type": "Product",
-                                name: product.name,
-                                description: product.shortDescription,
-                                image: product.images[0],
+                                "@type": "website",
+                                name: service.name,
+                                description: service.shortDescription,
+                                image: service.images[0],
                                 brand: {
                                     "@type": "Brand",
                                     name: "Trivenika"
                                 },
                                 offers: {
                                     "@type": "Offer",
-                                    url: `${process.env.NEXT_PUBLIC_SITE_URL}/services/${product.slug}`,
+                                    url: `${process.env.NEXT_PUBLIC_SITE_URL}/product/${service.slug}`,
                                     priceCurrency: "INR",
-                                    price: product.variants?.[0]?.discountedPrice || product.variants?.[0]?.actualPrice || 0,
-                                    availability: product.outOfStock ? "OutOfStock" : "InStock"
+                                    price: service.variants?.[0]?.discountedPrice || service.variants?.[0]?.actualPrice || 0,
+                                    availability: service.outOfStock ? "OutOfStock" : "InStock"
                                 }
                             }),
                         }}
                     />
 
-                    {/* ✅ Page Content */}
                     <section className="flex gap-4 lg:gap-10 flex-col lg:flex-row relative">
-                        <div className="flex-1 h-full flex flex-col space-y-4">
-                            <ProductHeroSection product={product} />
-                            <WhyToBuySection whyToBuy={product.whyToBuy} productName={product.name} />
-                            <LabTestingSection labTestingImage={product.labTestingReport} />
-                            <TestimonialSlider />
-                            <MultipleUses multipleUseHeading={product.multipleUseHeading} multipleUsePoints={product.multipleUsePoints} />
-                            <RelatedProducts products={relatedServices} />
-                            <LatestServices />
+                        <div className="flex-1 h-full flex flex-col">
+                            <div className='mb-4 space-y-0'>
+                                <ProductHeroSection product={service} />
+                                <WhyToBuySection whyToBuy={service.whyToBuy} productName={service?.name} />
+                                <LabTestingSection labTestingImage={service.labTestingReport} />
+                                <TestimonialSlider />
+                                <MultipleUses multipleUseHeading={service.multipleUseHeading} multipleUsePoints={service.multipleUsePoints} />
+                                <RelatedProducts products={relatedServices} />
+                                <LatestServices />
+                            </div>
                         </div>
                     </section>
+
                 </article>
             </main>
-        </WebsiteLayout>
+        </WebsiteLayout >
     );
 }
 
 export default Page;
+

@@ -84,7 +84,7 @@ export default function ProductHeroSection({ product, preview }) {
                 <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gray-50 border-2">
                     <Swiper
                         onSwiper={setSwiperInstance}
-                        modules={[Navigation, Autoplay, Pagination]}
+                        modules={[Autoplay, Pagination]}
                         autoplay={{
                             delay: 3000,
                             disableOnInteraction: false,
@@ -92,7 +92,6 @@ export default function ProductHeroSection({ product, preview }) {
                         speed={1300}
                         loop={true}
                         pagination={{ clickable: true }}
-                        navigation={true}
                         onSlideChange={handleSlideChange}
                         initialSlide={mainImageIndex}
                         className="w-full h-full"

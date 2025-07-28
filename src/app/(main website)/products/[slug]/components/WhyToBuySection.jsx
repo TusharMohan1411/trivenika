@@ -163,13 +163,12 @@ const WhyToBuySection = ({ whyToBuy, productName }) => {
                 </motion.div>
 
                 {/* Nature Commitment */}
-                <motion.div
+                {/* <motion.div
                     className="mt-16 max-w-4xl mx-auto bg-gradient-to-r from-[#2E8B57] to-[#1a5c38] rounded-3xl p-8 md:p-12 relative overflow-hidden"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.4 }}
                 >
-                    {/* Decorative elements */}
                     <div className="absolute top-0 left-0 w-48 h-48 bg-[#ffffff]/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                     <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#ffffff]/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
 
@@ -202,7 +201,7 @@ const WhyToBuySection = ({ whyToBuy, productName }) => {
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </motion.div> */}
 
                 {/* Final CTA */}
                 <motion.div
