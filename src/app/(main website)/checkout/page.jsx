@@ -149,13 +149,15 @@ export default function CheckoutPage() {
             paymentMethod: data.paymentMethod,
         };
 
+        console.log(orderPayload)
+        // return;
+
         if (data.paymentMethod === 'cod') {
             const confirmOrder = confirm('Are you sure you want to place a COD order?');
             if (!confirmOrder) {
                 setOrdering(false)
                 toast.dismiss(toastId)
                 return
-
             }
             const res = await fetch('/api/order/create', {
                 method: 'POST',
