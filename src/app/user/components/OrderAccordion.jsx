@@ -9,6 +9,8 @@ import DownloadInvoiceButton from '@/app/admin/orders/components/DownloadInvoice
 export default function OrderAccordion({ order }) {
     const [open, setOpen] = useState(false)
 
+    console.log(order)
+
     // helper to get variant data from populated serviceId
     const getVariant = (cartItem) =>
         cartItem.serviceId.variants.find(v => v.name === cartItem.variantName)
@@ -25,7 +27,7 @@ export default function OrderAccordion({ order }) {
             >
                 <div className="text-left flex-grow">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
-                        <p className="font-medium">Order #{order._id.slice(-6)}</p>
+                        <p className="font-medium">Order #{order?.orderId}</p>
                         <span className={`mt-1 sm:mt-0 inline-block w-fit px-2 py-1 text-sm font-semibold rounded-sm mb-2
               ${latestStatus === 'Delivered' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}
                         >
@@ -34,7 +36,7 @@ export default function OrderAccordion({ order }) {
                     </div>
                     <p className="text-sm text-gray-500">
                         {format(new Date(order.createdAt), 'MMM d, yyyy')} •{' '}
-                        <span className={`font-semibold capitalize ${order.paymentStatus === 'paid' ? 'text-green-600' : 'text-red-600'}`}>
+                        Payment Status: <span className={`font-semibold capitalize ${order.paymentStatus === 'paid' ? 'text-green-600' : 'text-red-600'}`}>
                             {order.paymentStatus}
                         </span>
                     </p>
@@ -60,15 +62,14 @@ export default function OrderAccordion({ order }) {
                         <div className="p-4 bg-white space-y-6">
                             {/* Cart items */}
                             <div className="space-y-4">
-                                {order.cart.map(item => {
-                                    const variant = getVariant(item)
+                                {order?.cart?.map((item, idx) => {
                                     return (
-                                        <div key={item._id || item.variantId} className="flex items-center gap-4">
+                                        <div key={idx} className="flex items-center gap-4">
                                             <div className="relative w-16 h-16 flex-shrink-0">
-                                                {variant?.image &&
+                                                {item?.variantImage &&
                                                     <Image
-                                                        src={variant.image}
-                                                        alt={`${item.serviceName} – ${item.variantName}`}
+                                                        src={item?.variantImage}
+                                                        alt={`${item?.serviceName} – ${item?.variantName}`}
                                                         fill
                                                         className="object-cover rounded"
                                                     />
@@ -76,9 +77,9 @@ export default function OrderAccordion({ order }) {
                                             </div>
                                             <div className="flex-grow">
                                                 <p className="font-medium">
-                                                    {item.serviceName} – {item.variantName}
+                                                    {item?.serviceName} – {item?.variantName}
                                                 </p>
-                                                <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                                                <p className="text-sm text-gray-500">Qty: {item?.quantity}</p>
                                             </div>
                                             <p className="font-semibold">
                                                 ₹{(item.price ?? variant.discountedPrice) * item.quantity}

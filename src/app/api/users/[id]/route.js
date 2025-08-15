@@ -5,19 +5,15 @@ import { NextResponse } from "next/server";
 import { Actions, Resources } from "@/lib/permissions";
 import { requirePermissionApi } from "@/lib/serverPermissions";
 import Order from "@/models/orderModel";
-import Service from "@/models/serviceModel";
 
 export async function GET(req, { params }) {
   await connectDB();
   const { id } = await params;
 
   try {
-    const user = await User.findById(id)
-      .select("-password")
-      .populate({
-        path: "orders",
-        populate: [{ path: "cart.serviceId", model: "Service" }],
-      });
+    const user = await User.findById(id).select("-password").populate({
+      path: "orders",
+    });
 
     if (!user) {
       return NextResponse.json(
