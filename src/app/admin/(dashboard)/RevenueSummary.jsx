@@ -10,7 +10,7 @@ import {
     Legend,
 } from 'recharts'
 import { useQuery } from '@tanstack/react-query'
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card'
 
 const fetchRevenueData = async () => {
     const res = await fetch('/api/dashboard/revenue-summary?days=28')
@@ -36,27 +36,30 @@ const RevenueSummary = () => {
 
     const chartData = data.dates.map((date, index) => ({
         date: formatDate(date),
-        pos: data.posRevenue[index],
-        website: data.websiteRevenue[index],
+        // pos: data.posRevenue[index],
+        orders: data.websiteRevenue[index],
     }))
 
     return (
         <Card>
             <CardHeader className="flex flex-row justify-between items-start">
                 <div>
-                    <CardTitle>Revenue Summary (Last 28 Days)</CardTitle>
+                    <CardTitle>Revenue Summary</CardTitle>
+                    <CardDescription>
+                        Showing the total revenue from orders in last 28 Days
+                    </CardDescription>
                 </div>
                 {/* Mini Cards */}
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 gap-2">
                     <div className="bg-green-100 text-green-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
-                        ₹{data.totalRevenue}<br />Total
+                        ₹{data.totalRevenue}<br />Total Revenue
                     </div>
-                    <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
+                    {/* <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
                         ₹{data.posRevenueTotal}<br />POS
                     </div>
                     <div className="bg-purple-100 text-purple-800 px-3 py-1 rounded-md text-xs font-semibold text-center">
                         ₹{data.websiteRevenueTotal}<br />Website
-                    </div>
+                    </div> */}
                 </div>
             </CardHeader>
 
@@ -74,21 +77,21 @@ const RevenueSummary = () => {
                             labelFormatter={(label) => `Date: ${label}`}
                         />
                         <Legend verticalAlign="top" height={36} />
-                        <Area
+                        {/* <Area
                             type="monotone"
                             dataKey="pos"
                             stroke="#3b82f6"
                             fill="#3b82f6"
                             fillOpacity={0.2}
                             name="POS Revenue"
-                        />
+                        /> */}
                         <Area
                             type="monotone"
-                            dataKey="website"
+                            dataKey="orders"
                             stroke="#8b5cf6"
                             fill="#8b5cf6"
                             fillOpacity={0.2}
-                            name="Website Revenue"
+                            name="Ordes Revenue"
                         />
                     </AreaChart>
                 </ResponsiveContainer>

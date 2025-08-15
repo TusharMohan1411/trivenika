@@ -204,7 +204,16 @@ export default function Step1BasicDetails() {
 
                 {/* Images Selector */}
                 <div className="space-y-2 col-span-2">
-                    <FormLabel>Images *</FormLabel>
+                    <div className='flex justify-between items-center'>
+                        <FormLabel>Images *</FormLabel>
+                        {images.length > 0 && (
+                            <div className='flex items-center justify-end'>
+                                <Button type="button" className={'w-fit'} onClick={() => setOpenImageDialog(true)}>
+                                    Add More
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                     <div className="flex flex-col gap-3">
                         {images.length === 0 && (
                             <div
@@ -216,23 +225,18 @@ export default function Step1BasicDetails() {
                             </div>
                         )}
                         {images.length > 0 && (
-                            <Button type="button" onClick={() => setOpenImageDialog(true)}>
-                                Add More
-                            </Button>
-                        )}
-                        {images.length > 0 && (
-                            <div className="grid grid-cols-4 gap-3">
+                            <div className="grid grid-cols-3 xl:grid-cols-5 gap-3">
                                 {images.map((url, idx) => (
                                     <div
                                         key={idx}
-                                        className="relative border rounded-lg overflow-hidden group"
+                                        className="relative border rounded-lg overflow-hidden group aspect-square"
                                     >
                                         <Image
                                             src={url}
                                             alt={`img-${idx}`}
                                             height={300}
                                             width={300}
-                                            className="object-cover h-32 w-full"
+                                            className="object-cover"
                                         />
                                         <button
                                             type="button"
@@ -318,7 +322,7 @@ export default function Step1BasicDetails() {
                                     return (
                                         <span
                                             key={id}
-                                            className="flex items-center bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full text-sm"
+                                            className="flex items-center bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-sm"
                                         >
                                             {cat?.name}
                                             <X
@@ -389,7 +393,7 @@ export default function Step1BasicDetails() {
                                     return (
                                         <span
                                             key={id}
-                                            className="flex items-center bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-sm"
+                                            className="flex items-center bg-green-100 text-green-800 px-2 py-0.5 rounded text-sm"
                                         >
                                             {tag?.name}
                                             <X
@@ -440,18 +444,18 @@ export default function Step1BasicDetails() {
             {/* variants */}
             <div className="space-y-6 bg-white border rounded-xl p-7">
                 <Label className={'font-bold text-primary text-xl'}>Add Product Variants</Label>
-                <div className="gap-3 grid grid-cols-2">
+                <div className="gap-3 grid grid-cols-3 sm:grid-cols-4">
                     {variantFields.map((field, index) => (
-                        <Card key={field.id} className="p-4 relative">
-                            {/* <Button
+                        <Card key={field.id} className="p-4 relative shadow-none border border-gray-300 bg-gray-100">
+                            <Button
                                 type="button"
                                 variant="destructive"
                                 size="icon"
-                                className="absolute top-2 right-2 rounded-full"
+                                className="absolute top-3 right-3 rounded-sm h-6 w-6"
                                 onClick={() => removeVariant(index)}
                             >
                                 ✕
-                            </Button> */}
+                            </Button>
 
                             <div className="space-y-4">
                                 {/* Icon selector */}
@@ -459,7 +463,7 @@ export default function Step1BasicDetails() {
                                     <FormLabel className={'font-bold'}>Icon</FormLabel>
                                     <div className="flex flex-col gap-2 mt-3">
                                         {watch(`variants.${index}.image`) && (
-                                            <div className="border rounded-md w-62 h-44 overflow-hidden">
+                                            <div className="border rounded-md w-auto h-auto overflow-hidden aspect-square">
                                                 <Image
                                                     src={watch(`variants.${index}.image`)}
                                                     alt="Selected Image"
@@ -489,7 +493,7 @@ export default function Step1BasicDetails() {
                                             <FormItem>
                                                 <FormLabel className={'font-bold'}>Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="1 Litre / 500 ml" {...field} />
+                                                    <Input placeholder="1 Litre / 500 ml" {...field} className={'bg-white'} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -510,6 +514,7 @@ export default function Step1BasicDetails() {
                                                         type={'number'}
                                                         placeholder='1200'
                                                         {...field}
+                                                        className={'bg-white'}
                                                         onChange={(e) => field.onChange(Number(e.target.value))}
                                                     />
                                                 </FormControl>
@@ -532,6 +537,7 @@ export default function Step1BasicDetails() {
                                                         type={'number'}
                                                         placeholder='999'
                                                         {...field}
+                                                        className={'bg-white'}
                                                         onChange={(e) => field.onChange(Number(e.target.value))}
                                                     />
                                                 </FormControl>

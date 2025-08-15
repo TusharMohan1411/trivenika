@@ -38,7 +38,7 @@ export default function OrdersAreaChart({ days = 7 }) {
         const { dates, websiteCounts, posCounts } = data
         return dates.map((date, idx) => ({
             date,
-            Website: websiteCounts[idx] || 0,
+            Orders: websiteCounts[idx] || 0,
             POS: posCounts[idx] || 0,
         }))
     }, [data])
@@ -79,29 +79,29 @@ export default function OrdersAreaChart({ days = 7 }) {
                                 tickFormatter={formatDate}
                                 tickLine={false}
                                 axisLine={false}
-                                padding={{ left: 10, right: 10 }}
+                                padding={{ left: 0, right: 0 }}
                             />
                             <Tooltip
                                 contentStyle={{ backgroundColor: '#fff', borderRadius: '0.5rem' }}
                                 labelFormatter={(label) => formatDate(label)}
                             />
-                            <Legend />
+                            {/* <Legend /> */}
                             <Area
                                 type="monotone"
-                                dataKey="Website"
+                                dataKey="Orders"
                                 stroke="#6366f1"
                                 fill="#6366f1"
                                 fillOpacity={0.4}
                                 strokeWidth={2}
                             />
-                            <Area
+                            {/* <Area
                                 type="monotone"
                                 dataKey="POS"
                                 stroke="#06b6d4"
                                 fill="#06b6d4"
                                 fillOpacity={0.4}
                                 strokeWidth={2}
-                            />
+                            /> */}
                         </AreaChart>
                     </ResponsiveContainer>
                 )}

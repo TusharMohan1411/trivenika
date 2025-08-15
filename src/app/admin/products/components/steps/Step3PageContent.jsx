@@ -59,11 +59,11 @@ export default function Step3PageContent() {
                 const currentMarkdown = watch(`productBigDescription.${index}.content`);
 
                 return (
-                    <Collapsible key={field.id} defaultOpen={!hasError}>
+                    <Collapsible key={field.id} defaultOpen={false}>
                         <CollapsibleTrigger
                             className={`
                 flex w-full justify-between items-center
-                bg-white border rounded-xl p-5 cursor-pointer
+                bg-white border rounded-xl p-5 cursor-pointer transition-all ease-in-out duration-500
                 ${hasError ? 'border-red-500' : 'border-gray-300'}
               `}
                         >
@@ -83,7 +83,7 @@ export default function Step3PageContent() {
                             />
                         </CollapsibleTrigger>
 
-                        <CollapsibleContent className="p-7 border-l-2 border-gray-200 space-y-4 bg-white rounded-b-xl">
+                        <CollapsibleContent className="p-7 border-l-2 border-gray-200 space-y-4 bg-white rounded-b-xl transition-all ease-in-out duration-500">
                             {/* “Remove” button */}
                             <div className="flex justify-end">
                                 <Button

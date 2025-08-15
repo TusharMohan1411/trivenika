@@ -64,7 +64,7 @@ export default function Step2PageDetails() {
                 <div className="space-y-3">
                     {fields.map((field, index) => (
                         <FormItem key={field.id} className="flex gap-2 items-center">
-                            <Button variant={'outline'}>{index + 1}</Button>
+                            <p className='flex border h-full rounded bg-gray-100 px-3 py-1'>{index + 1}</p>
                             <FormControl>
                                 <Input
                                     {...register(`multipleUsePoints.${index}`)}

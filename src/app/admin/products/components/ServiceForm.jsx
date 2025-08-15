@@ -1,7 +1,7 @@
 // /app/components/ServiceForm.jsx
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Step1BasicDetails from './steps/Step1BasicDetails';
@@ -32,6 +32,7 @@ export default function ServiceForm({ defaultValues, onSubmit, loading, error })
             outOfStock: false,
             multipleUseHeading: '',
             multipleUsePoints: [''],
+            labTestingReport: '',
             shortPoints: [''],
             variants: [{ image: '', name: '', actualPrice: 0, discountedPrice: 0 }],
             whyToBuy: [{ icon: '', title: '', content: '' }],
@@ -48,8 +49,8 @@ export default function ServiceForm({ defaultValues, onSubmit, loading, error })
     const [currentStep, setCurrentStep] = useState(0);
 
     const stepFieldsMap = [
-        ['name', 'slug', 'shortDescription', 'images', 'categories', 'tags', 'status', 'outOfStock'],
-        ['pageHeading', ''],
+        ['name', 'slug', 'shortDescription', 'images', 'categories', 'tags', 'status', 'outOfStock', 'variants'],
+        ['multipleUsePoints', 'multipleUseHeading', 'whyToBuy', 'labTestingReport'],
         ['productBigDescription'],
     ];
 
@@ -120,13 +121,12 @@ export default function ServiceForm({ defaultValues, onSubmit, loading, error })
                         </Button>
 
                         {currentStep < steps.length - 1 ? (
-                            <Button
-                                type="button"
+                            <div
                                 onClick={onNext}
-                                className="min-w-[120px] bg-gray-500 hover:bg-gray-600 text-white"
+                                className="flex items-center justify-center px-6 text-white bg-gray-500 hover:bg-gray-600 cursor-pointer border border-gray-300 transition-all ease-in-out duration-200 rounded-md"
                             >
                                 Continue
-                            </Button>
+                            </div>
                         ) : (
                             <Button
                                 type="submit"

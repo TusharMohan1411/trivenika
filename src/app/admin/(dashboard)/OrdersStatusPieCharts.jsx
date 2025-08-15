@@ -39,16 +39,16 @@ export default function OrdersStatusPieCharts() {
     </div>
     if (isError) return <div className="p-4 text-red-500">Error loading data</div>
 
-    const types = ['website', 'pos']
+    const types = ['website']
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             {types.map((type) => {
                 const chartData = Object.entries(data[type]).map(([status, value]) => ({ name: status, value }))
                 return (
                     <Card key={type}>
                         <CardHeader>
-                            <CardTitle className="capitalize">{type} Orders</CardTitle>
+                            <CardTitle className="capitalize">Orders</CardTitle>
                         </CardHeader>
                         <CardContent className="h-64">
                             <ResponsiveContainer width="100%" height="100%">

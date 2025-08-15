@@ -11,7 +11,7 @@ import {
     CartesianGrid,
     Legend,
 } from 'recharts'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card'
 
 // Fetch daily signups for last N days
 async function fetchUserSignups(days = 28) {
@@ -53,6 +53,9 @@ export default function UserBarChart({ days = 28 }) {
         <Card>
             <CardHeader>
                 <CardTitle>New Users (Last {days} Days)</CardTitle>
+                <CardDescription>
+                    Showing data of users joining our website in last 28 days.
+                </CardDescription>
             </CardHeader>
             <CardContent className="h-64">
                 {isLoading && <div>Loading...</div>}
