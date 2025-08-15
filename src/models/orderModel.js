@@ -15,16 +15,17 @@ const orderSchema = new mongoose.Schema(
     },
     cart: [
       {
-        serviceId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Service",
-          required: true,
-        },
-        variantId: { type: mongoose.Schema.Types.ObjectId, required: true },
-        serviceName: String,
-        variantName: String,
-        quantity: Number,
-        price: Number,
+        // serviceId: {
+        //   type: mongoose.Schema.Types.ObjectId,
+        //   ref: "Service",
+        //   required: true,
+        // },
+        // variantId: { type: mongoose.Schema.Types.ObjectId, required: true },
+        serviceName: { type: String, required: true },
+        variantName: { type: String, required: true },
+        variantImage: { type: String, required: true },
+        quantity: { type: Number, required: true },
+        price: { type: Number, required: true },
       },
     ],
     orderValue: { type: Number, required: true },

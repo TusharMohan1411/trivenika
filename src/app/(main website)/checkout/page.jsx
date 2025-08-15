@@ -112,6 +112,7 @@ export default function CheckoutPage() {
         document.body.appendChild(script)
         return () => document.body.removeChild(script)
     }, [])
+    // console.log(cart)
 
     // submit function with payment
     const onSubmit = async (data) => {
@@ -135,10 +136,9 @@ export default function CheckoutPage() {
                 pin: data.pin,
             },
             cart: cart.map((item) => ({
-                serviceId: item.productId,
-                variantId: item.variantId,
                 serviceName: item.name,
                 variantName: item.variantName,
+                variantImage: item.image,
                 quantity: item.quantity,
                 price: item.price,
             })),

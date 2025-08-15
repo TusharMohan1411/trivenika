@@ -32,7 +32,7 @@ export default function ImageGallery({ images, isLoading }) {
 
     return (
         <>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
+            <div className="flex flex-wrap gap-3 mt-6">
                 {images.map(img => (
                     <div
                         key={img.public_id}

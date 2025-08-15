@@ -58,14 +58,14 @@ export default function PreviewDialog({ open, onOpenChange, image, onDelete, del
                         <div className="flex-1 space-y-4 text-slate-600">
                             <div className="space-y-3">
 
-                                <div className="flex items-center gap-2">
+                                {/* <div className="flex items-center gap-2">
                                     <FiInfo className="text-slate-400" />
                                     <p className="font-medium">Public ID:
                                         <span className="block font-mono text-sm text-slate-500 mt-1">
                                             {image.public_id}
                                         </span>
                                     </p>
-                                </div>
+                                </div> */}
 
                                 <div className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-4">
                                     {/* Created At */}
@@ -156,7 +156,7 @@ export default function PreviewDialog({ open, onOpenChange, image, onDelete, del
                                 )}
                             </Button>
 
-                            {canDelete &&
+                            {/* {canDelete &&
                                 <Button
                                     variant="destructive"
                                     onClick={onDelete}
@@ -175,7 +175,7 @@ export default function PreviewDialog({ open, onOpenChange, image, onDelete, del
                                         </>
                                     )}
                                 </Button>
-                            }
+                            } */}
                         </div>
                     </DialogFooter>
                 </DialogContent>
