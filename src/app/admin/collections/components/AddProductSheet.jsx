@@ -7,7 +7,6 @@ import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import ProductCardColl from './ProductCartColl';
 import LoaderButton from '@/components/custom/LoaderButton';
-// import ProductCardColl from './ProductCardColl';
 
 export default function AddProductSheet({ collection, onClose }) {
     const { servicesQuery } = useServices();
@@ -15,54 +14,87 @@ export default function AddProductSheet({ collection, onClose }) {
     const [selected, setSelected] = useState([]);
     const [search, setSearch] = useState('');
 
-    // Memoize options so its identity only changes when data changes
+    // Flatten to variant options: { product, variant }
     const options = useMemo(() => {
-        return servicesQuery.data?.flatMap((svc) =>
-            svc.variants.map((v) => ({ product: svc, variant: v }))
-        ) || [];
+        return (
+            servicesQuery.data?.flatMap((svc) =>
+                (svc.variants || []).map((v) => ({ product: svc, variant: v }))
+            ) || []
+        );
     }, [servicesQuery.data]);
 
-    // Only re‑init when collection.products or options change meaningfully
+    // Initialize selected from collection.products (support variantId or variantName)
     useEffect(() => {
-        if (!options.length) return;
+        if (!options.length || !collection?.products?.length) {
+            setSelected([]);
+            return;
+        }
+
         const init = collection.products
             .map((p) => {
-                const match = options.find((o) => o.variant.name.toLowerCase() === p.variantName.toLowerCase());
-                return match ? { product: match.product, variant: match.variant } : null;
+                const match = options.find((o) => {
+                    // Prefer id match if available
+                    if (p.variantId && o.variant._id === p.variantId) return true;
+                    // fallback to name match (case-insensitive)
+                    if (p.variantName && o.variant.name?.toLowerCase() === p.variantName?.toLowerCase()) return true;
+                    return false;
+                });
+                return match || null;
             })
             .filter(Boolean);
+
         setSelected(init);
     }, [collection.products, options]);
 
+    // Toggle by variant._id (add/remove)
     const toggle = (item) => {
-        setSelected((prev) =>
-            prev.some((s) => s.variant.name === item.variantName)
-                ? prev.filter((s) => s.variant.name.toLowerCase() !== item.variantName.toLowerCase())
-                : [...prev, item]
-        );
+        setSelected((prev) => {
+            const exists = prev.some((s) => s.variant._id === item.variant._id);
+            if (exists) {
+                return prev.filter((s) => s.variant._id !== item.variant._id);
+            }
+            return [...prev, item];
+        });
     };
 
     const handleSave = async () => {
-        await setProducts.mutateAsync({
+        // prepare payload
+        const payload = {
             collectionId: collection._id,
             products: selected.map((s) => ({
                 productId: s.product._id,
                 variantId: s.variant._id,
                 variantName: s.variant.name,
             })),
-        });
+        };
+        await setProducts.mutateAsync(payload);
         onClose();
     };
 
-    // Filter available variants
+    // Filter available variants (flat) - not-in-selected and match search
     const filteredAvailable = useMemo(() => {
+        const q = search.trim().toLowerCase();
         return options.filter(
             (o) =>
                 !selected.some((s) => s.variant._id === o.variant._id) &&
-                (o.product.name.toLowerCase().includes(search.toLowerCase()) ||
-                    o.variant.name.toLowerCase().includes(search.toLowerCase()))
+                (q === '' ||
+                    o.product.name.toLowerCase().includes(q) ||
+                    o.variant.name.toLowerCase().includes(q))
         );
     }, [options, selected, search]);
+
+    // Group available variants by product for nicer UI
+    const availableByProduct = useMemo(() => {
+        const map = new Map();
+        filteredAvailable.forEach((o) => {
+            const pid = o.product._id;
+            if (!map.has(pid)) {
+                map.set(pid, { product: o.product, variants: [] });
+            }
+            map.get(pid).variants.push(o.variant);
+        });
+        return Array.from(map.values());
+    }, [filteredAvailable]);
 
     return (
         <Sheet open onOpenChange={(open) => !open && onClose()}>
@@ -77,9 +109,13 @@ export default function AddProductSheet({ collection, onClose }) {
                         {selected.length === 0 ? (
                             <p className="text-sm text-gray-500">No variants selected</p>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[70vh]">
-                                {selected.map((item, idx) => (
-                                    <div key={idx} onClick={() => toggle(item)}>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-y-auto max-h-[70vh]">
+                                {selected.map((item) => (
+                                    <div
+                                        key={item.variant._id}
+                                        onClick={() => toggle(item)}
+                                        className="cursor-pointer"
+                                    >
                                         <ProductCardColl
                                             product={item.product}
                                             variant={item.variant}
@@ -91,7 +127,7 @@ export default function AddProductSheet({ collection, onClose }) {
                         )}
                     </div>
 
-                    {/* Available */}
+                    {/* Available (grouped by product) */}
                     <div className="w-full lg:w-1/2">
                         <div className="mb-2">
                             <Input
@@ -100,16 +136,31 @@ export default function AddProductSheet({ collection, onClose }) {
                                 onChange={(e) => setSearch(e.target.value)}
                             />
                         </div>
-                        {filteredAvailable.length === 0 ? (
+
+                        {availableByProduct.length === 0 ? (
                             <p className="text-sm text-gray-500 mt-4">No matching variants</p>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 overflow-y-auto max-h-[70vh]">
-                                {filteredAvailable.map((item) => (
-                                    <div key={item.variant._id} onClick={() => toggle(item)}>
-                                        <ProductCardColl
-                                            product={item.product}
-                                            variant={item.variant}
-                                        />
+                            <div className="space-y-4 overflow-y-auto max-h-[70vh]">
+                                {availableByProduct.map((group) => (
+                                    <div key={group.product._id} className="p-2 rounded-lg border bg-gray-100">
+                                        <h5 className="font-medium mb-2">{group.product.name}</h5>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                                            {group.variants.map((variant) => {
+                                                const item = { product: group.product, variant };
+                                                return (
+                                                    <div
+                                                        key={variant._id}
+                                                        onClick={() => toggle(item)}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        <ProductCardColl
+                                                            product={group.product}
+                                                            variant={variant}
+                                                        />
+                                                    </div>
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                 ))}
                             </div>
@@ -118,9 +169,7 @@ export default function AddProductSheet({ collection, onClose }) {
                 </div>
 
                 <div className="mt-6 text-right">
-                    <LoaderButton
-                        onClick={handleSave}
-                        loading={setProducts.isPending}>
+                    <LoaderButton onClick={handleSave} loading={setProducts.isPending}>
                         Update
                     </LoaderButton>
                 </div>
