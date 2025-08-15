@@ -17,7 +17,7 @@ export async function POST(req) {
       );
     }
 
-    const order = await Order.findOne({ orderId }).populate("cart.serviceId");
+    const order = await Order.findOne({ orderId });
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
