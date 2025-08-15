@@ -4,18 +4,8 @@ import {
     FileText,
     CalendarCheck,
     CalendarClock,
-    IndianRupee,
-    Hash,
-    File,
     User,
-    Phone,
-    CheckCircle2,
-    XCircle,
     Star,
-    Download,
-    ArrowLeft,
-    Info,
-    Eye,
     ListChecks
 } from "lucide-react";
 import {
@@ -23,9 +13,7 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
@@ -37,7 +25,7 @@ export default function OrderDetailsDialog({ open, onOpenChange, order }) {
     return (
         <Dialog open={open} onOpenChange={onOpenChange} >
             <DialogContent className="lg:min-w-4xl w-full md:w-3xl p-0 bg-white rounded-xl overflow-hidden">
-                <div className="bg-gradient-to-r from-[#002244] to-[#004488] text-white p-5">
+                <div className="bg-gradient-to-r from-[#00441b] to-[#008827] text-white p-5">
                     <DialogHeader className="text-left">
                         <DialogTitle className="text-xl font-bold flex items-center gap-3">
                             <div>
@@ -46,7 +34,7 @@ export default function OrderDetailsDialog({ open, onOpenChange, order }) {
                                     Order Details
                                 </div>
                                 <p className="text-xs font-normal mt-1 text-blue-200">
-                                    #{order._id?.slice(-8)}
+                                    {order?.orderId}
                                 </p>
                             </div>
                         </DialogTitle>
@@ -58,7 +46,7 @@ export default function OrderDetailsDialog({ open, onOpenChange, order }) {
                         <div className="border border-gray-200 rounded-lg p-4">
                             <h3 className="text-md font-bold text-[#002244] flex items-center gap-2 mb-3">
                                 <Star className="text-[#002244]" size={18} />
-                                Cart Items
+                                Items
                             </h3>
 
                             <ul className="list-disc list-inside text-sm space-y-1">

@@ -28,8 +28,7 @@ export async function GET(req) {
         .skip(skip)
         .limit(limit)
         .lean()
-        .populate("user", "phone")
-        .populate("cart.serviceId", "name"),
+        .populate("user", "phone"),
       Order.countDocuments(filter),
     ]);
 

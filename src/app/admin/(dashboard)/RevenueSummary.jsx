@@ -91,7 +91,7 @@ const RevenueSummary = () => {
                             stroke="#8b5cf6"
                             fill="#8b5cf6"
                             fillOpacity={0.2}
-                            name="Ordes Revenue"
+                            name="Orders Revenue"
                         />
                     </AreaChart>
                 </ResponsiveContainer>
