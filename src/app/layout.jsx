@@ -2,6 +2,7 @@
 import EnquiryWidget from "@/components/EnquiryWidget";
 import "./globals.css";;
 import { Poppins, Montserrat, Inter } from "next/font/google";
+import WhatsAppWidget from "@/components/WhatsAppWidget";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({ children }) {
         <div className="max-[1024px]:hidden">
           <EnquiryWidget />
         </div>
+        <WhatsAppWidget />
       </body>
     </html>
   );
