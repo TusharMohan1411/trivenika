@@ -32,7 +32,7 @@ export default function NavBar() {
         { name: 'Offers', href: '/collections/offers', icon: <Tag size={24} /> },
         { name: 'Cart', href: '/checkout', icon: <FiShoppingCart size={24} /> },
         {
-            name: 'Lets Chat',
+            name: "Let's Chat",
             href: `https://wa.me/91${whatsappNumber}`,
             icon: <FaWhatsapp size={24} />,
             external: true // add custom flag
