@@ -36,8 +36,8 @@ export default function RootLayout({ children }) {
         <main>{children}</main>
         <div className="max-[1024px]:hidden">
           <EnquiryWidget />
+          <WhatsAppWidget />
         </div>
-        <WhatsAppWidget />
       </body>
     </html>
   );

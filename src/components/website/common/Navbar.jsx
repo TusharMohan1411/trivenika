@@ -12,8 +12,10 @@ import LoginButton from '@/components/auth/LoginButton'
 import CartDrawer from '../CartDrawer'
 import { useCartStore } from '@/store/cartStore'
 import { Tag } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa'
 
 export default function NavBar() {
+    const whatsappNumber = "8569996206"
     const [mobileOpen, setMobileOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const pathname = usePathname()
@@ -29,9 +31,14 @@ export default function NavBar() {
         { name: 'Products', href: '/products', icon: <FiGrid size={24} /> },
         { name: 'Offers', href: '/collections/offers', icon: <Tag size={24} /> },
         { name: 'Cart', href: '/checkout', icon: <FiShoppingCart size={24} /> },
-        { name: 'Profile', href: '/user', icon: <FiUser size={24} /> },
-        // { name: 'Contact', href: '/contact-us', icon: <FiMessageSquare size={24} /> },
+        {
+            name: 'Lets Chat',
+            href: `https://wa.me/91${whatsappNumber}`,
+            icon: <FaWhatsapp size={24} />,
+            external: true // add custom flag
+        },
     ]
+
 
     // animation variants for icons
     const iconVariants = {
