@@ -158,7 +158,7 @@ export default function Footer() {
                             </div>
                             <div>
                                 <h4 className="font-semibold">Email Us</h4>
-                                <p className="text-gray-300 text-sm">contact@trivenika.com</p>
+                                <p className="text-gray-300 text-sm">trivenikaorganic4u@gmail.com</p>
                             </div>
                         </div>
 
