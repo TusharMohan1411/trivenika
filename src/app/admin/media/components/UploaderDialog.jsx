@@ -29,10 +29,10 @@ export default function UploaderDialog({ open, onOpenChange }) {
 
     const handleFileChange = (e) => {
         const selectedFiles = Array.from(e.target.files);
-        const validFiles = selectedFiles.filter(file => file.size <= 1000 * 1024);
+        const validFiles = selectedFiles.filter(file => file.size <= 8000 * 1024);
 
         if (validFiles.length !== selectedFiles.length) {
-            alert('Some files exceed 1000KB and were skipped.');
+            alert('Some files exceed 8 MB and were skipped.');
         }
 
         setFiles(validFiles);
