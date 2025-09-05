@@ -47,6 +47,7 @@ export default function StoryMain() {
                         src="/field-bg.jpg"
                         alt="Organic fields"
                         fill
+                        priority
                         className="object-cover mix-blend-overlay "
                     />
                     <div className="absolute inset-0 bg-gradient-to-r from-[#2E8B57]/50 to-[#1a5c38]/50"></div>

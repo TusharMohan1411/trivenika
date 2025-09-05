@@ -156,10 +156,10 @@ export const NAVBAR_LINKS = [
     label: "Wood Pressed Oils",
     href: "/collections/wood-pressed-oils",
   },
-  {
-    label: "A2 Ghee",
-    href: "/collections/a2-ghee",
-  },
+  // {
+  //   label: "A2 Ghee",
+  //   href: "/collections/a2-ghee",
+  // },
   {
     label: "Products",
     href: "/products",
