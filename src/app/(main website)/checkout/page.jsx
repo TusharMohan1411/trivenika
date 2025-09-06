@@ -638,7 +638,7 @@ export default function CheckoutPage() {
                                                 </div>
 
                                                 {/* Online Payment */}
-                                                <div
+                                                {/* <div
                                                     className={`flex flex-col border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${field.value === "online"
                                                         ? "border-green-500 bg-green-50 shadow-sm"
                                                         : "border-gray-200 hover:border-green-300"
@@ -684,7 +684,7 @@ export default function CheckoutPage() {
                                                             )}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </RadioGroup>
 
