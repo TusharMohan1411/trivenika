@@ -7,7 +7,6 @@ const permissionSchema = new mongoose.Schema(
     edit: { type: Boolean, default: false },
     delete: { type: Boolean, default: false },
   },
-  2
 );
 
 const userSchema = new mongoose.Schema(
