@@ -204,7 +204,7 @@ const WhyToBuySection = ({ whyToBuy, productName }) => {
                 </motion.div> */}
 
                 {/* Final CTA */}
-                <motion.div
+                {/* <motion.div
                     className="mt-16 text-center"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -219,7 +219,7 @@ const WhyToBuySection = ({ whyToBuy, productName }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                     </a>
-                </motion.div>
+                </motion.div> */}
             </div>
         </section>
     );
