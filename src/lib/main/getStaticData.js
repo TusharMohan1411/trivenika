@@ -3,6 +3,7 @@ import { connectDB } from "../mongodb";
 import clientPromise from "../mongodbClient";
 import TermsConditions from "@/models/termsConditionsModel";
 import RefundPolicy from "@/models/refundPolicyModel";
+import ShippingPolicy from "@/models/shippingPolicyModel";
 // import CallPlan from "@/models/callPlanModel";
 
 export async function getTestimonialsData({
@@ -69,6 +70,18 @@ export async function getRefundPolicy() {
 
     const refundPolicy = await RefundPolicy.findOne();
     return refundPolicy ? JSON.parse(JSON.stringify(refundPolicy)) : null;
+  } catch (error) {
+    console.error(`Error fetching refundPolicy:`, error);
+    return null;
+  }
+}
+
+export async function getShippingPolicy() {
+  try {
+    await connectDB();
+
+    const shippingPolicy = await ShippingPolicy.findOne();
+    return shippingPolicy ? JSON.parse(JSON.stringify(shippingPolicy)) : null;
   } catch (error) {
     console.error(`Error fetching refundPolicy:`, error);
     return null;
