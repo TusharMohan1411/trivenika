@@ -1,4 +1,5 @@
 // app/privacy-policy/page.jsx
+export const revalidate = 60;
 import WebsiteLayout from "@/components/website/WebsiteLayout";
 import { getHomePageData } from "@/lib/main/getHomePageData";
 import { getTermsConditions } from "@/lib/main/getStaticData";

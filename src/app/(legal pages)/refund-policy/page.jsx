@@ -1,4 +1,5 @@
 // app/refund-policy/page.jsx
+export const revalidate = 60;
 import WebsiteLayout from "@/components/website/WebsiteLayout";
 import { getHomePageData } from "@/lib/main/getHomePageData";
 import { getRefundPolicy } from "@/lib/main/getStaticData";
