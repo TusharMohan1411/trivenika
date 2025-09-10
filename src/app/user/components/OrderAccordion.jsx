@@ -9,8 +9,6 @@ import DownloadInvoiceButton from '@/app/admin/orders/components/DownloadInvoice
 export default function OrderAccordion({ order }) {
     const [open, setOpen] = useState(false)
 
-    console.log(order)
-
     // helper to get variant data from populated serviceId
     const getVariant = (cartItem) =>
         cartItem.serviceId.variants.find(v => v.name === cartItem.variantName)

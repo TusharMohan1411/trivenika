@@ -11,17 +11,12 @@ function UserSection({ loading, error, userData }) {
     if (error) return <div className="text-red-500 p-4 text-center">Error loading user data</div>;
 
     const joinDate = format(new Date(userData.createdAt), 'MMMM d, yyyy');
-
-    // console.log(userData)
-
     const serviceOrdersData = userData?.orders.reverse();
 
-
-    // console.log(userData)
     return (
         <div className="space-y-6 p-2">
             {/* Upper Strip */}
-            <div className="bg-gradient-to-r from-[#00441e] to-[#008832] text-white rounded-xl p-4 sm:p-6 shadow-lg">
+            <div className="bg-gradient-to-r from-[#00441e] to-[#008832] text-white rounded-xl p-4 mt-5 sm:mt-1 sm:p-6 shadow-lg">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div className="flex items-center mb-3 sm:mb-0">
                         {/* Avatar Image */}
@@ -47,8 +42,20 @@ function UserSection({ loading, error, userData }) {
                         <p className="text-emerald-200 text-sm">Member since</p>
                         <p className="font-semibold">{joinDate}</p>
                     </div>
+
+                </div>
+
+                {/* Support Box */}
+                <div className="mt-3 bg-emerald-800/60 border border-emerald-600 rounded-lg px-3 py-2 text-sm sm:text-base shadow-md">
+                    <p className="text-emerald-100 text-center">
+                        For order-related queries, call us at{" "}
+                        <a href="tel:8569996206" className="font-semibold text-white hover:text-emerald-200">
+                            8569996206
+                        </a>
+                    </p>
                 </div>
             </div>
+
 
             {/* Lower Section with Tabs */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
