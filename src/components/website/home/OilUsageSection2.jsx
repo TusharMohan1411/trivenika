@@ -83,7 +83,7 @@ export default function OilUsageSection2() {
 
                 {/* Content container */}
                 <motion.div
-                    className="bg-gradient-to-r from-[#2E8B57] to-[#1a5c38] rounded-xl p-0 md:p-1 grid grid-cols-1 lg:grid-cols-3 items-center gap-8 md:gap-12 overflow-hidden shadow-xl"
+                    className="bg-gradient-to-r from-[#2E8B57] to-[#1a5c38] rounded-xl p-0 md:p-1 grid grid-cols-1 lg:grid-cols-3 items-center gap-8 md:gap-2 overflow-hidden shadow-xl"
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
@@ -106,9 +106,9 @@ export default function OilUsageSection2() {
 
 
                     {/* Text content */}
-                    <div className="flex-1 px-4">
+                    <div className="flex-1 px-4 py-2">
                         <motion.h2
-                            className="text-2xl md:text-3xl font-bold text-white mb-6"
+                            className="text-2xl md:text-2xl font-bold text-white mb-3"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
@@ -133,7 +133,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">Cooking & Frying</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Perfect for daily cooking, deep frying, and tadkas</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Perfect for daily cooking, deep frying, and tadkas</p>
                                 </div>
                             </motion.li>
 
@@ -148,7 +148,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">On Rotis or Rice</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Add a spoonful for better taste and digestion</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Add a spoonful for better taste and digestion</p>
                                 </div>
                             </motion.li>
 
@@ -163,7 +163,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">Hair Oil</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Nourishes scalp, promotes strong and shiny hair</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Nourishes scalp, promotes strong and shiny hair</p>
                                 </div>
                             </motion.li>
 
@@ -178,7 +178,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">Baby Massage</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Gentle and safe for baby's skin and bone strength</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Gentle and safe for baby's skin and bone strength</p>
                                 </div>
                             </motion.li>
 
@@ -193,7 +193,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">Skin Moisturizer</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Natural hydration for dry skin and lips</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Natural hydration for dry skin and lips</p>
                                 </div>
                             </motion.li>
 
@@ -208,7 +208,7 @@ export default function OilUsageSection2() {
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-white">Pooja & Rituals</h3>
-                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-base">Pure and traditional choice for religious use</p>
+                                    <p className="text-[#FFFDF7]/80 text-sm sm:text-sm">Pure and traditional choice for religious use</p>
                                 </div>
                             </motion.li>
                         </motion.ul>
