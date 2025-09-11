@@ -178,7 +178,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom section */}
-                <div className="border-t border-primary pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="border-t border-primary pt-5 flex flex-col md:flex-row justify-between items-center gap-4">
                     <div className="text-gray-300 text-sm">
                         © {new Date().getFullYear()} Trivenika. All rights reserved.
                     </div>
@@ -195,6 +195,18 @@ export default function Footer() {
                         ))}
                     </div>
                 </div>
+
+                {/* Improved bottom credit */}
+                <div className="border-t border-primary pt-4 mt-5 flex items-center justify-center">
+                    <p className="text-sm text-gray-300 space-x-1">
+                        <span>Designed &amp; Developed by</span>
+
+                        <Link href="https://www.browndevs.com" target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline hover:underline-offset-2">
+                            brown Devs
+                        </Link>
+                    </p>
+                </div>
+
             </div>
 
             {/* Animation styles */}
