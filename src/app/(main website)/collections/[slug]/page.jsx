@@ -17,6 +17,41 @@ export async function generateStaticParams() {
     }));
 }
 
+export async function generateMetadata({ params }) {
+    const collection = await getCollectionBySlug(params.slug);
+
+    if (!collection) {
+        return {
+            title: "Collection Not Found | Trivenika Organic",
+            description: "The requested collection does not exist.",
+        };
+    }
+
+    return {
+        title: `${collection.heading} | Trivenika Organic`,
+        description: collection.shortDescription || `Shop ${collection.heading} from Trivenika Organic. Explore pure, natural, and wood-pressed oils made with the traditional method.`,
+        alternates: {
+            canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/collections/${collection.slug}`,
+        },
+        openGraph: {
+            title: `${collection.heading} | Trivenika Organic`,
+            description: collection.shortDescription || `Discover our exclusive ${collection.heading} collection.`,
+            url: `${process.env.NEXT_PUBLIC_SITE_URL}/collections/${collection.slug}`,
+            images: collection.bannerImage
+                ? [{ url: collection.bannerImage, width: 1200, height: 630, alt: collection.heading }]
+                : [],
+            type: "website",
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: `${collection.heading} | Trivenika Organic`,
+            description: collection.shortDescription || `Explore premium wood-pressed oils from Trivenika Organic.`,
+            images: collection.bannerImage ? [collection.bannerImage] : [],
+        },
+    };
+}
+
+
 export default async function Page({ params }) {
     const collection = await getCollectionBySlug(params.slug);
 
@@ -32,11 +67,28 @@ export default async function Page({ params }) {
         return { product: item.productId, variant };
     });
 
-    // console.log(collection)
-
     return (
         <WebsiteLayout>
             {/* Simple Banner Image */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "CollectionPage",
+                        "name": collection.heading,
+                        "description": collection.shortDescription || `Browse ${collection.heading} collection at Trivenika Organic.`,
+                        "url": `${process.env.NEXT_PUBLIC_SITE_URL}/collections/${collection.slug}`,
+                        "image": collection.bannerImage,
+                        "isPartOf": {
+                            "@type": "Website",
+                            "name": "Trivenika Organic",
+                            "url": "https://www.trivenika.in"
+                        }
+                    }),
+                }}
+            />
+
             <div className='pb-16 pt-5 sm:pt-0'>
                 <div className="">
                     {collection.bannerImage &&

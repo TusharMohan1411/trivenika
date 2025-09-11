@@ -1,4 +1,4 @@
-// app/services/[slug]/page.jsx
+// app/products/[slug]/page.jsx
 export const revalidate = 60;
 import WebsiteLayout from '@/components/website/WebsiteLayout';
 import { getAllServicesSlugs, getRelatedServices, getServiceBySlug } from '@/lib/main/services';
@@ -47,6 +47,14 @@ export async function generateMetadata({ params }) {
             description: product.shortDescription,
             images: product.images,
         },
+        keywords: [
+            "Wood-Pressed Oils",
+            `${product.name}`,
+            "Pure Organic Oils",
+            "Healthy Cooking Oils",
+            "Cold Pressed Oils"
+        ],
+
     };
 }
 
@@ -70,7 +78,7 @@ async function Page({ params }) {
                         dangerouslySetInnerHTML={{
                             __html: JSON.stringify({
                                 "@context": "https://schema.org",
-                                "@type": "website",
+                                "@type": "Product",
                                 name: service.name,
                                 description: service.shortDescription,
                                 image: service.images[0],

@@ -10,13 +10,14 @@ export default function Footer() {
         { label: 'Our Story', href: '/our-story' },
         { label: 'About Us', href: '/about-us' },
         { label: 'Contact Us', href: '/contact-us' },
-        // { label: 'Blogs', href: '/blogs' },
+        { label: 'Blogs', href: '/blogs' },
     ];
 
     const policyLinks = [
         { label: 'Privacy Policy', href: '/privacy-policy' },
         { label: 'Terms & Conditions', href: '/terms&conditions' },
         { label: 'Refund Policy', href: '/refund-policy' },
+        { label: 'Shipping Policy', href: '/shipping-policy' },
     ];
 
     const paymentImages = [

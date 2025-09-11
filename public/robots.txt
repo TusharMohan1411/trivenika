@@ -1,0 +1,12 @@
+# Allow all crawlers
+User-agent: *
+
+# Disallow sensitive/private pages if any (optional)
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://www.trivenika.in/sitemap.xml
+
+# Crawl delay 
+Crawl-delay: 1
