@@ -113,19 +113,19 @@ export default function LoginMenu() {
                     <div className="p-2">
                         {role === 'user' && (
                             <>
-                                <DropdownMenuItem
+                                {/* <DropdownMenuItem
                                     className="flex items-center gap-2 p-3 rounded-md hover:bg-blue-50 cursor-pointer"
                                     onClick={() => router.push('/user')}
                                 >
                                     <User className="w-4 h-4 text-blue-600" />
                                     <span>My Profile</span>
-                                </DropdownMenuItem>
+                                </DropdownMenuItem> */}
                                 <DropdownMenuItem
                                     className="flex items-center gap-2 p-3 rounded-md hover:bg-blue-50 cursor-pointer"
                                     onClick={() => router.push('/user')}
                                 >
                                     <FileText className="w-4 h-4 text-blue-600" />
-                                    <span>Orders History</span>
+                                    <span>My Orders</span>
                                 </DropdownMenuItem>
                             </>
                         )}

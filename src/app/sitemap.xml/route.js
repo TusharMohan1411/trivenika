@@ -16,6 +16,7 @@ export const GET = async () => {
         "our-story",
         "track-order",
         "blogs",
+        "products",
         ...products.map((p) => `products/${p.slug}`),
         ...collections.map((c) => `collections/${c.slug}`),
     ];

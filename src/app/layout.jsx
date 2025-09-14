@@ -3,6 +3,7 @@ import EnquiryWidget from "@/components/EnquiryWidget";
 import "./globals.css";
 import { Poppins, Montserrat, Inter } from "next/font/google";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
+import Script from "next/script";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -148,6 +149,21 @@ function JsonLd() {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Google Analytics */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-4EDN9MLJM4"
+        />
+        <Script id="google-analytics">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-4EDN9MLJM4');
+          `}
+        </Script>
+      </head>
       <body
         className={`${poppins.variable} ${montserrat.variable} ${inter.variable} antialiased`}
       >

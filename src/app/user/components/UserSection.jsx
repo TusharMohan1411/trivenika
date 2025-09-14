@@ -60,7 +60,7 @@ function UserSection({ loading, error, userData }) {
             {/* Lower Section with Tabs */}
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
                 {/* Tab Headers */}
-                <div className="border-b border-gray-200">
+                <div className="border-b border-gray-200 flex items-center justify-between">
                     <nav className="flex">
                         <button
                             className={`py-4 px-6 font-medium text-sm relative ${activeTab === 'orders'
@@ -71,6 +71,15 @@ function UserSection({ loading, error, userData }) {
                             Orders
                         </button>
                     </nav>
+                    <a
+                        href="https://search.google.com/local/writereview?placeid=ChIJG9Ck0a1nETkRf0bXML7mUHg"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 mr-3 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold rounded-sm hover:from-emerald-600 hover:to-green-500 transform hover:-translate-y-1 hover:scale-105 transition duration-300 ease-in-out"
+                    >
+                        Write a Review
+                    </a>
+
                 </div>
 
                 {/* Tab Content */}
