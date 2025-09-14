@@ -17,7 +17,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
     RadioGroup,
-    RadioGroupItem,
 } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import {
@@ -72,17 +71,11 @@ export default function CheckoutPage() {
             setUserId(session.user.id)
         }
     }, [session])
-    // console.log(session)
 
     const cart = useCartStore((state) => state.cart);
     const { updateQuantity, clearCart } = useCartStore();
     const orderValue = cart.reduce((sum, item) => sum + item.quantity * item.price, 0);
-    // const discount = 0;
     const subTotal = orderValue;
-    const shippingCharges = subTotal > 999 ? 0 : 100;
-    const totalAmount = subTotal + shippingCharges;
-
-    // console.log(cart)
 
     const form = useForm({
         resolver: zodResolver(checkoutSchema),
@@ -96,6 +89,26 @@ export default function CheckoutPage() {
             paymentMethod: 'cod',
         },
     });
+
+    // watch paymentMethod so UI updates immediately when user toggles payment
+    const selectedPaymentMethod = form.watch('paymentMethod');
+
+    // Shipping / discounts logic:
+    // Shipping / discounts logic:
+    const SHIPPING_BASE = 100;
+    const discountForAbove999 = subTotal > 999 ? 50 : 0; // ₹50 if subtotal > 999
+    const discountForOnlinePayment = selectedPaymentMethod === 'online' ? 50 : 0; // ₹50 if online selected
+    const totalShippingDiscount = discountForAbove999 + discountForOnlinePayment;
+
+    // shippingCharges sent to backend (never negative)
+    const shippingChargesToSend = Math.max(0, SHIPPING_BASE - totalShippingDiscount);
+
+    // For UI we show the base shipping charge (₹100) and show discount lines separately
+    const displayedShipping = SHIPPING_BASE;
+
+    // Total uses the discounted shipping value (what backend will receive)
+    const totalAmount = subTotal + shippingChargesToSend;
+
 
     const localISOTime = () => {
         const now = new Date();
@@ -112,18 +125,18 @@ export default function CheckoutPage() {
         document.body.appendChild(script)
         return () => document.body.removeChild(script)
     }, [])
-    // console.log(cart)
+
 
     // submit function with payment
     const onSubmit = async (data) => {
         if (!cart.length) return alert('Cart is empty');
-        // console.log(session)
         if (!session) return setIsLoginDialogOpen(true)
         if (session.user.role !== 'user') return alert("Admins cannot do orders.")
 
         const toastId = toast.loading('Processing Order... please wait')
         setOrdering(true)
 
+        // Ensure shippingCharges used in payload is the same discounted value shown to user
         const orderPayload = {
             type: 'website',
             user: userId,
@@ -145,12 +158,11 @@ export default function CheckoutPage() {
             orderValue: orderValue,
             subTotal: subTotal,
             totalAmount: totalAmount,
-            shippingCharges: shippingCharges,
+            shippingCharges: shippingChargesToSend,
             paymentMethod: data.paymentMethod,
         };
 
         console.log(orderPayload)
-        // return;
 
         if (data.paymentMethod === 'cod') {
             const confirmOrder = confirm('Are you sure you want to place a COD order?');
@@ -174,6 +186,8 @@ export default function CheckoutPage() {
                 })
                 toast.success("Order Placed Sucessfully", { id: toastId })
                 setOrdering(false)
+                // optional: clearCart() for COD as well if you want
+                clearCart();
                 router.push('/orderSuccess')
             } else {
                 toast.error("Failed to place order", { id: toastId })
@@ -235,7 +249,6 @@ export default function CheckoutPage() {
                         }
 
                     } else {
-                        // alert('Payment verification failed');
                         toast.error("Payment verification failed", { id: toastId })
                         setOrdering(false)
                     }
@@ -248,10 +261,8 @@ export default function CheckoutPage() {
                 theme: { color: '#10b981' },
                 modal: {
                     ondismiss: () => {
-                        // console.log("Payment popup closed.");
                         toast.error("Payment cancelled by user!", { id: toastId })
                         setOrdering(false)
-                        // setLoading(false)
                     },
                 },
             };
@@ -325,7 +336,7 @@ export default function CheckoutPage() {
                     ))}
                 </div>
                 <div className="border-t border-gray-200 pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Free Shipping Progress Section */}
+                    {/* Free Shipping Progress Section (now shows discount progress) */}
                     <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-500">
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="font-medium text-emerald-800 flex items-center">
@@ -334,10 +345,10 @@ export default function CheckoutPage() {
                                     <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h4.05a2.5 2.5 0 014.9 0H20a1 1 0 001-1v-4a1 1 0 00-.293-.707l-4-4A1 1 0 0016 4H3z" />
                                     <path fillRule="evenodd" clipRule="evenodd" d="M14.586 9H12V6.414L14.586 9z" />
                                 </svg>
-                                Free Shipping
+                                Shipping Discount
                             </h3>
                             <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-                                ₹999+
+                                ₹50 off
                             </span>
                         </div>
 
@@ -365,7 +376,7 @@ export default function CheckoutPage() {
                                     className="mt-4 text-center"
                                 >
                                     <p className="text-sm font-medium text-amber-600">
-                                        Add <span className="font-bold">₹{(999 - orderValue).toLocaleString()}</span> more for free shipping!
+                                        Add <span className="font-bold">₹{(999 - orderValue).toLocaleString()}</span> more to get <span className="font-bold">₹50</span> shipping discount!
                                     </p>
                                 </motion.div>
                             ) : (
@@ -378,7 +389,7 @@ export default function CheckoutPage() {
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                     </svg>
                                     <span className="text-sm font-medium text-emerald-600">
-                                        You've earned free shipping!
+                                        You've earned a ₹50 shipping discount!
                                     </span>
                                 </motion.div>
                             )}
@@ -392,16 +403,32 @@ export default function CheckoutPage() {
                             <span>₹{orderValue.toLocaleString()}</span>
                         </div>
 
+                        {/* Show base shipping charge (always ₹100 in UI) */}
                         <div className="flex justify-between text-gray-600">
                             <span>Shipping Charges</span>
-                            <span>₹{shippingCharges.toLocaleString()}</span>
+                            <span>₹{displayedShipping.toLocaleString()}</span>
                         </div>
+
+                        {/* show applied discount lines */}
+                        {discountForAbove999 > 0 && (
+                            <div className="flex justify-between text-gray-600">
+                                <span>Discount (₹999+)</span>
+                                <span>-₹{discountForAbove999.toLocaleString()}</span>
+                            </div>
+                        )}
+                        {discountForOnlinePayment > 0 && (
+                            <div className="flex justify-between text-gray-600">
+                                <span>Payment Discount (Online)</span>
+                                <span>-₹{discountForOnlinePayment.toLocaleString()}</span>
+                            </div>
+                        )}
 
                         <div className="flex justify-between font-bold text-lg text-gray-900 pt-2">
                             <span>Total Amount</span>
                             <span>₹{totalAmount.toLocaleString()}</span>
                         </div>
                     </div>
+
                 </div>
             </div>
 
@@ -510,7 +537,7 @@ export default function CheckoutPage() {
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel className="font-medium text-gray-700">State</FormLabel>
-                                            <Select onValueChange={field.onChange}>
+                                            <Select onValueChange={field.onChange} value={field.value}>
                                                 <SelectTrigger className="w-full py-5 border-gray-300 focus:border-green-500 focus:ring-1 focus:ring-green-500">
                                                     <SelectValue placeholder="Select state" />
                                                 </SelectTrigger>
@@ -670,8 +697,8 @@ export default function CheckoutPage() {
                                                             >
                                                                 Online Payment
                                                             </Label>
-                                                            <p className="text-gray-500 text-sm mt-1">
-                                                                Pay securely with credit/debit card or UPI
+                                                            <p className="text-blue-500 text-xs mt-1 bg-blue-100 px-2 py-1 rounded-sm">
+                                                                Get ₹50 discount on shipping charges
                                                             </p>
                                                         </div>
 
