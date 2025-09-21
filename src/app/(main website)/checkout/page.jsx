@@ -93,17 +93,12 @@ export default function CheckoutPage() {
     // watch paymentMethod so UI updates immediately when user toggles payment
     const selectedPaymentMethod = form.watch('paymentMethod');
 
-    // Shipping / discounts logic:
-    // Shipping / discounts logic:
-    const SHIPPING_BASE = 100;
-    const discountForAbove999 = subTotal > 999 ? 50 : 0; // ₹50 if subtotal > 999
-    const discountForOnlinePayment = selectedPaymentMethod === 'online' ? 50 : 0; // ₹50 if online selected
-    const totalShippingDiscount = discountForAbove999 + discountForOnlinePayment;
+    // Shipping logic: standard shipping is ₹50. If user selects online payment -> shipping is FREE.
+    const SHIPPING_BASE = 50; // <- changed to ₹50
+    const discountForOnlinePayment = selectedPaymentMethod === 'online' ? SHIPPING_BASE : 0;
+    const shippingChargesToSend = selectedPaymentMethod === 'online' ? 0 : SHIPPING_BASE; // backend value (never negative)
 
-    // shippingCharges sent to backend (never negative)
-    const shippingChargesToSend = Math.max(0, SHIPPING_BASE - totalShippingDiscount);
-
-    // For UI we show the base shipping charge (₹100) and show discount lines separately
+    // For UI we show the base shipping charge (₹50) and show discount lines separately when applicable
     const displayedShipping = SHIPPING_BASE;
 
     // Total uses the discounted shipping value (what backend will receive)
@@ -288,7 +283,7 @@ export default function CheckoutPage() {
                             <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-gray-200">
                                 <Image
                                     src={item.image}
-                                    alt={'afasfd'}
+                                    alt={item.name}
                                     fill
                                     className="object-cover"
                                 />
@@ -336,64 +331,36 @@ export default function CheckoutPage() {
                     ))}
                 </div>
                 <div className="border-t border-gray-200 pt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Free Shipping Progress Section (now shows discount progress) */}
-                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border border-emerald-500">
+                    {/* Shipping Info Section (simplified) */}
+                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-sm p-4 border border-emerald-500">
                         <div className="flex items-center justify-between mb-3">
                             <h3 className="font-medium text-emerald-800 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" />
                                     <path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1v-1h4.05a2.5 2.5 0 014.9 0H20a1 1 0 001-1v-4a1 1 0 00-.293-.707l-4-4A1 1 0 0016 4H3z" />
-                                    <path fillRule="evenodd" clipRule="evenodd" d="M14.586 9H12V6.414L14.586 9z" />
                                 </svg>
-                                Shipping Discount
+                                Shipping
                             </h3>
                             <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-800 rounded-full">
-                                ₹50 off
+                                ₹{SHIPPING_BASE}
                             </span>
                         </div>
 
-                        <div className="relative pt-1">
-                            {/* Progress bar background */}
-                            <div className="overflow-hidden h-2.5 mb-2 flex rounded-full bg-emerald-100">
-                                {/* Animated progress bar */}
-                                <div
-                                    className="transition-all duration-700 ease-out shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-emerald-400 to-teal-500"
-                                    style={{ width: `${Math.min(100, (orderValue / 999) * 100)}%` }}
-                                ></div>
-                            </div>
-
-                            {/* Progress labels */}
-                            <div className="flex justify-between text-xs">
-                                <span className="text-emerald-600">₹0</span>
-                                <span className="text-emerald-600">₹999</span>
-                            </div>
-
-                            {/* Dynamic message */}
-                            {orderValue < 999 ? (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className="mt-4 text-center"
-                                >
-                                    <p className="text-sm font-medium text-amber-600">
-                                        Add <span className="font-bold">₹{(999 - orderValue).toLocaleString()}</span> more to get <span className="font-bold">₹50</span> shipping discount!
-                                    </p>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="mt-4 flex items-center justify-center"
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                    </svg>
-                                    <span className="text-sm font-medium text-emerald-600">
-                                        You've earned a ₹50 shipping discount!
-                                    </span>
-                                </motion.div>
-                            )}
+                        <div className="mt-2 text-sm text-gray-600">
+                            <p>Standard shipping charges are ₹{SHIPPING_BASE}. Pay online to get shipping free.</p>
                         </div>
+
+                        {selectedPaymentMethod === 'online' && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 6 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mt-4 flex items-center justify-center"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-500 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                                </svg>
+                                <span className="text-sm font-medium text-emerald-600">You're eligible for free shipping (Online Payment)</span>
+                            </motion.div>
+                        )}
                     </div>
 
                     {/* Order Summary */}
@@ -403,22 +370,16 @@ export default function CheckoutPage() {
                             <span>₹{orderValue.toLocaleString()}</span>
                         </div>
 
-                        {/* Show base shipping charge (always ₹100 in UI) */}
+                        {/* Show base shipping charge (always ₹50 in UI) */}
                         <div className="flex justify-between text-gray-600">
                             <span>Shipping Charges</span>
                             <span>₹{displayedShipping.toLocaleString()}</span>
                         </div>
 
-                        {/* show applied discount lines */}
-                        {discountForAbove999 > 0 && (
-                            <div className="flex justify-between text-gray-600">
-                                <span>Discount (₹999+)</span>
-                                <span>-₹{discountForAbove999.toLocaleString()}</span>
-                            </div>
-                        )}
+                        {/* show applied discount line for online payment */}
                         {discountForOnlinePayment > 0 && (
                             <div className="flex justify-between text-gray-600">
-                                <span>Payment Discount (Online)</span>
+                                <span>Shipping Discount (Online)</span>
                                 <span>-₹{discountForOnlinePayment.toLocaleString()}</span>
                             </div>
                         )}
@@ -599,7 +560,7 @@ export default function CheckoutPage() {
                                             <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                                                 {/* Cash on Delivery */}
                                                 <div
-                                                    className={`flex flex-col border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${field.value === "cod"
+                                                    className={`flex flex-col border-2 rounded-sm p-5 cursor-pointer transition-all duration-300 ${field.value === "cod"
                                                         ? "border-green-500 bg-green-50 shadow-sm"
                                                         : "border-gray-200 hover:border-green-300"
                                                         }`}
@@ -666,7 +627,7 @@ export default function CheckoutPage() {
 
                                                 {/* Online Payment */}
                                                 <div
-                                                    className={`flex flex-col border-2 rounded-xl p-5 cursor-pointer transition-all duration-300 ${field.value === "online"
+                                                    className={`flex flex-col border-2 rounded-sm p-5 cursor-pointer transition-all duration-300 ${field.value === "online"
                                                         ? "border-green-500 bg-green-50 shadow-sm"
                                                         : "border-gray-200 hover:border-green-300"
                                                         }`}
@@ -698,7 +659,7 @@ export default function CheckoutPage() {
                                                                 Online Payment
                                                             </Label>
                                                             <p className="text-blue-500 text-xs mt-1 bg-blue-100 px-2 py-1 rounded-sm">
-                                                                Get ₹50 discount on shipping charges
+                                                                Get free shipping when you pay online
                                                             </p>
                                                         </div>
 
