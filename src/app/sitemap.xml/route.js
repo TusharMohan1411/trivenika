@@ -12,7 +12,7 @@ export const GET = async () => {
         "privacy-policy",
         "refund-policy",
         "shipping-policy",
-        "terms-and-conditions",
+        "terms&conditions",
         "our-story",
         "track-order",
         "blogs",
