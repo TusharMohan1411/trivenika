@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 
 // ✅ SEO Metadata
 export async function generateMetadata({ params }) {
-    const product = await getServiceBySlug(params.slug);
+    const { slug } = await params;
+    const product = await getServiceBySlug(slug);
 
     if (!product) {
         return {
@@ -60,7 +61,8 @@ export async function generateMetadata({ params }) {
 
 async function Page({ params }) {
 
-    const service = await getServiceBySlug(params.slug);
+    const { slug } = await params;
+    const service = await getServiceBySlug(slug);
 
     if (!service) {
         notFound();

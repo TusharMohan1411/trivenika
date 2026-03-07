@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-    const collection = await getCollectionBySlug(params.slug);
+    const { slug } = await params;
+    const collection = await getCollectionBySlug(slug);
 
     if (!collection) {
         return {
@@ -53,8 +54,9 @@ export async function generateMetadata({ params }) {
 
 
 export default async function Page({ params }) {
-    const collection = await getCollectionBySlug(params.slug);
-
+    const { slug } = await params;
+    const collection = await getCollectionBySlug(slug);
+    
     const items = collection?.products?.map((item) => {
         const variant = item?.productId?.variants?.find((v) => v.name === item.variantName) || {
             name: item.variantName,

@@ -2,10 +2,8 @@
 export const revalidate = 60;
 
 import EnquiryForm from '@/components/website/EnquiryForm';
-import TalkToLawyerCard from '@/components/website/TalkToLawyerCard';
 import WebsiteLayout from '@/components/website/WebsiteLayout';
 import { getBlogBySlug } from '@/lib/main/getBlogsData';
-import { getHomePageData } from '@/lib/main/getHomePageData';
 import React from 'react'
 import BlogData from '../components/BlogData';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from '@/components/ui/breadcrumb';
@@ -16,10 +14,9 @@ import RelatedProducts from '@/components/website/RelatedProducts';
 import { getRelatedServices } from '@/lib/main/services';
 
 export default async function page({ params }) {
-    const { services, categories } = await getHomePageData();
 
-    const slug = await params
-    const blog = await getBlogBySlug(slug.slug)
+    const { slug } = await params
+    const blog = await getBlogBySlug(slug)
 
     const relatedServices = await getRelatedServices(blog)
 
