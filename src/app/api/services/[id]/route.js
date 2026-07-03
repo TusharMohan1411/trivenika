@@ -22,7 +22,8 @@ async function checkForDuplicate({ name, slug, excludeId = null }) {
 export async function GET(req, { params }) {
   try {
     await connectDB();
-    const { id } = params;
+    const { id } = await params;
+    
     console.log(id);
 
     const service = await Service.findById(id);
